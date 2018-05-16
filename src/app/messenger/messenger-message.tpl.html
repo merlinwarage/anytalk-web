@@ -1,0 +1,75 @@
+<div data-ng-init="msgIndex = msgCount(key)" id="{{::msgIndex}}"
+     data-ng-repeat="(key, item) in tableData | orderBy:tableB.sortingOrder:tableB.reverse"
+     data-ng-if="!userActivities.down || userActivities.down.indexOf(item._id) === -1">
+    <div class="msg-date-container">
+        <div class="msg-date sticker">{{::item.createdAt | date: dateFormat}}</div>
+    </div>
+    <div id="historyMsg"
+         class="clear-both panel panel-default vertical-margin" ng-class="goTo ===  msgIndex ? 'msg-selected' : ''">
+        <div class="panel-heading col-md-12 panel-head">
+            <div class="float-left strong">{{item.user.name}}</div>
+            <div class="float-right">&nbsp;&nbsp;
+                #{{msgIndex}}
+            </div>
+            <div data-ng-if="!!tokenObj">
+                <div class="float-right"
+                     data-ng-if="item._id && itHasPerm()">
+                    &nbsp;&nbsp;
+                    <a href data-ng-click="editMessage(item._id)">
+                        <i class="fa fa-pencil" title="{{'entities.messages.button.edit' | translate}}"></i>
+                    </a>
+                    &nbsp;&nbsp;
+                    <a href data-ng-click="deleteMessage(item._id)">
+                        <i class="fa fa-trash" title="{{'entities.messages.button.delete' | translate}}"></i>
+                    </a>                </div>
+
+                <div class="float-right">&nbsp;&nbsp;
+                    <a data-ng-if="userActivities.up.indexOf(item._id) === -1" href
+                       data-ng-click="voteMessage(item._id, -1); item.downVote = item.downVote+1">
+                        {{item.downVote ? '[' + item.downVote + ']' : '[0]'}}
+                        <i class="fa fa-thumbs-down" title="report"></i>
+                    </a>
+                    <span data-ng-if="userActivities.up.indexOf(item._id) > -1" class="disabled">
+                        {{item.downVote ? '[' + item.downVote + ']' : '[0]'}}
+                        <i class="fa fa-thumbs-down" title="{{'entities.messages.button.report' | translate}}"></i>
+                    </span>
+                </div>
+
+                <div class="float-right">&nbsp;&nbsp;
+                    <a data-ng-if="userActivities.up.indexOf(item._id) === -1" href
+                       data-ng-click="voteMessage(item._id, 1);  item.upVote = item.upVote+1">
+                        {{item.upVote ? '[' + item.upVote + ']' : '[0]'}}
+                        <i class="fa fa-thumbs-up" title="{{'entities.messages.button.useful' | translate}}"></i>
+                    </a>
+                    <span data-ng-if="userActivities.up.indexOf(item._id) > -1" class="disabled">
+                        {{item.upVote ? '[' + item.upVote + ']' : '[0]'}}
+                        <i class="fa fa-thumbs-up" title=""></i>
+                    </span>
+                </div>
+
+                <div class="float-right">&nbsp;&nbsp;
+                    <a class="clickable" data-ng-click="reply(item, msgIndex, true); focus=true;">
+                        <i class="fa fa-reply" title="{{'entities.messages.button.reply' | translate}}"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="width-100 panel-body box-shadow-left item-clear ellipsis {{itIsMe(item.user._id) ? 'owner' : item.replyTo._id ? 'replied' : 'original'}}">
+            <span data-ng-if="item.replyTo._id" data-ng-click="getReplyHistory(item._id, item.replyTo._id, false)"
+                  data-ng-init="userName = {name:item.replyTo.name}"
+                  class="clickable bold underline clear-both color-blue">{{'entities.messages.label.repliedTo' | translate:userName}} <i
+                    class="fa fa-level-down" aria-hidden="true"></i></span>
+            <div data-ng-switch data-on="isItCode(item.message)">
+                <div data-ng-switch-when="true">
+                    <pre>{{clear(item.message)}}</pre>
+                </div>
+                <span data-ng-switch-when="false" dynamic-bind="item.message"></span>
+            </div>
+        </div>
+    </div>
+    <div class="animate-if" data-ng-if="replyModel.replyToMessageId === item._id && !replyParent"
+         data-ng-model="replyModel"
+         data-ng-include="getMessagePostTpl()"></div>
+    <div class="animate-if" data-ng-if="replyParent === item._id" data-ng-include="getReplyTpl()"></div>
+
+</div>

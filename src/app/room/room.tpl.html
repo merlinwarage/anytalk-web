@@ -1,0 +1,240 @@
+<div id="rooms">
+    <div class="col-md-12 roomContainer">
+        <div data-ng-include="getNewsTpl()"></div>
+    </div>
+
+    <!-- SEARCH BOX -->
+    <div class="search-box-container">
+        <div class="width-100">
+            <div class="input-group">
+                <i class="input-group-addon primary-dark">
+                    <i class="glyphicon glyphicon-search"></i>
+                </i>
+                <input type="text" data-ng-model="viewPort.query"
+                       data-ng-click="autoLoad = false"
+                       data-ng-change="search()"
+                       data-ng-model-options='{ debounce: 500 }'
+                       class="form-control input-group-addon-fixheight search-box-input"
+                       placeholder="{{'common.label.search' | translate}}"/>
+                <i class="input-group-btn default"
+                   data-ng-show="viewPort.query.length > 1"
+                   data-ng-click="viewPort.query = ''; search();">
+                    <button class="btn btn-primary-dark input-group-addon-fixheight">{{'entities.messages.label.found' |
+                        translate:filteredData}}
+                        <i class="fa fa-times"></i>
+                    </button>
+                </i>
+            </div>
+        </div>
+    </div>
+
+    <div id="room-list" class="col-md-12" data-ng-if="viewPort.query.length > 1">
+        <div class="row button-margin-left-10">
+            <div class="panel panel-default vertical-margin box-shadow-left">
+                <div class="panel-heading"><label>{{'entities.rooms.label.found' | translate}}</label></div>
+                <div class="row padding-5 room-list-item clickable {{room.category}}"
+                     data-ng-repeat="room in (filteredRoomFilterResult = (filteredRoomList))">
+                        <span class="room-list-functions clickable"
+                              data-ng-if="itHasPerm()">
+                            <i data-ng-click="deleteRoom(room._id)" class="fa fa-trash-o"></i>
+                            <i data-ng-click="addRoom(room._id)" class="fa fa-pencil-square-o"></i>
+                        </span>
+
+                    <span class="{{roomListTitleContainerStyle}}"
+                          data-ui-sref="main.messenger({title: room.titleNorm})">
+                            <span class="room-list-title" title="{{room.title}}">
+                                {{room.title}}<br>
+                                <span class="room-info-line">[{{'entities.rooms.label.comments' | translate}}: {{room.messageCount}} | {{'entities.rooms.label.lastComment' | translate}}: {{room.updatedBy.name}}@{{room.updatedAt | date:dateFormat}}]</span>
+                            </span>
+                        </span>
+                </div>
+                <div class="row padding-5 room-list-item {{room.category}}"
+                     data-ng-if="!filteredRoomFilterResult.length">
+                    <div data-ng-click="viewPort.query = ''; search();"
+                         class="width-100 center room-list-title clickable">
+                        {{'entities.rooms.label.notFound' | translate}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="room-list" class="col-md-12" data-ng-if="viewPort.query.length < 2">
+        <div class="col-md-6">
+            <slick settings="slickConfigUserRooms">
+                <div class="row button-margin-left-10" data-ng-show="favRoomFilterResult.length">
+                    <div class="panel panel-default vertical-margin box-shadow-left">
+                        <div class="panel-heading">
+                            <label>{{'entities.rooms.label.favorites' | translate}}</label>
+                            <label data-ng-show="tokenObj && privateRoomFilterResult.length"
+                                   class="float-right clickable sticker {{'date-'+selectedCategory}}"
+                                   data-ng-click="slickConfigUserRooms.method.slickNext()">
+                                {{'entities.rooms.label.private' | translate}} <i class="fa fa-arrow-right"></i>
+                            </label>
+                        </div>
+                        <div
+                            data-ng-repeat="room in (favRoomFilterResult = (favoriteRoomList | orderBy: 'title':false))"
+                            class="row padding-5 room-list-item clickable {{room.category}}">
+                        <span class="room-list-functions clickable"
+                              data-ng-if="itHasPerm()">
+                            <i data-ng-click="deleteRoom(room._id)" class="fa fa-trash-o"></i>
+                            <i data-ng-click="addRoom(room._id)" class="fa fa-pencil-square-o"></i>
+                        </span>
+
+                            <span class="{{roomListTitleContainerStyle}}"
+                                  data-ui-sref="main.messenger({title: room.titleNorm})">
+                            <span class="room-list-title" title="{{room.title}}">
+                                {{room.title}}<br>
+                                <span class="room-info-line">[{{'entities.rooms.label.comments' | translate}}: {{room.messageCount}} | {{'entities.rooms.label.lastComment' | translate}}: {{room.updatedBy.name}}@{{room.updatedAt | date:dateFormat}}]</span>
+                            </span>
+                        </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row button-margin-left-10" data-ng-show="privateRoomFilterResult.length">
+                    <div class="panel panel-default vertical-margin box-shadow-left">
+                        <div class="panel-heading">
+                            <label>{{'entities.rooms.label.private' | translate}}</label>
+                            <label data-ng-show="tokenObj && favRoomFilterResult.length"
+                                   class="float-right clickable sticker {{'date-'+selectedCategory}}"
+                                   data-ng-click="slickConfigUserRooms.method.slickPrev()">
+                                <i class="fa fa-arrow-left"></i> {{'entities.rooms.label.favorites' | translate}}
+                            </label>
+
+                        </div>
+                        <div class="row padding-5 room-list-item clickable {{room.category}}"
+                             data-ng-repeat="room in (privateRoomFilterResult = (privateRoomList | orderBy: 'updatedAt':true ))">
+                        <span class="room-list-functions clickable"
+                              data-ng-if="itHasPerm()">
+                            <i data-ng-click="deleteRoom(room._id)" class="fa fa-trash-o"></i>
+                            <i data-ng-click="addRoom(room._id)" class="fa fa-pencil-square-o"></i>
+                        </span>
+
+                            <span class="{{roomListTitleContainerStyle}}"
+                                  data-ui-sref="main.messenger({title: room.titleNorm})">
+                            <span class="room-list-title" title="{{room.title}}">
+                                {{room.title}}<br>
+                                <span class="room-info-line">[{{'entities.rooms.label.comments' | translate}}: {{room.messageCount}} | {{'entities.rooms.label.lastComment' | translate}}: {{room.updatedBy.name}}@{{room.updatedAt | date:dateFormat}}]</span>
+                            </span>
+                        </span>
+                        </div>
+                    </div>
+                </div>
+            </slick>
+
+            <div class="row button-margin-left-10" data-ng-show="hotRoomFilterResult.length"
+                 data-ng-if="!tokenObj || (tokenObj && !favRoomFilterResult.length && !privateRoomFilterResult.length)">
+                <div class="panel panel-default vertical-margin box-shadow-left">
+                    <div class="panel-heading"><label>{{'entities.rooms.label.hot' | translate}}</label></div>
+                    <div class="row padding-5 room-list-item clickable {{room.category}}"
+                         data-ng-repeat="room in (hotRoomFilterResult = (hotRoomList))">
+                        <span class="room-list-functions clickable"
+                              data-ng-if="itHasPerm()">
+                            <i data-ng-click="deleteRoom(room._id)" class="fa fa-trash-o"></i>
+                            <i data-ng-click="addRoom(room._id)" class="fa fa-pencil-square-o"></i>
+                        </span>
+
+                        <span class="{{roomListTitleContainerStyle}}"
+                              data-ui-sref="main.messenger({title: room.titleNorm})">
+                            <span class="room-list-title" title="{{room.title}}">
+                                {{room.title}}<br>
+                                <span class="room-info-line">[{{'entities.rooms.label.comments' | translate}}: {{room.messageCount}} | {{'entities.rooms.label.lastComment' | translate}}: {{room.updatedBy.name}}@{{room.updatedAt | date:dateFormat}}]</span>
+                            </span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-md-6">
+            <div class="row button-margin-left-10" data-ng-show="featuredRoomFilterResult.length">
+                <div class="panel panel-default vertical-margin box-shadow-left">
+                    <div class="panel-heading"><label>{{'entities.rooms.label.featured' | translate}}</label></div>
+                    <div class="row padding-5 room-list-item clickable {{room.category}}"
+                         data-ng-repeat="room in (featuredRoomFilterResult = (featuredRoomList))">
+                        <span class="room-list-functions clickable"
+                              data-ng-if="itHasPerm()">
+                            <i data-ng-click="deleteRoom(room._id)" class="fa fa-trash-o"></i>
+                            <i data-ng-click="addRoom(room._id)" class="fa fa-pencil-square-o"></i>
+                        </span>
+
+                        <span class="{{roomListTitleContainerStyle}}"
+                              data-ui-sref="main.messenger({title: room.titleNorm})">
+                            <span class="room-list-title" title="{{room.title}}">
+                                {{room.title}}<br>
+                                <span class="room-info-line">[{{'entities.rooms.label.comments' | translate}}: {{room.messageCount}} | {{'entities.rooms.label.lastComment' | translate}}: {{room.updatedBy.name}}@{{room.updatedAt | date:dateFormat}}]</span>
+                            </span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <slick settings="slickConfigRooms">
+                <div class="row button-margin-left-10"
+                     data-ng-show="tokenObj && (favRoomFilterResult.length || privateRoomFilterResult.length)">
+                    <div class="panel panel-default vertical-margin box-shadow-left">
+                        <div class="panel-heading">
+                            <label>{{'entities.rooms.label.hot' | translate}}</label>
+                            <label data-ng-show="tokenObj"
+                                   class="float-right clickable sticker {{'date-'+selectedCategory}}"
+                                   data-ng-click="slickConfigRooms.method.slickNext()">
+                                {{'entities.rooms.label.latest' | translate}} <i class="fa fa-arrow-right"></i>
+                            </label>
+                        </div>
+                        <div class="row padding-5 room-list-item clickable {{room.category}}"
+                             data-ng-repeat="room in hotRoomList">
+                        <span class="room-list-functions clickable"
+                              data-ng-if="itHasPerm()">
+                            <i data-ng-click="deleteRoom(room._id)" class="fa fa-trash-o"></i>
+                            <i data-ng-click="addRoom(room._id)" class="fa fa-pencil-square-o"></i>
+                        </span>
+
+                            <span class="{{roomListTitleContainerStyle}}"
+                                  data-ui-sref="main.messenger({title: room.titleNorm})">
+                            <span class="room-list-title" title="{{room.title}}">
+                                {{room.title}}<br>
+                                <span class="room-info-line">[{{'entities.rooms.label.comments' | translate}}: {{room.messageCount}} | {{'entities.rooms.label.lastComment' | translate}}: {{room.updatedBy.name}}@{{room.updatedAt | date:dateFormat}}]</span>
+                            </span>
+                        </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row button-margin-left-10" data-ng-show="latestRoomFilterResult.length">
+                    <div class="panel panel-default vertical-margin box-shadow-left">
+                        <div class="panel-heading">
+                            <label>{{'entities.rooms.label.latest' | translate}}</label>
+                            <label
+                                data-ng-show="tokenObj && (favRoomFilterResult.length || privateRoomFilterResult.length)"
+                                class="float-right clickable sticker {{'date-'+selectedCategory}}"
+                                data-ng-click="slickConfigRooms.method.slickPrev()">
+                                <i class="fa fa-arrow-left"></i> {{'entities.rooms.label.hot' | translate}}
+                            </label>
+                        </div>
+                        <div class="row padding-5 room-list-item clickable {{room.category}}"
+                             data-ng-repeat="room in (latestRoomFilterResult = (newRoomList))">
+                        <span class="room-list-functions clickable"
+                              data-ng-if="itHasPerm()">
+                            <i data-ng-click="deleteRoom(room._id)" class="fa fa-trash-o"></i>
+                            <i data-ng-click="addRoom(room._id)" class="fa fa-pencil-square-o"></i>
+                        </span>
+
+                            <span class="{{roomListTitleContainerStyle}}"
+                                  data-ui-sref="main.messenger({title: room.titleNorm})">
+                            <span class="room-list-title" title="{{room.title}}">
+                                {{room.title}}<br>
+                                <span class="room-info-line">[{{'entities.rooms.label.comments' | translate}}: {{room.messageCount}} | {{'entities.rooms.label.created' | translate}}: {{room.user.name}} @ {{room.createdAt | date:dateFormat}}]</span>
+                            </span>
+                        </span>
+                        </div>
+                    </div>
+                </div>
+            </slick>
+        </div>
+    </div>
+
+    <div class="bottom-buffer-medium clear-both"></div>
+
+</div>

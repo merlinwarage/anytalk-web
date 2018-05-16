@@ -1,0 +1,58 @@
+{
+  "license": "(MIT OR Apache-2.0)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/warehouseai/browsenpm.org"
+  },
+  "description": "MWO",
+  "name": "MWO",
+  "version": "1.0.0",
+  "keywords": [
+    "MWO"
+  ],
+  "bugs": "support@merlinw.org",
+  "author": "MerlinW",
+  "contributors": "n/a",
+  "homepage": "https://www.merlinw.org",
+  "engines": {
+    "angularjs": "1.5"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "browserify": "15.2.0",
+    "coffeelint": "2.0.7",
+    "escodegen": "1.9.0",
+    "grunt": "1.0.1",
+    "grunt-bump": "0.8.0",
+    "grunt-cli": "1.2.0",
+    "grunt-coffeelint": "0.0.16",
+    "grunt-contrib-clean": "1.1.0",
+    "grunt-contrib-coffee": "2.0.0",
+    "grunt-contrib-compress": "1.4.3",
+    "grunt-contrib-concat": "1.0.1",
+    "grunt-contrib-connect": "1.0.2",
+    "grunt-contrib-copy": "1.0.0",
+    "grunt-contrib-htmlmin": "2.4.0",
+    "grunt-contrib-jshint": "1.1.0",
+    "grunt-contrib-less": "1.4.1",
+    "grunt-contrib-livereload": "0.1.2",
+    "grunt-contrib-uglify": "3.3.0",
+    "grunt-contrib-watch": "1.0.0",
+    "grunt-conventional-changelog": "6.1.0",
+    "grunt-istanbul": "0.8.0",
+    "grunt-karma": "2.0.0",
+    "grunt-lcov-merge": "1.2.3",
+    "grunt-newer": "1.3.0",
+    "grunt-nexus-deployer": "0.2.2",
+    "grunt-ng-annotate": "3.0.0",
+    "grunt-template": "1.0.0",
+    "jasmine-core": "2.9.1",
+    "jasmine-jquery": "2.1.1",
+    "jit-grunt": "0.10.0",
+    "load-grunt-tasks": "3.5.2",
+    "time-grunt": "1.4.0"
+  },
+  "scripts": {
+    "postinstall": "node_modules/.bin/bower install"
+  }
+}

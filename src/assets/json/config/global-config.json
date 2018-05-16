@@ -1,0 +1,127 @@
+{
+    "SERVER_URL": "http://localhost:3000/",
+    "SERVER_IMAGES_URL": "http://localhost:3000/assets/images/",
+    "GOOGLE": {
+        "apiKey": ""
+    },
+    "settings": {
+        "DEFAULTS": {
+            "region": {
+                "name": "region.hungarian",
+                "code": "hu",
+                "value": 0
+            },
+            "language": {
+                "name": "language.hungarian",
+                "code": "hu_HU",
+                "value": 0
+            },
+            "dateformat": {
+                "code": "yyyy.MM.dd.",
+                "value": 0
+            }
+        },
+        "REGION": [
+            {
+                "name": "region.hungarian",
+                "code": "hu",
+                "value": 0
+            },
+            {
+                "name": "region.englishUs",
+                "code": "us",
+                "value": 1
+            },
+            {
+                "name": "region.englishGb",
+                "code": "gb",
+                "value": 2
+            },
+            {
+                "name": "region.germanDe",
+                "code": "de",
+                "value": 3
+            },
+            {
+                "name": "region.germanAt",
+                "code": "at",
+                "value": 4
+            },
+            {
+                "name": "region.germanCh",
+                "code": "ch",
+                "value": 5
+            },
+            {
+                "name": "region.france",
+                "code": "fr",
+                "value": 6
+            },
+            {
+                "name": "region.italy",
+                "code": "it",
+                "value": 7
+            },
+            {
+                "name": "region.spain",
+                "code": "es",
+                "value": 8
+            }
+        ],
+        "LANGUAGE": [
+            {
+                "name": "language.hungarian",
+                "code": "hu_HU",
+                "value": 0
+            },
+            {
+                "name": "language.english",
+                "code": "en_US",
+                "value": 1
+            },
+            {
+                "name": "language.german",
+                "code": "de_DE",
+                "value": 2
+            }
+        ],
+        "DATEFORMAT": [
+            {
+                "code": "yyyy-MM-dd",
+                "value": 0
+            },
+            {
+                "code": "yyyy.MM.dd",
+                "value": 1
+            },
+            {
+                "code": "dd-MM-yyyy",
+                "value": 2
+            },
+            {
+                "code": "MM-dd-yyyy",
+                "value": 3
+            },
+            {
+                "code": "yyyy-dd-MM",
+                "value": 4
+            },
+            {
+                "code": "MM-yyyy-dd",
+                "value": 5
+            },
+            {
+                "code": "dd-yyyy-MM",
+                "value": 6
+            },
+            {
+                "code": "yyyy/MM/dd",
+                "value": 7
+            },
+            {
+                "code": "yyyy MM dd",
+                "value": 8
+            }
+        ]
+    }
+}

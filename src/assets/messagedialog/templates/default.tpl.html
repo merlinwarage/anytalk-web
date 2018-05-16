@@ -1,0 +1,12 @@
+<div class="modal-header bg-primary">
+    <h3 class="modal-title">{{dialogParam.label | translate}}</h3>
+</div>
+<div class="modal-body">{{dialogParam.text | translate}} {{::dialogParam.extra}}</div>
+<div class="modal-footer">
+    <button id="modalDialogBtnOK" class="btn btn-primary" ng-click="confirmOK()" autofocus>
+        {{dialogParam.buttonOk | translate}}
+    </button>
+    <button id="modalDialogBtnCancel" class="btn btn-danger" data-dismiss="modal" ng-click="confirmCancel()">
+        {{dialogParam.buttonCancel | translate}}
+    </button>
+</div>

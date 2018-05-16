@@ -1,0 +1,91 @@
+.animate-if.ng-enter {
+    //-webkit-transition: all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
+    //transition: all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
+    -webkit-transition: opacity ease-in 0.5s;
+    -moz-transition: opacity ease-in 0.5s;
+    -ms-transition: opacity ease-in 0.5s;
+    -o-transition: opacity ease-in 0.5s;
+    transition: opacity ease-in 0.5s;
+}
+.animate-if.ng-leave {
+    -webkit-transition: opacity ease-in 0s;
+    -moz-transition: opacity ease-in 0s;
+    -ms-transition: opacity ease-in 0s;
+    -o-transition: opacity ease-in 0s;
+    transition: opacity ease-in 0s;
+}
+.animate-if.ng-enter,
+.animate-if.ng-leave.ng-leave-active {
+    opacity: 0;
+}
+
+.animate-if.ng-leave,
+.animate-if.ng-enter.ng-enter-active {
+    opacity: 1;
+}
+
+.animate-show, .animate-show-hidden {
+    opacity: 1;
+    -ms-transform: translateY(0);
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+}
+
+.animate-show.ng-hide-add, .animate-show.ng-hide-remove, .animate-show-hidden.ng-hide-add, .animate-show-hidden.ng-hide-remove {
+    transition: all linear 0.5s;
+    display: block !important;
+}
+
+.animate-show.ng-hide-add.ng-hide-add-active, .animate-show.ng-hide-remove {
+    opacity: 0;
+}
+
+.animate-show.ng-hide-add, .animate-show.ng-hide-remove.ng-hide-remove-active {
+    opacity: 1;
+}
+
+.animate-show-hidden.ng-hide-add.ng-hide-add-active {
+    -webkit-transition: none;
+    transition: none;
+}
+
+.animate-show-hidden.ng-hide-remove.ng-hide-remove-active {
+    -webkit-transition: all linear 0.2s;
+    transition: all linear 0.2s;
+}
+
+.animate-show.ng-hide, .animate-show-hidden.ng-hide {
+    opacity: 0;
+    -ms-transform: translateY(-4px);
+    -webkit-transform: translateY(-4px);
+    transform: translateY(-4px);
+}
+
+.animate-transition {
+    -webkit-transition: all linear 0.2s;
+    transition: all linear 0.2s;
+}
+
+.zero-percent-width {
+    width: 0;
+    opacity: 0;
+    overflow: hidden;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.fade-in-out {
+    transition: 0.5s linear all;
+    opacity: 1;
+}
+
+.fade-in-out.ng-hide {
+    opacity: 0;
+}
+
+.fade-in-out-fast {
+    transition: 0.2s linear all;
+    opacity: 1;
+}

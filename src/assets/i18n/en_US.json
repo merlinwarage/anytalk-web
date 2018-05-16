@@ -1,0 +1,173 @@
+{
+    "common": {
+        "error": {
+            "duplicatedItem": "Duplicated Item!"
+        },
+        "label": {
+            "columnSettings": "Columns",
+            "search": "Search",
+            "delete": "Delete",
+            "undelete": "Reactivate",
+            "edit": "Edit",
+            "noData": "No Data",
+            "back": "Back"
+        },
+        "button": {
+            "add": "Add",
+            "ok": "Ok",
+            "cancel": "Cancel",
+            "close": "Close",
+            "clear": "New Form",
+            "scrollToTop": "Scroll to Top"
+        }
+    },
+    "navigation": {
+        "label": {
+            "toggle": "Toggle navigation",
+            "newTopic": "New Topic",
+            "home": "Home",
+            "general": "General",
+            "tech": "Tech / IT",
+            "sport": "Sport",
+            "music": "Music",
+            "entertainment": "Entertainment",
+            "gaming": "Gaming",
+            "business": "Business",
+            "science": "Science",
+            "social": "Social"
+        }
+    },
+    "message": {
+        "common": {
+            "confirm_delete": "Are you sure you want to delete this item?",
+            "confirm_undelete": "Are you sure you want to reactivate this item?",
+            "confirm_edit": "Are you sure you want to edit this item?"
+        }
+    },
+    "entities": {
+        "rooms": {
+            "room": "Topic",
+            "category": "Category",
+            "name": "Name",
+            "label": {
+                "add": "New Topic",
+                "edit": "Edit Topic",
+                "name": "Name of the Topic",
+                "type": "Select the type of the Topic!",
+                "category": "Choose a category for the Topic!",
+                "featured": "Featured Topics",
+                "private": "Private Topics",
+                "favorites": "Favorites",
+                "hot": "Hot Topics",
+                "latest": "Latest Topics",
+                "comments": "comments",
+                "lastComment": "last",
+                "created": "created",
+                "startDiscuss": "Start a Discussion",
+                "discuss": "Discuss",
+                "firstMessage": "First Message (30 characters minimum). You can just insert the links (web, image, video)",
+                "found": "Search Result",
+                "notFound": "Nothing found...",
+                "newRoomCreated": "New topic created: "
+            },
+            "button": {
+                "add": "New Topic",
+                "featured": "Featured",
+                "private": "Private",
+                "closed": "Closed"
+            },
+            "types": {
+                "article": "Article",
+                "forum": "Forum topic",
+                "link": "Direct Link",
+                "qna": "Question and Answers"
+            },
+            "categories": {
+                "business": "Business",
+                "gaming": "Gaming",
+                "entertainment": "Entertainment",
+                "general": "General",
+                "music": "Music",
+                "sport": "Sport",
+                "technology": "Tech/IT",
+                "science": "Science",
+                "social": "Social"
+            },
+            "error": {
+                "missingData": "The TITLE and the first MESSAGE are must be filled!"
+            }
+        },
+        "news": {
+            "readArticle": "Read the article"
+        },
+        "messages": {
+            "replyTo": "Reply to: @{{name}}",
+            "errorMsg": "Error",
+            "textAreaPlaceholder": "Use CTRL+Enter to send the message. You can just insert the links (web, image, video)",
+            "label": {
+                "off": "Decreased text visibility",
+                "spoiler": "Collapsed block for sensitive content",
+                "emoji": "Emotions",
+                "bold": "Bold (CTRL+b)",
+                "italic": "Italic (CTRL+i)",
+                "addFavorite": "Add to favorites",
+                "removeFavorite": "Remove from favorites",
+                "newMessages": "NEW MESSAGES",
+                "room": "TOPIC",
+                "repliedTo": "History ({{name}}'s message)",
+                "onlineUsers": "Online Users",
+                "favorites": "Favorites",
+                "members": "Members",
+                "found": "Found: {{total}}"
+            },
+            "button": {
+                "add": "Post Comment",
+                "bold": "B",
+                "italic": "I",
+                "spoiler": "Spoiler",
+                "emoji": "Emotions",
+                "off": "Off",
+                "code": "Code",
+                "useful": "useful",
+                "report": "report",
+                "delete": "delete",
+                "reply": "reply"
+            }
+        },
+        "user": {
+            "messages": {
+                "InvalidUsernameOrPassword": "Invalid e-mail address or password!",
+                "missingData": "Missing Data!"
+            },
+            "button": {
+                "login": "Login",
+                "register": "Registration",
+                "loginOrRegister": "Login/Register",
+                "logout": "Logout",
+                "settings": "Settings",
+                "language": "Language",
+                "english": "English",
+                "hungarian": "Hungarian"
+            },
+            "label": {
+                "userName": "Display Name",
+                "userList": "User List",
+                "login": "Login",
+                "remember": "Keep logged in",
+                "loginOrRegister": "Login/Register",
+                "password": "Password (8 characters minimum)",
+                "password-v": "Password again",
+                "email": "E-mail",
+                "register": "Register",
+                "addOrEdit": "Add/Edit User",
+                "permissions": "Permissions",
+                "permissionList": {
+                    "user": "User",
+                    "admin": "Admin"
+                }
+            },
+            "tooltip": {
+            }
+        }
+    }
+}

@@ -1,0 +1,109 @@
+<div ng-switch on="tableData.length">
+    <div ng-switch-when="0">
+        <div class="col-md-offset-5">
+            <strong>{{'label.common.noData' | translate}}</strong>
+        </div>
+    </div>
+
+    <div ng-switch-default ng-show="tableData.length">
+
+        <!--SEARCH INPUT-->
+        <div ng-if="tableConfig.search" class="input-group col-md-4">
+            <span class="input-group-addon primary">
+                <span class="glyphicon glyphicon-search"></span>
+            </span>
+            <input type="text" ng-model="tableUtils[tableName].query"
+                   ng-change="tableUtils.functions.search(tableName, tableContent.searchFieldNames)"
+                   class="form-control input-group-addon-fixheight"
+                   placeholder="{{'label.common.search' | translate}}"/>
+            <span ng-show="tableUtils[tableName].query" class="input-group-btn default"
+                  ng-click="tableUtils[tableName].query = ''; tableUtils.functions.search(tableName, tableContent.searchFieldNames);">
+                <button class="btn btn-default input-group-addon-fixheight"><i
+                        class="fa fa-times"></i></button>
+            </span>
+            <div>&nbsp;</div>
+        </div>
+
+        <column-settings ng-if="tableConfig.columnSelect" ng-model="tableContent"></column-settings>
+
+
+        <table class="table" style="width: 100%; margin-bottom: 0;">
+            <thead>
+            <tr>
+                <th ng-repeat="(key,title) in tableContent.titles"
+                    ng-init="title.field=key"
+                    style="width: {{title.width}}"
+                    ng-show="!title.hidden">
+                    <a ng-click="tableUtils[tableName].selectedColumn = title.field; tableUtils.functions.sortBy(tableName, title.field);"
+                       ng-class="title.field === tableUtils[tableName].selectedColumn ? 'color-green' : ''">
+                        {{::title.displayName | translate}}
+                    </a>
+                </th>
+                <th ng-if="tableButtons" ng-repeat="key in tableButtons" style="width: {{button.width}}">&nbsp;</th>
+            </tr>
+            </thead>
+        </table>
+
+        <div class="viewport">
+            <div>
+                <table id="{{::tableName}}" class="table table-hover table-condensed">
+                    <tbody>
+                    <tr sf-virtual-repeat="itemData in tableUtils[tableName].filteredItems | orderBy:tableUtils[tableName].sortingOrder:tableUtils[tableName].reverse"
+                        ng-init="rowIndex = $index"
+                        uib-tooltip="{{itemData.note}}"
+                        ng-dblclick="tableConfig.rowDblclickEvent ? methods('dblclick', rowIndex, itemData) : noop();"
+                        class="clickable row-default-height">
+
+                        <td ng-repeat="(key,column) in tableContent.titles"
+                            ng-if="tableContent.shownColumns.indexOf(key) !== -1"
+                            ng-class="key === tableUtils[tableName].selectedColumn ? 'bg-lightgreen' : ''"
+                            ng-show="!column.hidden"
+                            ng-init="colData = column.valueField ? itemData[key][column.valueField] : itemData[key]"
+                            style="width: {{column.width}}">
+
+                            <span ng-if="column.fieldType === 'boolean'">
+                                <i ng-class="colData ? 'fa fa-check' : 'fa fa-times fa-grey'"></i>
+                            </span>
+
+                            <span ng-if="column.fieldType === 'date'">
+                                <i ng-if="column.icon" class="{{column.icon}}"></i> {{colData | date:tableConfig.dateFormat}}
+                            </span>
+
+                            <span ng-if="!column.fieldType || column.fieldType === 'text'"
+                                  ng-init="colText = column.arrayElement > -1 ? colData[column.arrayElement] : colData; ellipsis = column.ellipsis ? column.ellipsis : 255">
+                                <span popover-trigger="mouseenter"
+                                      uib-popover="{{colText}}"><i ng-if="column.icon" class="{{column.icon}}"></i> {{colText | ellipsis: ellipsis}}</span>
+                            </span>
+                            <span ng-if="column.fieldType === 'list'">
+                                <i ng-if="column.icon" class="{{column.icon}}"></i> {{colData | listValueTranslate}}
+                            </span>
+                        </td>
+
+                        <td ng-if="tableButtons" ng-repeat="(key, button) in tableButtons" class="text-right td-btn-xs">
+
+                            <document-manager-upload-button ng-if="key === 'attachment'"
+                                                            upload-small-btn
+                                                            class="pull-right {{button.class}}"
+                                                            download-only="{{button.downloadOnly}}"
+                                                            entity="{{button.entity}}"
+                                                            entity-id="{{button.entityId ? itemData[button.entityId].id : itemData.id}}"
+                                                            list-code="{{button.listCode}}">
+                            </document-manager-upload-button>
+
+                            <button ng-if="key !== 'attachment'"
+                                    uib-tooltip="{{button.tooltip | translate}}"
+                                    tooltip-placement="{{button.tooltipPlacement}}"
+                                    class="{{button.class}}"
+                                    ng-click="methods(key, rowIndex, itemData)">
+                                <i class="{{button.icon}}"></i>
+                            </button>
+
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>

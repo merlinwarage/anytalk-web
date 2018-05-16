@@ -1,0 +1,408 @@
+#messenger-body {
+    background-color: #fcfcfc;
+    padding-top: 20px;
+}
+
+#messenger {
+    code, samp, kbd {
+        font-family: "Courier New", Courier, monospace, sans-serif;
+        text-align: left;
+        color: #555;
+    }
+
+    pre code {
+        line-height: 1.6rem;
+        font-size: 1rem;
+        font-family: monospace;
+    }
+
+    pre {
+        padding: 10px;
+        border-left: 11px solid #ccc;
+        overflow: auto;
+        max-height: 400px;
+    }
+
+    /* target IE7 and IE6 */
+    *:first-child + html pre {
+        padding-bottom: 2em;
+        overflow-y: hidden;
+        overflow: visible;
+        overflow-x: auto;
+    }
+
+    * html pre {
+        padding-bottom: 2em;
+        overflow: visible;
+        overflow-x: auto;
+    }
+
+    .font-size-20 {
+        font-size: 2rem;
+    }
+
+    .font-size-bold {
+        font-size: 2rem;
+        font-weight: bold;
+    }
+
+    .repeater-container {
+        height: 540px;
+        overflow: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .message-area {
+        clear: both;
+        width: 100%;
+        min-height: 88px;
+        border: dotted 1px grey;
+        padding-right: 15px;
+        background-color: #f2fcff;
+        resize: none;
+    }
+
+    .owner {
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        border-left: 6px solid #008f0b !important;
+    }
+
+    .replied {
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        border-left: 6px solid #e6e100 !important;
+    }
+
+    .original {
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        border-left: 6px solid #4490d1 !important;
+    }
+
+    .panel-head {
+        height: 30px;
+    }
+
+    .panel-default > .panel-heading {
+        background-color: #f5f5f5;
+        color: #000;
+        border-radius: 0;
+    }
+
+    .panel-default {
+        box-shadow: none !important;
+        background-color: rgb(255, 255, 255);
+    }
+
+    .error-box {
+        color: rgb(255, 255, 255);
+        background-color: @brand-alert-danger;
+        border-color: @brand-alert-danger;
+        padding: 4px;
+    }
+
+    .reply-box {
+        color: rgb(255, 255, 255);
+        background-color: @brand-primary;
+        border-color: @brand-primary;
+        padding: 4px;
+    }
+
+    .room-list {
+        width: 100%;
+        max-height: 400px;
+        overflow-y: auto;
+        float: left;
+    }
+
+    .message-list-item {
+        border-bottom: 0.4px dotted #dedede;
+        vertical-align: middle;
+    }
+
+    .message-list-item:hover {
+        background-color: #c5d2de;
+        color: black;
+
+        .message-info-line {
+            color: white;
+        }
+    }
+
+    .message-list-item-selected {
+        background-color: #cfdbe4;
+        color: black;
+        font-weight: 600;
+    }
+
+    .user-list {
+        width: 100%;
+        max-height: 400px;
+        overflow-y: auto;
+        float: left;
+    }
+
+    .user-list-item {
+        border-bottom: 0.4px dotted #dedede;
+        vertical-align: middle;
+    }
+
+    .user-list-item:hover {
+        background-color: #6798de;
+        color: white;
+    }
+
+    .msg-off {
+        color: #f0f0f0;
+    }
+
+    .thumbnail {
+        background-image: radial-gradient(circle farthest-corner at center, #3C4B57 0%, #1C262B 100%);
+        width: 200px;
+
+        .thumbnail-bg {
+            height: 100px;
+            background-size: 200px;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        .play-icon:before {
+            content: "\00a0\f01d";
+            font-family: FontAwesome;
+            font-style: normal;
+            font-weight: normal;
+            text-decoration: inherit;
+            color: #fff;
+            text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+            font-size: 18px;
+            padding-right: 0.5em;
+            position: absolute;
+        }
+    }
+
+    .item-clear {
+        float: none;
+        display: inline-block;
+        position: static;
+    }
+    .item-clear:before,
+    .item-clear:after {
+        content: "";
+    }
+
+    .roomImage {
+        background-color: @brand-primary;
+        color: white;
+        margin: 15px 0 15px 0;
+        padding: 20px;
+        background-repeat: no-repeat;
+        background-position: center left;
+        background-position-x: 50px;
+    }
+
+    .fav-star {
+        font-size: 1.8rem;
+    }
+
+    .pulse-twice {
+        animation: 0.2s pulse linear 1;
+        -webkit-animation: 0.2s pulse linear 1;
+    }
+
+    @keyframes pulse {
+        from {
+            transform: scale(0.5);
+        }
+        to {
+            transform: scale(1.5);
+        }
+    }
+
+    @-webkit-keyframes pulse {
+        from {
+            -webkit-transform: scale(0.5);
+        }
+        to {
+            -webkit-transform: scale(1.5);
+        }
+    }
+
+    @media screen and (max-width: 992px) {
+        .img-position {
+            vertical-align: middle;
+            width: 100%;
+        }
+    }
+
+    @media screen and (min-width: 992px) {
+        .img-position {
+            vertical-align: middle;
+            width: 100%;
+            max-height: 70px;
+        }
+    }
+
+    @media screen and (min-width: 1280px) {
+        .img-position {
+            vertical-align: middle;
+            width: 100%;
+            max-height: 120px;
+        }
+    }
+
+    @media screen and (min-width: 1440px) {
+        .img-position {
+            vertical-align: middle;
+            width: 100%;
+            max-height: 140px;
+        }
+    }
+
+    @media screen and (min-width: 1680px) {
+        .img-position {
+            vertical-align: middle;
+            width: 100%;
+            max-height: 230px;
+        }
+    }
+
+    @media screen and (min-width: 2300px) {
+        .img-position {
+            vertical-align: middle;
+            width: 100%;
+            max-height: 360px;
+        }
+    }
+
+    .bg-black-alpha {
+        background-color: black;
+        a {
+            color: white;
+            text-decoration: none;
+        }
+    }
+
+    .bg-black-alpha:hover {
+        background-color: @brand-primary;
+    }
+
+    .msg-selected {
+        background-color: #fbffe7;
+        //background-color: #d4e3f6;
+    }
+
+    .msg-date-container {
+        position: absolute;
+        width: 100%;
+    }
+    .msg-date {
+        position: relative;
+        float: right;
+        top: 30px;
+        left: -45px;
+        font-size: 1rem;
+        background-color: rgba(255, 255, 255, 0);
+        font-weight: 700;
+    }
+
+    .msg-date-reply {
+        position: relative;
+        float: right;
+        top: 30px;
+        left: -70px;
+        font-size: 1rem;
+        background-color: rgba(255, 255, 255, 0);
+        font-weight: 700;
+    }
+
+    .reply-indent {
+        margin-left: 25px;
+    }
+
+    .emoji-container {
+        position: absolute;
+        width: 100%;
+        pointer-events: none;
+    }
+
+    .emoji-text {
+        font-size: 16px;
+        width: 26px;
+        height: 26px;
+        text-decoration: none;
+        padding: 2px;
+        text-align: center;
+    }
+
+    .emoji-text:hover {
+        background-color: rgba(255, 255, 255, 0.5);
+        transition: 0.3s linear all;
+        border-radius: 50%;
+    }
+
+    .emoji-close {
+        position: absolute;
+        left: 628px;
+        top: -12px;
+        font-size: 16px;
+        text-decoration: none;
+        color: white;
+        text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+        border-radius: 10px;
+    }
+
+    .emoji-panel {
+        pointer-events: auto;
+        height: 87px;
+        width: 636px;
+        position: relative;
+        float: right;
+        top: 00px;
+        left: -30px;
+        border: 1px solid #428bca;
+        border-radius: 5px;
+        background-color: rgba(21, 21, 21, 0.5);
+        z-index: 1001;
+    }
+
+    @media screen and (min-width: 1024px) {
+        #historyMsg .panel-body {
+            padding: 10px 5px !important;
+            font-size: 1.4rem;
+        }
+
+        .emoji-panel-button {
+            pointer-events: auto;
+            position: relative;
+            float: right;
+            top: 2px;
+            left: -32px;
+            background-color: transparent;
+            z-index: 1001;
+        }
+
+        .emoji-panel-button:after {
+            content: '😃';
+        }
+    }
+
+    @media screen and (max-width: 1024px) {
+        #historyMsg .panel-body {
+            padding: 10px 5px !important;
+            font-size: 1.2rem;
+        }
+
+        .emoji-panel-button {
+            display: none;
+        }
+
+        .message-area {
+            padding: 0;
+        }
+    }
+}

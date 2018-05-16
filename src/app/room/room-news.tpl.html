@@ -1,0 +1,25 @@
+<slick settings="slickConfig" ng-if="slickConfigLoaded && news.articles">
+    <div class="col-md-2 roomImage" data-ng-repeat="(key, item) in news.articles | limitTo: 9">
+        <div class="article-box">
+            <div class="img-hover-container clickable" data-ng-click="openNews(item.url)">
+                <img class="img-responsive img-position img-hover" src="#" style="max-height: 160px"
+                     data-ng-src="{{item.urlToImage}}"/>
+                <div class="img-overlay">
+                    <div class="text">{{item.description | ellipsis: 150}}</div>
+                </div>
+                <div class="redirect">{{'entities.news.readArticle' | translate}}</div>
+            </div>
+            <div class="roomImageTitle">
+                <div class="bold">
+                    <span data-ng-if="item.publishedAt" class="sticker {{'date-'+selectedCategory}}">{{item.publishedAt | date:dateFormatNoYear}}</span>
+                    {{item.title | ellipsis: 120}}
+                </div>
+            </div>
+            <div class="clickable article-border padding-5 center bold discuss"
+                 data-ng-click="!tokenObj.loginDetails && !item.hasRoom ? showLogin() : goOrCreateRoom(item);">
+                {{item.hasRoom ? 'entities.rooms.label.discuss' : 'entities.rooms.label.startDiscuss' |
+                translate}}
+            </div>
+        </div>
+    </div>
+</slick>

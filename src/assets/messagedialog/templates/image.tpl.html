@@ -1,0 +1,20 @@
+<div class="modal-image" modal-draggable>
+    <div class="modal-body">
+        <div class="button-container">
+            <div class="open-link">
+                <a data-ng-href="{{::imageSrc}}" target="_blank">
+                    <i class="fa fa-expand"></i>
+                </a>
+            </div>
+            <button data-ng-click="$dismiss()" class="close pull-right" aria-hidden="true">
+                <i class="fa fa-times-circle"></i>
+            </button>
+        </div>
+        <div class="image-wrapper">
+            <img src="#" data-ng-src={{::imageSrc}}>
+        </div>
+        <div data-ng-show="imageDescription" class="text-muted image-description">
+            {{::imageDescription}}
+        </div>
+    </div>
+</div>

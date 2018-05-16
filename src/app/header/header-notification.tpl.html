@@ -1,0 +1,106 @@
+<div data-ng-controller="headerNotificationController" id="header-menu">
+    <div class="navbar-header brand-head-style">
+        <!--<span class="navbar-brand">-->
+            <!--<i data-ui-sref="main.room({id: selectedCategory})" class="fa fa-comments-o clickable brand-text-style" aria-hidden="true"></i>-->
+        <!--</span>-->
+
+        <button type="button" class="navbar-toggle" data-ng-click="isNavCollapsed = !isNavCollapsed">
+            <span class="sr-only">{{"navigation.label.toggle" | translate}}</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <span class="navbar-brand bold clickable brand-text-style" data-ui-sref="main.room({id: selectedCategory})">MWO</span>
+    </div>
+
+    <!-- MAIN PAGE-->
+    <div class="navbar-collapse"
+         data-uib-collapse="isNavCollapsed">
+
+        <!-- HOME -->
+        <ul data-ng-if="currentState.current.name === 'main.room'" id="#rooms" class="nav navbar-nav">
+            <li data-ng-if="showAddRoomBtn">
+                <a data-ng-click="collapseNav(); addRoom();" class="static-item animate-show clickable bold">
+                    {{'navigation.label.newTopic' | translate}}
+                </a>
+            </li>
+
+            <li>
+                <a class="animate-show"
+                   ng-class="selectedCategory === '' ? 'bold clickable news-selected' : 'bold clickable'"
+                   data-ng-click="collapseNav();" data-ui-sref="main.room({id: ''})">{{'navigation.label.home' |
+                    translate}}</a>
+            </li>
+
+            <li data-ng-repeat="(key, value) in sourceList">
+                <a class="animate-show {{value.title}}"
+                   ng-class="selectedCategory === key ? 'bold clickable news-selected' : 'bold clickable'"
+                   data-ng-click="collapseNav(key);" data-ui-sref="main.room({id: key})">{{'navigation.label.' +
+                    value.title | translate}}
+                </a>
+            </li>
+        </ul>
+
+        <!-- MESSAGES -->
+        <ul data-ng-if="currentState.current.name !== 'main.room'" class="nav navbar-nav">
+            <li data-ng-if="showRoomBtn">
+                <a data-ui-sref="main.room({id: selectedCategory})" class="static-item animate-show bold clickable">
+                    {{'navigation.label.home' | translate}}
+                </a>
+            </li>
+        </ul>
+
+        <!-- USER -->
+        <ul class="nav navbar-nav navbar-right"
+            title="{{'entities.user.button.settings' | translate}}">
+            <li data-uib-dropdown class="static-item btn-flag divider">
+                <a id="language-select" data-uib-dropdown-toggle class="static-item animate-show clickable bold">
+                    <i class="fa fa-globe"></i> <span id="language-text">Language</span>
+                </a>
+
+                <ul data-uib-dropdown-menu role="menu" class="dropdown-menu-right"
+                    aria-labelledby="language-select">
+                    <li>
+                        <a data-ng-click="collapseNav(); changeLanguage('en')">
+                            <i class="fa fa-flag" aria-hidden="true"></i> {{'entities.user.button.english' | translate}}
+                        </a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <a data-ng-click="collapseNav(); changeLanguage('hu')">
+                            <i class="fa fa-flag" aria-hidden="true"></i> {{'entities.user.button.hungarian' | translate}}
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li data-uib-dropdown data-ng-if="userData().userId" class="static-item">
+                <a id="user-profile" data-uib-dropdown-toggle
+                   class="static-item animate-show bold clickable color-white">
+                    <i class="fa fa-cog" aria-hidden="true"></i> {{userData().userName}}&nbsp;&nbsp;&nbsp;&nbsp;
+                </a>
+                <ul data-uib-dropdown-menu role="menu" class="dropdown-menu-right"
+                    aria-labelledby="user-profile">
+                    <li>
+                        <a data-ng-click="collapseNav();" data-ui-sref="main.user">
+                            <i class="fa fa-cogs" aria-hidden="true"></i> {{'entities.user.button.settings' | translate}}
+                        </a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <a data-ng-click="collapseNav(); logout();" class="clickable">
+                            <i class="fa fa-sign-out" aria-hidden="true"></i> {{'entities.user.button.logout' | translate}}
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li data-ng-if="!userData().userId">
+                <a data-ng-click="collapseNav(); showLoginForm();"
+                   class="static-item animate-show bold clickable color-white">
+                    <i class="fa fa-sign-in" aria-hidden="true"></i>
+                    {{'entities.user.button.loginOrRegister' | translate}}&nbsp;&nbsp;&nbsp;&nbsp;
+                </a>
+            </li>
+        </ul>
+    </div>
+
+</div>

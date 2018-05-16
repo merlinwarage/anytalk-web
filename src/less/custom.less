@@ -1,0 +1,121 @@
+@hr-panel-header-bg : #efefef;
+@hr-panel-border : #dfdfdf;
+@input-inner-shadow: none;
+@brand-spin:10%;
+
+label {
+    color: #555;
+}
+
+.btn-add{
+    .btn-primary;
+}
+
+.btn-back{
+    .btn-default;
+}
+
+.btn-save{
+    .btn-success;
+    background-color: spin(@brand-success, @brand-spin);
+}
+
+.btn-cancel{
+    .btn-warning;
+    background-color: spin(@brand-warning, @brand-spin / 1.5);
+    border-color: darken(spin(@brand-warning, @brand-spin / 1.5), 5%);
+}
+
+.btn-delete{
+    .btn-danger;
+}
+
+.btn-fixed-width{
+    min-width: 120px;
+}
+
+.panel-default > .panel-heading {
+    background-image: none;
+    background-color: @hr-panel-header-bg;
+}
+
+.no-margin {
+    margin: 0 !important;
+}
+
+.block-shadow{
+    -webkit-box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.1);
+    -moz-box-shadow:    0px 2px 6px 0px rgba(0, 0, 0, 0.1);
+    box-shadow:         0px 2px 6px 0px rgba(0, 0, 0, 0.1);
+}
+
+.nav .active a {
+    background: #f8f8f8;
+}
+
+
+.panel-default {
+    //border: 1px solid @hr-panel-border;
+    border: 1px solid @hr-panel-border;
+    box-shadow: @input-inner-shadow;
+    -webkit-box-shadow: @input-inner-shadow;
+    //-webkit-box-shadow: 0 3px 3px rgba(0, 0, 0, 0.05);
+    //box-shadow: 0 3px 3px rgba(0, 0, 0, 0.05);
+
+}
+
+.navbar-brand {
+    text-shadow: none;
+}
+
+.form-control {
+    box-shadow: @input-inner-shadow;
+    -webkit-box-shadow: @input-inner-shadow;
+
+}
+
+//datepicker button fix
+.dropdown-toggle button{
+    box-shadow: @input-inner-shadow;
+    -webkit-box-shadow: @input-inner-shadow;
+    height:26pt;
+}
+
+.common-form-directive-lg .dropdown-toggle button {
+    height:48px;
+}
+
+//Miki search button fix
+.input-group-addon {
+    height: 26px;
+}
+
+html, body, #page-wrapper {
+    background-color: #f8f8f8 !important;
+}
+
+.dashboard-search input {
+    border: none !important;
+}
+
+.sidebar-gradient {
+    width: @sidebarWidth;
+    z-index:10001;
+    top:0;
+    bottom:0;
+    position: fixed;
+    pointer-events: none;
+    background: rgba(0,0,0,0);
+    background: -moz-linear-gradient(left, rgba(0,0,0,0) 0%, rgba(0,0,0,0.26) 100%);
+    background: -webkit-gradient(left top, right top, color-stop(0%, rgba(0,0,0,0)), color-stop(100%, rgba(0,0,0,0.26)));
+    background: -webkit-linear-gradient(left, rgba(0,0,0,0) 0%, rgba(0,0,0,0.26) 100%);
+    background: -o-linear-gradient(left, rgba(0,0,0,0) 0%, rgba(0,0,0,0.26) 100%);
+    background: -ms-linear-gradient(left, rgba(0,0,0,0) 0%, rgba(0,0,0,0.26) 100%);
+    background: linear-gradient(to right, rgba(0,0,0,0) 0%, rgba(0,0,0,0.26) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#000000', GradientType=1 );
+}
+
+.page-header{
+    font-size:26px;
+    color: #2e669a;
+}

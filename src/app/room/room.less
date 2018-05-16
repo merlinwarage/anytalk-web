@@ -1,0 +1,413 @@
+#room-body {
+    background: linear-gradient(141deg, #212d3c 0%, #576c95 51%, #5289a3 75%);
+    //background-image: linear-gradient(141deg, rgb(15, 184, 173) 0%, rgb(31, 200, 219) 51%, rgb(44, 181, 232) 75%);
+    background-position-x: initial;
+    background-position-y: initial;
+    background-size: initial;
+    background-repeat-x: initial;
+    background-repeat-y: initial;
+    background-attachment: initial;
+    background-origin: initial;
+    background-clip: initial;
+    background-color: initial;
+    padding-top: 20px;
+}
+
+#rooms {
+    .error-box {
+        color: rgb(255, 255, 255);
+        background-color: @brand-alert-danger;
+        border-color: @brand-alert-danger;
+        padding: 4px;
+    }
+
+    .message-area {
+        width: 100%;
+        min-height: 88px;
+        border: dotted 1px grey;
+        padding-right: 15px;
+        background-color: #f2fcff;
+        resize: none;
+        font-weight: normal;
+    }
+
+    .article-border {
+        border: 1px solid white;
+    }
+
+    .article-box {
+        border: 1px darkgray solid;
+    }
+
+    .small-box {
+        border: 1px darkgray solid;
+        min-height: 160px;
+    }
+
+    .medium-box {
+        border: 1px darkgray solid;
+        min-height: 200px;
+    }
+
+    .large-box {
+        border: 1px darkgray solid;
+        min-height: 240px;
+    }
+
+    .room-list-item {
+        border-bottom: 2px solid white;
+    }
+
+    .room-info-line {
+        font-size: 1rem;
+        color: #666666;
+    }
+
+    .room-list-title-container {
+        display: inline-block;
+        width: 100%;
+    }
+
+    .room-list-title-container-p {
+        display: inline-block;
+        width: 94%;
+    }
+
+    .room-list-functions {
+        float: left;
+    }
+
+    .room-list-title {
+        font-size: 1.5rem;
+        padding-left: 3px;
+        float: left;
+    }
+
+    .roomContainer {
+        color: white;
+    }
+
+    .roomImage {
+        margin-bottom: 10px;
+    }
+
+    @media screen and (max-width: @grid-float-breakpoint) {
+        .room-list-item:active {
+            background-color: @brand-primary;
+            color: white;
+
+            .room-info-line {
+                color: white;
+            }
+        }
+
+        .img-hover {
+            opacity: 0.5;
+            transition: .5s ease;
+            backface-visibility: hidden;
+        }
+
+        .img-overlay {
+            transition: .5s ease;
+            opacity: 1;
+            position: absolute;
+            top: 20%;
+            left: 50%;
+            width: 95%;
+            transform: translate(-50%, -50%);
+            -ms-transform: translate(-50%, -50%);
+        }
+
+        .redirect {
+            opacity: 1;
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            transition: .5s ease;
+            padding: 4px 6px;
+            font-size: 1.2rem;
+
+            &:after {
+                padding-left: 4px;
+                color: white;
+                content: "\f061";
+                font-family: FontAwesome;
+                font-size: 1.2rem;
+            }
+        }
+    }
+
+    @media screen and (min-width: @grid-float-breakpoint) {
+        .room-list-item:hover {
+            background-color: @brand-primary;
+            color: white;
+
+            .room-info-line {
+                color: white;
+            }
+        }
+
+        .img-hover {
+            opacity: 1;
+            transition: .5s ease;
+            backface-visibility: hidden;
+        }
+
+        .img-overlay {
+            transition: .5s ease;
+            opacity: 0;
+            position: absolute;
+            top: 20%;
+            left: 50%;
+            width: 95%;
+            transform: translate(-50%, -50%);
+            -ms-transform: translate(-50%, -50%);
+        }
+
+        .redirect {
+            opacity: 0;
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            transition: .5s ease;
+            padding: 4px 6px;
+            font-size: 1.2rem;
+
+            &:after {
+                padding-left: 4px;
+                color: white;
+                content: "\f061";
+                font-family: FontAwesome;
+                font-size: 1.2rem;
+            }
+        }
+    }
+
+    .img-hover-container:hover .img-hover {
+        opacity: 0.3;
+    }
+
+    .img-hover-container:hover .img-overlay, .img-hover-container:hover .redirect {
+        opacity: 1;
+    }
+
+    .img-hover-container {
+        position: relative;
+    }
+
+    .text {
+        color: white;
+        font-size: 1.2rem;
+        position: absolute;
+        top: -20px;
+    }
+
+    .img-position {
+        vertical-align: middle;
+        width: 100%;
+    }
+
+    .roomImageTitle {
+        -webkit-box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.5);
+        -moz-box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.5);
+        box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.5);
+
+        padding: 4px;
+        background-color: #ffffff;
+        color: black;
+        height: 80px;
+    }
+
+    .img-date-align {
+        font-size: 1rem;
+        display: inline-block;
+        width: 50%;
+        text-align: left;
+    }
+
+    .img-readlink-align {
+        font-size: 1rem;
+        display: inline-block;
+        width: 48%;
+        text-align: right;
+    }
+
+    #room-list {
+        .row {
+            margin: 0 !important;
+        }
+    }
+
+    .discuss:hover {
+        opacity: 0.3;
+        background: black;
+        color: white;
+    }
+
+    .discuss-disabled {
+        background-color: darkgray !important;
+        color: darkgray !important;
+    }
+
+    .bg-black-alpha {
+        background-color: black;
+        color: white;
+    }
+
+    .bg-black-alpha:hover {
+        background-color: @brand-primary;
+    }
+
+    .slick-loading .slick-list {
+        background: #fff url('images/ajax-loader.gif') center center no-repeat;
+    }
+
+    .slick-prev {
+        left: -8px;
+        height: 80%;
+        padding-right: 4px;
+        border-top-left-radius: 10px;
+        border-bottom-left-radius: 10px;
+        z-index: 500;
+        background-color: rgba(255, 255, 255, 0.5);
+    }
+    .slick-next {
+        margin-right: 14px;
+        height: 80%;
+        padding-right: 4px;
+        border-top-right-radius: 10px;
+        border-bottom-right-radius: 10px;
+        z-index: 500;
+        background-color: rgba(255, 255, 255, 0.5);
+    }
+
+    .sticker {
+        border-radius: 3px;
+        padding: 2px 5px;
+        font-size: 10px;
+    }
+
+    .search-box-input {
+        background-color: rgba(0, 0, 0, .1);
+        color: white;
+        border-color: rgba(0, 0, 0, .3);
+    }
+
+    .search-box-container {
+        padding-left: 30px;
+        padding-right: 30px
+    }
+
+    .panel-default > .panel-heading {
+        background: #fff;
+        color: #000;
+        border-radius: 0;
+    }
+
+    .panel-default {
+        box-shadow: none !important;
+        background-color: rgba(255, 255, 255, .9);
+    }
+
+    .general {
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        border-left: 6px solid #ce0000 !important;
+    }
+
+    .entertainment {
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        border-left: 6px solid #008f0b !important;
+    }
+    .music {
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        border-left: 6px solid #3c62b9 !important;
+    }
+    .gaming {
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        border-left: 6px solid #e6e100 !important;
+    }
+    .technology {
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        border-left: 6px solid #af12ff !important;
+    }
+    .science {
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        border-left: 6px solid #f68b00 !important;
+    }
+    .sport {
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        border-left: 6px solid #28d874 !important;
+    }
+    .business {
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        border-left: 6px solid #95a8b8 !important;
+    }
+    .social {
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        border-left: 6px solid #ed00e7 !important;
+    }
+
+    //******************************************
+
+    .date- {
+        background-color: #ce0000;
+        color: white;
+    }
+
+    .date-general {
+        background-color: #ce0000;
+        color: white;
+    }
+
+    .date-entertainment {
+        background-color: #008f0b;
+        color: white;
+    }
+    .date-music {
+        background-color: #3c62b9;
+        color: white;
+    }
+    .date-gaming {
+        background-color: #e6e100;
+        color: black;
+    }
+    .date-technology {
+        background-color: #af12ff;
+        color: white;
+    }
+    .date-science {
+        background-color: #f68b00;
+        color: white;
+    }
+    .date-sport {
+        background-color: #28d874;
+        color: white;
+    }
+    .date-business {
+        background-color: #95a8b8;
+        color: white;
+    }
+    .date-social {
+        background-color: #ed00e7;
+        color: white;
+
+    }
+}

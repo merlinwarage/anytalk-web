@@ -1,0 +1,65 @@
+#table-utils {
+    table[draggable] th {
+        cursor: alias;
+    }
+
+    .table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
+        background-color: @table-bg-hover;
+    }
+
+    .column-settings {
+        z-index: 1000;
+        position: relative;
+        float: right;
+        background-color: #fff;
+        top: 0;
+        right: 0;
+        margin: 0;
+    }
+
+    .td-btn-xs {
+        width: 32px;
+    }
+
+    .viewport {
+        white-space: nowrap;
+        max-height: 345px;
+        min-height: 150px;
+    }
+    .viewport.real, .viewport.slice, .viewport.virtual {
+        max-height: 100px;
+    }
+    .viewport li {
+        background: #eee;
+    }
+    .viewport li:nth-child(even) {
+        background: #ccc;
+    }
+
+    .real {
+        overflow: auto;
+    }
+    .real ul, .slice ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    .table tr.row-default-height {
+        height: 30px;
+    }
+
+    .pagination .page-select {
+        margin-left: 20px;
+        color: #337ab7;
+        height: 31px;
+        min-width: 40px;
+        text-align: center;
+        border-color: #ddd;
+    }
+
+    .pagination li>a {
+        min-width: 40px;
+        text-align: center;
+    }
+}

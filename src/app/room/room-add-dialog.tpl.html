@@ -1,0 +1,101 @@
+<div id="rooms" class="modal-body">
+    <div data-ng-if="!tokenObj.token" class="form-group panel panel-default">
+        <div class="panel-heading">{{formData._id ? 'entities.rooms.label.edit' : 'entities.rooms.label.add' |
+            translate}}<span data-ng-if="dialogParam.args.data">: <b>{{dialogParam.args.data.title}}</b></span>
+        </div>
+        <div class="panel-body">
+            <div data-ng-show="errorMsg" class="animate-show-hidden error-box">
+                {{errorMsg | translate}}
+                <span class="float-right margin-right-3 clickable" data-ng-click="cancelError()">[{{'common.button.close' | translate}}]</span>
+            </div>
+
+            <form name="loginForm" id="login" novalidate autocomplete="new-password">
+                <fieldset>
+                    <span data-ng-if="dialogParam.args.data">{{dialogParam.args.data.description}}</span>
+                    <div data-ng-if="!dialogParam.args.data">
+                        <div class="col-md-12 button-margin-top-10">
+
+                            <div ng-google-suggest="" data-ng-model="formData.title"></div>
+                            <div class="row"></div>
+
+                            <div class="col-md-12 button-margin-top-10">
+                                <label>{{'entities.rooms.label.type' | translate}}</label>
+                                <select title="{{'entities.rooms.label.type' | translate}}" class="form-control"
+                                        data-ng-model="formData.type"
+                                        data-ng-init="formData.type = formData.type || 'forum'">
+                                    <option value="forum">{{'entities.rooms.types.forum' | translate}}</option>
+                                    <option value="qna">{{'entities.rooms.types.qna' | translate}}</option>
+                                    <option value="article">{{'entities.rooms.types.article' | translate}}</option>
+                                    <option value="link">{{'entities.rooms.types.link' | translate}}</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-12 button-margin-top-10">
+                                <label>{{'entities.rooms.label.category' | translate}}</label>
+                                <select title="{{'entities.rooms.label.category' | translate}}" class="form-control"
+                                        data-ng-model="formData.category"
+                                        data-ng-init="formData.category = formData.category || homeState">
+                                    <option value="general">{{'entities.rooms.categories.general' | translate}}</option>
+                                    <option value="business">{{'entities.rooms.categories.business' | translate}}
+                                    </option>
+                                    <option value="gaming">{{'entities.rooms.categories.gaming' | translate}}</option>
+                                    <option value="entertainment">{{'entities.rooms.categories.entertainment' |
+                                        translate}}
+                                    </option>
+                                    <option value="music">{{'entities.rooms.categories.music' | translate}}</option>
+                                    <option value="sport">{{'entities.rooms.categories.sport' | translate}}</option>
+                                    <option value="technology">{{'entities.rooms.categories.technology' | translate}}
+                                    </option>
+                                    <option value="science">{{'entities.rooms.categories.science' | translate}}</option>
+                                    <option value="social">{{'entities.rooms.categories.social' | translate}}</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-12 button-margin-top-10">
+                                <label data-ng-if="dialogParam.permission === 10" class="clickable margin-right-3">
+                                    <input title="{{'entities.rooms.label.featured' | translate}}" class="hr-checkbox"
+                                           data-ng-model="formData.featured" data-ng-init="formData.featured = false"
+                                           type="checkbox"/>{{'entities.rooms.button.featured' | translate}}
+                                </label>
+                                <label class="clickable margin-right-3">
+                                    <input title="{{'entities.rooms.label.private' | translate}}" class="hr-checkbox"
+                                           data-ng-model="formData.private" data-ng-init="formData.private = false"
+                                           type="checkbox"/>{{'entities.rooms.button.private' | translate}}
+                                </label>
+                                <label data-ng-if="dialogParam.permission === 10" class="clickable">
+                                    <input title="{{'entities.rooms.label.closed' | translate}}" class="hr-checkbox"
+                                           data-ng-model="formData.closed" data-ng-init="formData.closed = false"
+                                           type="checkbox"/>{{'entities.rooms.button.closed' | translate}}
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 button-margin-top-10" data-ng-if="!dialogParam.args.id">
+                        <textarea id="message-area"
+                                  capitalize-first
+                                  data-ng-trim="false"
+                                  textarea-autosize
+                                  class="message-area"
+                                  data-ng-model="formData.message"
+                                  placeholder="{{'entities.rooms.label.firstMessage' | translate}}">
+                        </textarea>
+                        <div class="clear-both"></div>
+                    </div>
+
+
+                </fieldset>
+            </form>
+        </div>
+    </div>
+
+    <div class="float-right">
+        <button id="modalDialogBtnOK" class="btn btn-primary" data-ng-click="confirmOK()" autofocus>
+            {{dialogParam.buttonOk | translate}}
+        </button>
+        <button id="modalDialogBtnCancel" class="btn btn-danger" data-dismiss="modal" data-ng-click="confirmCancel()">
+            {{dialogParam.buttonCancel | translate}}
+        </button>
+    </div>
+
+</div>

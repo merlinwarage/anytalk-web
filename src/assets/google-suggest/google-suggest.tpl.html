@@ -1,0 +1,14 @@
+<div class="col-md-12">
+    <label>{{'entities.rooms.label.name' | translate}}</label>
+    <input type="text" autofocus autocomplete="off" placeholder="{{'entities.rooms.label.name' | translate}}"
+           id="searchInput" data-ng-keydown="checkKeyDown($event)"
+           class="form-control" data-ng-model="searchText"
+           data-ng-blur="clearResults()"/>
+    <div id="suggestions" class="suggestions-list" data-ng-show='suggestions.length > 0'>
+        <div data-ng-repeat="suggestion in suggestions" class="blockSpan" data-ng-click="selectSearchTerm($index)"
+             data-ng-mouseover="$parent.selectedIndex=$index"
+             ng-class="{'selection-active' : selectedIndex===$index}">
+            {{suggestion}}
+        </div>
+    </div>
+</div>

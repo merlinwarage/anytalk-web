@@ -1,0 +1,131 @@
+<div id="table-utils" class="row clearfix col-md-12" ng-switch on="tableData.length">
+    <div ng-switch-when="0">
+        <div class="col-md-offset-5">
+            <strong>{{'common.label.noData' | translate}}</strong>
+        </div>
+    </div>
+
+    <div ng-switch-default ng-show="tableData.length">
+
+        <!--SEARCH INPUT-->
+        <div ng-if="tableConfig.search" class="input-group col-md-4">
+            <span class="input-group-addon primary">
+                <span class="glyphicon glyphicon-search"></span>
+            </span>
+            <input type="text" ng-model="tableUtils[tableName].query"
+                   ng-change="tableUtils.functions.search(tableName, tableContent.searchFieldNames)"
+                   class="form-control input-group-addon-fixheight"
+                   placeholder="{{'common.label.search' | translate}}"/>
+            <span class="input-group-btn default"
+                  ng-show="tableUtils[tableName].query"
+                  ng-click="tableUtils[tableName].query = ''; tableUtils.functions.search(tableName, tableContent.searchFieldNames);">
+                <button class="btn btn-default input-group-addon-fixheight"><i
+                        class="fa fa-times"></i></button>
+            </span>
+        </div>
+
+        <column-settings ng-if="tableConfig.columnSelect" ng-model="tableContent"></column-settings>
+
+        <table id="{{::tableName}}" class="table table-hover table-condensed" draggable>
+            <thead>
+            <tr>
+                <th ng-repeat="(key,title) in tableContent.titles" ng-init="title.field=key"
+                    ng-show="!title.hidden">
+                    <a ng-click="tableUtils[tableName].selectedColumn = title.field; tableUtils.functions.sortBy(tableName, title.field);"
+                       ng-class="title.field === tableUtils[tableName].selectedColumn ? 'color-green' : ''">
+                        {{::title.displayName | translate}}
+                    </a>
+                </th>
+                <th ng-repeat="key in tableButtons">&nbsp;</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            <tr ng-repeat="(rowKey, itemData) in tableUtils[tableName].filteredItems | orderBy:tableUtils[tableName].sortingOrder:tableUtils[tableName].reverse | limitTo : tableUtils[tableName].itemsPerPage : tableUtils[tableName].currentPage * tableUtils[tableName].itemsPerPage"
+                ng-init="rowIndex = $index"
+                uib-tooltip="{{itemData.note}}"
+                ng-dblclick="tableConfig.rowDblclickEvent ? methods('dblclick', rowIndex, itemData) : noop();"
+                class="clickable">
+
+                <td ng-repeat="(key,column) in tableContent.titles"
+                    ng-if="tableContent.shownColumns.indexOf(key) !== -1"
+                    ng-class="key === tableUtils[tableName].selectedColumn ? 'bg-lightgreen' : ''"
+                    ng-show="!column.hidden"
+                    ng-init="colData = column.valueField ? itemData[key][column.valueField] : itemData[key]">
+
+                    <span ng-if="column.fieldType === 'boolean'">
+                        <i ng-class="colData ? 'fa fa-check' : 'fa fa-times fa-grey'"></i>
+                    </span>
+
+                    <span ng-if="column.fieldType === 'date'">
+                        {{colData | date:tableConfig.dateFormat}}
+                    </span>
+
+                    <span ng-if="!column.fieldType || column.fieldType === 'text'"
+                          ng-init="colText = column.arrayElement > -1 ? colData[column.arrayElement] : colData; ellipsis = column.ellipsis ? column.ellipsis : 255">
+                            <span popover-trigger="mouseenter"
+                                  uib-popover="{{colText}}"><i ng-if="column.icon" class="{{column.icon}}"></i> {{colText | ellipsis: ellipsis}}
+                            </span>
+                    </span>
+
+                    <span ng-if="column.fieldType === 'list'">
+                        {{colData | listValueTranslate}}
+                    </span>
+                </td>
+
+                <td ng-repeat="(key, button) in tableButtons" class="text-right td-btn-xs">
+                    <document-manager-upload-button ng-if="key === 'attachment'"
+                                                    upload-small-btn
+                                                    class="pull-right {{button.class}}"
+                                                    download-only="{{button.downloadOnly}}"
+                                                    entity="{{button.entity}}"
+                                                    entity-id="{{button.entityId ? itemData[button.entityId].id : itemData.id}}"
+                                                    list-code="{{button.listCode}}">
+                    </document-manager-upload-button>
+
+                    <button ng-if="key !== 'attachment'"
+                            uib-tooltip="{{button.tooltip | translate}}"
+                            tooltip-placement="{{button.tooltipPlacement}}"
+                            class="{{button.class}}"
+                            ng-click="methods(key, rowIndex, itemData)">
+                        <i class="{{button.icon.delete && itemData.deleted ? button.icon.undelete : button.icon.delete && !itemData.deleted ? button.icon.delete : button.icon}}"></i>
+                    </button>
+
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <!--PAGINATION-->
+        <ul ng-if="tableConfig.pagination" class="pagination">
+            <li ng-class="{disabled: tableUtils[tableName].currentPage == 0}">
+                <a href ng-click="tableUtils.functions.prevPage(tableName)">&laquo;</a>
+            </li>
+            <li ng-repeat="n in tableUtils.functions.range(tableUtils[tableName].pagedItems.length) | limitTo: 7 : (tableUtils[tableName].currentPage < 7 ? 0 : tableUtils[tableName].currentPage - 3) "
+                ng-class="{active: n == tableUtils[tableName].currentPage}"
+                ng-click="tableUtils.functions.setPage(tableName, n)">
+                <a href ng-bind="n + 1">1</a>
+            </li>
+            <li ng-class="{disabled: tableUtils[tableName].currentPage == tableUtils[tableName].pagedItems.length - 1}">
+                <a href ng-click="tableUtils.functions.nextPage(tableName)">&raquo;</a>
+            </li>
+            <li ng-class="{disabled: tableUtils[tableName].currentPage == tableUtils[tableName].pagedItems.length - 1}">
+                <select title=""
+                        class="page-select"
+                        name="pageSelect"
+                        id="pageSelect"
+                        data-ng-model="tableUtils[tableName].pageSelect"
+                        data-ng-change="tableUtils.functions.setPage(tableName, tableUtils[tableName].pageSelect)">
+                    <option value="">1</option>
+                    <option ng-repeat="(key, page) in tableUtils[tableName].pagedItems"
+                            ng-selected="tableUtils[tableName].currentPage === key"
+                            ng-if="key !== 0"
+                            value="{{key}}">
+                        {{key+1}}
+                    </option>
+                </select>
+            </li>
+        </ul>
+
+    </div>
+</div>

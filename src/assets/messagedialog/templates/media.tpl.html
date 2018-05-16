@@ -1,0 +1,13 @@
+<div class="video-wrapper-header" modal-draggable>
+    <button ng-click="$dismiss()" class="close pull-right" aria-hidden="true">
+        <i class="fa fa-times-circle"></i>
+    </button>
+
+    <div class="modal-body modal-flex-body animate-show animate-transition">
+        <div data-ng-if="dialogParam.media.entity === 'youtube' && dialogParam.media.url">
+            <div class="video-wrapper">
+                <youtube-video video-id="::dialogParam.media.url"></youtube-video>
+            </div>
+        </div>
+    </div>
+</div>

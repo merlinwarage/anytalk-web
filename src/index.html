@@ -1,0 +1,81 @@
+<!doctype html>
+<html data-ng-app="ngApplication" data-ng-controller="ngApplicationController">
+<head>
+    <meta charset="utf-8">
+    <meta name="fragment" content="!" />
+    <title data-ng-bind="pageTitle">MWO</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="description" content="MWO - [MerlinW Online]"/>
+    <meta name="keywords"
+          content="mwg, merlin, merlinw, blog, hardware, software, IT, science, game, windows, linux, ubuntu, fun, music, article, video, youtube, google, rss, wine, music, catalyst, ati, amd, nvidia"/>
+    <meta name="generator" content="MWO"/>
+    <meta name="copyright" content="MWO - [MerlinW Online]"/>
+    <meta name="verify-v1" content="Nx5PyN1xczzh6hlvDTj15N9ESktLn2p4KoqOUunpEC8="/>
+    <meta name="google-site-verification" content="qC11ciWTLgyIT7vKumKnSLr0kSN87vU2R4fLO_eOAPg"/>
+    <meta name="y_key" content="4b0b9d149ced2300"/>
+    <meta name="wot-verification" content="f1acf32c95a5e7cc6432"/>
+    <% styles.forEach( function ( file ) { %>
+    <link rel="stylesheet" type="text/css" href="<%= file %>"/>
+    <% }); %>
+    <link rel="icon" type="image/ico" href="assets/images/favicon.ico">
+    <script src="https://apis.google.com/js/client.js?onload=googleApiClientReady"></script>
+</head>
+<body ng-cloak id="{{stateName}}-body" data-status="">
+
+<noscript>
+    <div id="noscriptmsg">
+        You don't have javascript enabled.
+    </div>
+</noscript>
+
+<header-message></header-message>
+
+<div>
+    <div data-ui-view="frame">
+        <div>
+            <!-- Header -->
+            <header></header>
+            <!-- Content -->
+            <main id="page-wrapper">
+                <div data-ui-view="main"></div>
+                <div data-ui-view="secondary"></div>
+            </main>
+        </div>
+    </div>
+</div>
+
+<footer class="nav-up">
+    <div class="footer-container text-center">
+        (c) 2017 <a href="#"><%= name %></a>. (build <%= version %>)
+        <!--<i class="fa fa-circle"></i> Powered by <a-->
+            <!--href="https://newsapi.org/"><img-->
+            <!--src="https://newsapi.org/images/newsapi-logo.png" alt="News API"-->
+            <!--style="width:20px; margin-right: 5px"/><span>News API</span></a>-->
+    </div>
+</footer>
+
+
+<% scripts.forEach( function ( file ) { %>
+<script type="text/javascript" src="<%= file %>"></script>
+<% }); %>
+
+<script>
+    (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r;
+        i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
+        a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0];
+        a.async = 1;
+        a.src = g;
+        m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+    ga('create', 'UA-12983395-1', 'auto');
+    //ga('send', 'pageview');
+</script>
+
+</body>
+</html>

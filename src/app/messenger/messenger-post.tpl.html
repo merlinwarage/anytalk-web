@@ -1,0 +1,58 @@
+<div class="row top-buffer bottom-buffer-20">
+    <div class="col-md-12">
+        <form>
+            <div data-ng-show="replyModel.replyToUser" class="animate-show-hidden reply-box">
+                {{'entities.messages.replyTo' | translate:replyModel.replyToUserLabel}}
+                <span class="float-right margin-right-3 clickable" data-ng-click="replyModel.cancelReply(true)">[{{'common.button.cancel' | translate}}]</span>
+            </div>
+            <div data-ng-show="errorMsg" class="animate-show-hidden error-box">{{'entities.messages.errorMsg' |
+                translate}}: {{errorMsg | translate}}
+                <span class="float-right margin-right-3 clickable"
+                      data-ng-click="replyModel.cancelError(); cancelError();">[{{'common.button.cancel' | translate}}]</span>
+            </div>
+            <div class="emoji-container">
+                    <span class="emoji-panel-button clickable" data-ng-show="!openEmojiPanel"
+                          data-ng-click="openEmojiPanel = !openEmojiPanel"></span>
+                <div class="padding-5 emoji-panel fade-in-out-fast animate-show animate-show-hidden"
+                     data-ng-show="openEmojiPanel" data-ng-click="openEmojiPanel = !openEmojiPanel;">
+                    <a class="emoji-close inline clickable"><i class="fa fa-times"></i></a>
+                    <a data-ng-repeat="item in emoji" class="emoji-text inline clickable"
+                       data-ng-click="formData.message = formData.message + item">{{item}}</a>
+                </div>
+            </div>
+            <textarea id="message-area"
+                      data-ng-trim="false"
+                      capitalize-first
+                      autofocus
+                      textarea-autosize
+                      class="message-area"
+                      data-ng-click="openEmojiPanel = false"
+                      data-ng-keydown="keyPressSubmit($event)"
+                      data-ng-model="formData.message"
+                      placeholder="{{'entities.messages.textAreaPlaceholder' | translate}}">
+        </textarea>
+        </form>
+    </div>
+    <div class="col-md-12">
+        <button class="btn btn-primary btn-fixed-width"
+                title="{{'entities.messages.label.bold' | translate}}"
+                data-ng-click="addTag('bold')">{{'entities.messages.button.bold' | translate}}
+        </button>
+        <button class="btn btn-primary btn-fixed-width"
+                title="{{'entities.messages.label.italic' | translate}}"
+                data-ng-click="addTag('italic')">{{'entities.messages.button.italic' | translate}}
+        </button>
+        <button class="btn btn-primary btn-fixed-width"
+                title="{{'entities.messages.label.off' | translate}}"
+                data-ng-click="addTag('off')">{{'entities.messages.button.off' | translate}}
+        </button>
+        <button class="btn btn-primary btn-fixed-width"
+                title="{{'entities.messages.label.spoiler' | translate}}"
+                data-ng-click="addTag('spoiler')">{{'entities.messages.button.spoiler' | translate}}
+        </button>
+        <button type="submit" class="btn btn-primary btn-fixed-width float-right"
+                data-ng-disabled="!formData.message"
+                data-ng-click="addMessage()">{{'entities.messages.button.add' | translate}}
+        </button>
+    </div>
+</div>

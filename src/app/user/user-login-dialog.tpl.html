@@ -1,0 +1,83 @@
+<div id="user" class="modal-body">
+
+    <div data-ng-if="!tokenObj.token" class="form-group panel panel-default">
+        <div class="panel-heading">{{'entities.user.label.login' | translate}}</div>
+        <div class="panel-body">
+            <div data-ng-show="errorMsg" class="animate-show-hidden error-box">
+                {{errorMsg | translate}}
+                <span class="float-right margin-right-3 clickable" data-ng-click="cancelError()">[{{'common.button.close' | translate}}]</span>
+            </div>
+            <form name="loginForm" id="login">
+                <fieldset>
+                    <div class="col-md-12 button-margin-top-10">
+                        <input autofocus name="atusername" class="form-control" type="text" value=""
+                               placeholder="{{'entities.user.label.email' | translate}}"
+                               data-ng-model="formDataLogin.mail"/></div>
+                    <div class="row"></div>
+                    <div class="col-md-12 button-margin-top-10">
+                        <input class="form-control" type="password" name="atpassw"
+                               value=""
+                               placeholder="{{'entities.user.label.password' | translate}}"
+                               data-ng-model="formDataLogin.password"/></div>
+                    <div class="row"></div>
+                    <div class="col-md-12 clickable margin-right-3">
+                        <label>
+                            <input title="{{'entities.user.label.remember' | translate}}" class="hr-checkbox"
+                                   data-ng-model="userLogin.remember"
+                                   type="checkbox"/>{{'entities.user.label.remember' | translate}}
+                        </label>
+                    </div>
+                    <div class="row"></div>
+                    <div class="col-md-12 button-margin-top-10">
+                        <button data-ng-disabled="!loginForm.$valid" id="submit" type="submit"
+                                data-ng-click="login();" class="btn btn-primary">
+                            {{'entities.user.button.login' |
+                            translate}} <i
+                                class="fa fa-arrow-right"></i></button>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+
+    <div class="form-group panel panel-default">
+        <div class="panel-heading">{{'entities.user.label.register' | translate}}</div>
+        <div class="panel-body">
+            <div class="col-md-12 button-margin-top-10">
+                <input class="form-control" type="text" value=""
+                       placeholder="{{'entities.user.label.userName' | translate}}"
+                       data-ng-model="formData.name"/></div>
+            <div class="row"></div>
+            <div class="col-md-12 button-margin-top-10">
+                <input class="form-control" type="text" value=""
+                       placeholder="{{'entities.user.label.email' | translate}}"
+                       data-ng-model="formData.mail"/></div>
+            <div class="row"></div>
+            <div class="col-md-12 button-margin-top-10">
+                <input class="form-control" type="password" value=""
+                       placeholder="{{'entities.user.label.password' | translate}}"
+                       data-ng-model="formData.password"/></div>
+            <div class="row"></div>
+            <div class="col-md-12 button-margin-top-10">
+                <input class="form-control" type="password" value=""
+                       placeholder="{{'entities.user.label.password-v' | translate}}"
+                       data-ng-model="passwordValidation"/></div>
+            <div class="row"></div>
+
+            <div class="row"></div>
+            <div class="col-md-12 button-margin-top-10">
+                <button class="btn btn-primary btn-fixed-width"
+                        data-ng-disabled="!userRegistrationValidate()"
+                        data-ng-click="addUser(); confirmOK();">{{'entities.user.button.register' | translate}}
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="float-right">
+        <button id="modalDialogBtnCancel" class="btn btn-danger" data-dismiss="modal" data-ng-click="confirmCancel()">
+            {{dialogParam.buttonCancel | translate}}
+        </button>
+    </div>
+
+</div>

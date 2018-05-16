@@ -1,0 +1,8 @@
+{
+  "directory": "vendor",
+  "name": "bower",
+  "resolvers": [
+    "bower-npm-resolver"
+  ]
+}
+

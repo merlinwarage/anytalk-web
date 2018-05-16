@@ -1,0 +1,34 @@
+<div id="headerMessageContainer">
+    <div ng-repeat="message in messages" id="headerMessageBubble{{$index}}"
+         role="alert" class="hr-alert-animate animate-dummy header-message-width">
+        <!--<div ng-if="message.result === 'success'" ng-class="message.messageClasses" class="hr-alert-success">-->
+            <!--<i class="fa fa-check"></i>-->
+        <!--</div>-->
+        <div ng-if="message.result !== 'success'" ng-class="message.messageClasses" id="headerMessageBubble{{$index}}error">
+            <div class="row-flex">
+
+                <div class="row-flex-grow">
+                    {{message.headerMessage}}
+                </div>
+                <div class="row-flex-none row-flex-fixed-button-container text-right">
+                    <button id="headerMessageBubbleCloseButton{{$index}}" type="button" ng-href="#"
+                            ng-click="emptyMessageByRepeatIndex($index)"
+                            class="header-message-close"><i class="fa fa-times"></i>
+                    </button>
+                    <button id="headerMessageBubbleDetailsButton{{$index}}"
+                            ng-if="message.details"
+                            style="background: transparent none repeat scroll 0 0;border: 0 none"
+                            ng-class="message.detailsButtonClass"
+                            ng-click="detailsControl(message)" type="button"></button>
+                </div>
+            </div>
+            <div class="stack-trace-buffer btn-wide" ng-if="message.showDetails">
+                <div>
+                    <p id="headerMessageBubbleDetailsPanel{{$index}}">
+                        {{message.details}}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
