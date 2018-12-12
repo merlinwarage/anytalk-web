@@ -2,7 +2,7 @@ angular.module("appModule").directive('headerMessage', function () {
     return {
         controller: ["$scope", "$element", "$attrs", "GlobalConstants", "GlobalFunctionsTimer", "$translate",
             function ($scope, $element, $attrs, GlobalConstants, GlobalFunctionsTimer, $translate) {
-                
+
                 var ERROR_MESSAGE_START = 'entities.';
 
                 $scope.messages = [];
@@ -25,7 +25,7 @@ angular.module("appModule").directive('headerMessage', function () {
                                         parameters: parameters,
                                         messageClasses: args.type,
                                         showDetails: false,
-                                        detailsButtonClass: 'glyphicon glyphicon-menu-right',
+                                        detailsButtonClass: 'fa fa-menu-right',
                                         headerMessage: translateErrorMessage(ERROR_MESSAGE_START + args.entityType + ".messages." + args.operation + "." + args.result, parameters),
                                         index: $scope.lastIndex
                                     };
@@ -38,7 +38,7 @@ angular.module("appModule").directive('headerMessage', function () {
                                         parameters: args.parameters ? args.parameters : {},
                                         messageClasses: args.type,
                                         showDetails: false,
-                                        detailsButtonClass: 'glyphicon glyphicon-menu-right',
+                                        detailsButtonClass: 'fa fa-menu-right',
                                         headerMessage: $translate.instant(args.message),
                                         index: $scope.lastIndex
                                     });
@@ -87,10 +87,10 @@ angular.module("appModule").directive('headerMessage', function () {
                 $scope.detailsControl = function (message) {
                     if (message.showDetails) {
                         message.showDetails = false;
-                        message.detailsButtonClass = "glyphicon glyphicon-menu-right";
+                        message.detailsButtonClass = "fa fa-chevron-right";
                     } else {
                         message.showDetails = true;
-                        message.detailsButtonClass = "glyphicon glyphicon-menu-down";
+                        message.detailsButtonClass = "fa fa-chevron-left";
                     }
                 };
 

@@ -1,5 +1,5 @@
 (function (angular) {
-    "use strict";
+
 
     angular.module('appModule').controller('headerController', [
         '$scope', '$state', '$stateParams', '$location', '$translate', 'GlobalConstants', 'UserService', 'HeaderConstants', "AuthService",

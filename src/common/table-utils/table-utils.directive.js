@@ -76,7 +76,7 @@
 
  $scope.tableButtons = {
     edit: {
-        icon: "glyphicon glyphicon-pencil",     // button`s icon
+        icon: "fa fa-pencil",                   // button`s icon
         class: "btn btn-xs btn-warning",        // button`s class
         tooltip: "button.common.edit",          // button`s tooltip
         tooltipPlacement: "left",               // tooltip position
@@ -203,8 +203,8 @@ angular.module("uiTableUtils").directive("columnSettings", [
             '<ul class="dropdown-menu dropdown-menu-right padding-5" uib-dropdown-menu role="menu">' +
             '<li ng-repeat="title in tableConfig.titles" ng-click="title.hidden = !title.hidden">' +
             '<div class="hover padding-5 icon-color-blue">' +
-            '<i ng-if="!title.hidden" class="glyphicon glyphicon-eye-open"></i>' +
-            '<i ng-if="title.hidden" class="glyphicon glyphicon-eye-close"></i> {{::title.displayName | translate}}' +
+            '<i ng-if="!title.hidden" class="fa fa-eye-open"></i>' +
+            '<i ng-if="title.hidden" class="fa fa-eye-close"></i> {{::title.displayName | translate}}' +
             '</div></li></ul></div>'
         };
     }

@@ -111,8 +111,7 @@ module.exports = {
         assets: [],
         fonts: [
             'vendor/slick-carousel/slick/fonts/*',
-            'vendor/font-awesome/fonts/*',
-            'vendor/bootstrap/fonts/*',
+            'vendor/font-awesome/fonts/*'
         ]
     }
 };

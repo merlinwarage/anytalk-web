@@ -1,5 +1,5 @@
 (function (angular) {
-    "use strict";
+
 
     angular.module("appModule.user").config([
         "$stateProvider", "GlobalConstants",

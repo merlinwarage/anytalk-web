@@ -1,5 +1,5 @@
 (function (angular) {
-    "use strict";
+
 
     angular.module('appModule.messenger').factory('socket', function ($rootScope) {
         var socket = io.connect();

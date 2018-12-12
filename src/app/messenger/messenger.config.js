@@ -1,5 +1,5 @@
 (function (angular) {
-    "use strict";
+
 
     angular.module("appModule.messenger").config([
         "$stateProvider", "GlobalConstants",

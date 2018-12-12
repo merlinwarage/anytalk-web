@@ -1,5 +1,5 @@
 (function (angular) {
-    "use strict";
+
 
     /**
      * @param {{SERVER_URL:string}} config

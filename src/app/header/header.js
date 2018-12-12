@@ -1,5 +1,5 @@
 (function (angular) {
-    "use strict";
+
 
     angular.module('appModule').directive('header', ["$location", "GlobalConstants",
         function ($location, GlobalConstants) {

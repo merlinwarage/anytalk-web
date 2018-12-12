@@ -1,5 +1,5 @@
 (function (angular) {
-    "use strict";
+
 
     angular.module("appModule.home").controller("HomeController", [
         "$scope", "$sce", "$state", "GlobalConstants", "AuthService",

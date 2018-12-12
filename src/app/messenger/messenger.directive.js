@@ -1,5 +1,5 @@
 (function (angular) {
-    "use strict";
+
 
     angular.module("appModule.messenger").directive('dynamicBind', function ($compile) {
         return {

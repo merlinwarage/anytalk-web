@@ -1,11 +1,11 @@
 module.exports = function ( grunt ) {
 
-    var projectName = "MWO";
+    var projectName = 'MWO';
 
     /**
      * Load in our build configuration file.
      */
-    var userConfig = require('./build.config.js');
+    var userConfig = require( './build.config.js' );
 
     /**
      * This is the configuration object Grunt uses to give each plugin its
@@ -17,7 +17,7 @@ module.exports = function ( grunt ) {
          * We read in our `package.json` file so we can access the package name and
          * version. It's already there, so we don't repeat ourselves here.
          */
-        pkg: grunt.file.readJSON("package.json"),
+        pkg: grunt.file.readJSON( 'package.json' ),
 
         /**
          * The banner is the comment that is placed at the top of our compiled
@@ -26,11 +26,11 @@ module.exports = function ( grunt ) {
          */
         meta: {
             banner: '/**\n' +
-            ' * <%= pkg.name %> - v<%= pkg.version %> - <%= grunt.template.today("yyyy-mm-dd") %>\n' +
-            ' * <%= pkg.homepage %>\n' +
-            ' *\n' +
-            ' * Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author %>\n' +
-            ' */\n'
+                ' * <%= pkg.name %> - v<%= pkg.version %> - <%= grunt.template.today("yyyy-mm-dd") %>\n' +
+                ' * <%= pkg.homepage %>\n' +
+                ' *\n' +
+                ' * Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author %>\n' +
+                ' */\n'
         },
 
         /**
@@ -49,14 +49,14 @@ module.exports = function ( grunt ) {
         bump: {
             options: {
                 files: [
-                    "package.json",
-                    "bower.json"
+                    'package.json',
+                    'bower.json'
                 ],
                 commit: false,
                 commitMessage: 'chore(release): v%VERSION%',
                 commitFiles: [
-                    "package.json",
-                    "client/bower.json"
+                    'package.json',
+                    'client/bower.json'
                 ],
                 createTag: false,
                 tagName: 'v%VERSION%',
@@ -89,7 +89,7 @@ module.exports = function ( grunt ) {
             build_app_assets: {
                 files: [
                     {
-                        src: ['**'],
+                        src: [ '**' ],
                         dest: '<%= build_dir %>/assets/',
                         cwd: 'src/assets',
                         expand: true
@@ -99,7 +99,7 @@ module.exports = function ( grunt ) {
             build_vendor_assets: {
                 files: [
                     {
-                        src: ['<%= vendor_files.assets %>'],
+                        src: [ '<%= vendor_files.assets %>' ],
                         dest: '<%= build_dir %>/assets/',
                         cwd: '.',
                         expand: true,
@@ -110,7 +110,7 @@ module.exports = function ( grunt ) {
             build_vendor_fonts: {
                 files: [
                     {
-                        src: ['<%= vendor_files.fonts %>'],
+                        src: [ '<%= vendor_files.fonts %>' ],
                         dest: '<%= build_dir %>/assets/fonts',
                         flatten: true,
                         cwd: '.',
@@ -121,7 +121,7 @@ module.exports = function ( grunt ) {
             build_tpls: {
                 files: [
                     {
-                        src: ['<%= app_files.atpl %>'],
+                        src: [ '<%= app_files.atpl %>' ],
                         dest: '<%= build_dir %>/',
                         cwd: '.',
                         expand: true
@@ -131,7 +131,7 @@ module.exports = function ( grunt ) {
             build_appjs: {
                 files: [
                     {
-                        src: ['<%= app_files.js %>'],
+                        src: [ '<%= app_files.js %>' ],
                         dest: '<%= build_dir %>/',
                         cwd: '.',
                         expand: true
@@ -141,7 +141,7 @@ module.exports = function ( grunt ) {
             build_vendorjs: {
                 files: [
                     {
-                        src: ['<%= vendor_files.js %>'],
+                        src: [ '<%= vendor_files.js %>' ],
                         dest: '<%= build_dir %>/',
                         cwd: '.',
                         expand: true
@@ -151,7 +151,7 @@ module.exports = function ( grunt ) {
             build_vendorcss: {
                 files: [
                     {
-                        src: ['<%= vendor_files.css %>'],
+                        src: [ '<%= vendor_files.css %>' ],
                         dest: '<%= build_dir %>/',
                         cwd: '.',
                         expand: true
@@ -161,7 +161,7 @@ module.exports = function ( grunt ) {
             compile_assets: {
                 files: [
                     {
-                        src: ['**'],
+                        src: [ '**' ],
                         dest: '<%= compile_dir %>/assets',
                         cwd: '<%= build_dir %>/assets',
                         expand: true
@@ -171,7 +171,7 @@ module.exports = function ( grunt ) {
             compile_tpls: {
                 files: [
                     {
-                        src: ['<%= app_files.atpl %>'],
+                        src: [ '<%= app_files.atpl %>' ],
                         dest: '<%= compile_dir %>/',
                         cwd: '.',
                         expand: true
@@ -181,7 +181,7 @@ module.exports = function ( grunt ) {
             instrument: {
                 expand: true,
                 cwd: 'build/',
-                src: ['**', "!src/**/*.js"],
+                src: [ '**', '!src/**/*.js' ],
                 dest: 'instrumented/'
             }
         },
@@ -234,12 +234,40 @@ module.exports = function ( grunt ) {
             compile: {
                 files: [
                     {
-                        src: ['<%= app_files.js %>'],
+                        src: [ '<%= app_files.js %>' ],
                         cwd: '<%= build_dir %>',
                         dest: '<%= build_dir %>',
                         expand: true
                     }
                 ]
+            }
+        },
+
+        babel: {
+            options: {
+                sourceMap: false,
+                presets: [
+                    [ '@babel/preset-env', {
+                        modules: false,
+                        'targets': {
+                            'ie': '11'
+                        }
+                    } ]
+                ]
+            },
+            dist: {
+                files: {
+                    '<%= concat.compile_js.dest %>': '<%= concat.compile_js.dest %>'
+                }
+            }
+        },
+
+        autopolyfiller: {
+            options: {
+                browsers: ['last 2 version', 'ie 8', 'ie 9']
+            },
+            dist: {
+                '<%= concat.compile_js.dest %>': '<%= concat.compile_js.dest %>'
             }
         },
 
@@ -249,6 +277,7 @@ module.exports = function ( grunt ) {
         uglify: {
             compile: {
                 options: {
+                    sourceMap: true,
                     banner: '<%= meta.banner %>',
                     reserveDOMCache: true,
                     // mangle: {
@@ -291,7 +320,7 @@ module.exports = function ( grunt ) {
                     {
                         expand: true,     // Enable dynamic expansion.
                         cwd: 'dist/',      // Src matches are relative to this path.
-                        src: ['**/*.html'], // Actual pattern(s) to match.
+                        src: [ '**/*.html' ], // Actual pattern(s) to match.
                         dest: 'dist/'   // Destination path prefix.
                     }
                 ]
@@ -321,7 +350,7 @@ module.exports = function ( grunt ) {
         },
 
         lesslint: {
-            src: ['src/**/*.less']
+            src: [ 'src/**/*.less' ]
         },
 
         /**
@@ -343,6 +372,7 @@ module.exports = function ( grunt ) {
                 'Gruntfile.js'
             ],
             options: {
+                esversion: 6,
                 curly: true,
                 immed: true,
                 newcap: true,
@@ -350,11 +380,13 @@ module.exports = function ( grunt ) {
                 sub: true,
                 boss: true,
                 eqnull: true,
-                "-W065": true, //radix parameters
-                "-W055": true, //uppercase class names
-                "-W024": true  //reserved words
+                '-W065': true, //radix parameters
+                '-W055': true, //uppercase class names
+                '-W024': true  //reserved words
             },
-            globals: {}
+            globals: {
+                esversion: 6
+            }
         },
 
         /**
@@ -424,7 +456,7 @@ module.exports = function ( grunt ) {
              */
             gruntfile: {
                 files: 'Gruntfile.js',
-                tasks: ['newer:jshint:gruntfile'],
+                tasks: [ 'newer:jshint:gruntfile' ],
                 options: {
                     livereload: false
                 }
@@ -438,7 +470,7 @@ module.exports = function ( grunt ) {
                 files: [
                     '<%= app_files.js %>'
                 ],
-                tasks: ['newer:jshint:src', 'newer:copy:build_appjs']
+                tasks: [ 'newer:jshint:src', 'newer:copy:build_appjs' ]
             },
 
             /**
@@ -449,15 +481,15 @@ module.exports = function ( grunt ) {
                 files: [
                     'src/assets/**/*'
                 ],
-                tasks: ['copy:build_app_assets', 'copy:build_vendor_assets']
+                tasks: [ 'copy:build_app_assets', 'copy:build_vendor_assets' ]
             },
 
             /**
              * When index.html changes, we need to compile it.
              */
             html: {
-                files: ['<%= app_files.html %>'],
-                tasks: ['index:build']
+                files: [ '<%= app_files.html %>' ],
+                tasks: [ 'index:build' ]
             },
 
             /**
@@ -468,15 +500,15 @@ module.exports = function ( grunt ) {
                     '<%= app_files.atpl %>',
                     '<%= app_files.ctpl %>'
                 ],
-                tasks: ['copy:build_tpls', 'copy:compile_tpls']
+                tasks: [ 'copy:build_tpls', 'copy:compile_tpls' ]
             },
 
             /**
              * When the CSS files change, we need to compile and minify them.
              */
             less: {
-                files: ['src/**/*.less'],
-                tasks: ['less:build']
+                files: [ 'src/**/*.less' ],
+                tasks: [ 'less:build' ]
             },
 
             /**
@@ -487,7 +519,7 @@ module.exports = function ( grunt ) {
                 files: [
                     '<%= app_files.jsunit %>'
                 ],
-                tasks: ['newer:jshint:test'],
+                tasks: [ 'newer:jshint:test' ],
                 options: {
                     livereload: false
                 }
@@ -502,7 +534,7 @@ module.exports = function ( grunt ) {
                 },
                 files: [
                     {
-                        src: ['dist/**'],
+                        src: [ 'dist/**' ],
                         dest: '/'
                     }
                 ]
@@ -534,7 +566,7 @@ module.exports = function ( grunt ) {
         sitemap_xml: {
             dist: {
                 options: {
-                    siteRoot: "https://merlinw.org",
+                    siteRoot: 'https://merlinw.org',
                     pretty: true
                 },
                 files: [
@@ -553,12 +585,14 @@ module.exports = function ( grunt ) {
      * in `package.json` when you do `npm install` in this directory.
      */
 
-    grunt.loadNpmTasks('grunt-contrib-watch');
-    grunt.loadNpmTasks('grunt-istanbul');
+    grunt.loadNpmTasks( 'grunt-contrib-watch' );
+    grunt.loadNpmTasks( 'grunt-istanbul' );
+    grunt.loadNpmTasks( 'grunt-contrib-uglify-es' );
+    grunt.loadNpmTasks( 'grunt-autopolyfiller' );
     //grunt.loadNpmTasks('grunt-sitemap-xml');
-    require('time-grunt')(grunt);
-    require('jit-grunt')(grunt);
-    grunt.initConfig(grunt.util._.extend(taskConfig, userConfig));
+    require( 'time-grunt' )( grunt );
+    require( 'jit-grunt' )( grunt );
+    grunt.initConfig( grunt.util._.extend( taskConfig, userConfig ) );
 
     /**
      * In order to make it safe to just compile or copy *only* what was changed,
@@ -567,58 +601,58 @@ module.exports = function ( grunt ) {
      * `delta`) and then add a new task called `watch` that does a clean build
      * before watching for changes.
      */
-    grunt.renameTask('watch', 'delta');
-    grunt.registerTask('watch', ['build', 'delta']);
+    grunt.renameTask( 'watch', 'delta' );
+    grunt.registerTask( 'watch', [ 'build', 'delta' ] );
 
     /**
      * The default task is to build and compile.
      */
-    grunt.registerTask('dist', ['build', 'compile']);
+    grunt.registerTask( 'dist', [ 'build', 'compile' ] );
 
     /**
      * The compress task.
      */
-    grunt.registerTask('pack', ['compress']);
+    grunt.registerTask( 'pack', [ 'compress' ] );
 
     /**
      * The `build` task gets your app ready to run for development and testing.
      */
-    grunt.registerTask('build', [
+    grunt.registerTask( 'build', [
         'newer:jshint', 'newer:less:build',
         'newer:copy:build_app_assets', 'newer:copy:build_vendor_assets', 'newer:copy:build_vendor_fonts',
         'newer:copy:build_tpls', 'newer:copy:build_vendorcss', 'newer:copy:build_vendorjs', 'newer:copy:build_appjs',
-        'index:build',
-    ]);
+        'index:build'
+    ] );
 
     /**
      * The `compile` task gets your app ready for deployment by concatenating and
      * minifying your code.
      */
-    grunt.registerTask('compile', [
+    grunt.registerTask( 'compile', [
         'less:compile',
         'copy:compile_tpls', 'copy:compile_assets',
-        'ngAnnotate', 'concat:compile_js', 'concat:compile_css',
-        'uglify:compile', 'index:compile', 'htmlmin'
-    ]);
+        'ngAnnotate', 'concat:compile_js', 'babel:dist', 'autopolyfiller:dist', 'concat:compile_css',
+        'index:compile', 'htmlmin', 'uglify:compile'
+    ] );
 
-    grunt.registerTask('sitemap', ['build', 'compile', 'sitemap_xml']);
+    grunt.registerTask( 'sitemap', [ 'build', 'compile', 'sitemap_xml' ] );
 
     /**
      * A utility function to get all app JavaScript sources.
      */
     function filterForJS( files ) {
-        return files.filter(function ( file ) {
-            return file.match(/\.js$/);
-        });
+        return files.filter( function ( file ) {
+            return file.match( /\.js$/ );
+        } );
     }
 
     /**
      * A utility function to get all app CSS sources.
      */
     function filterForCSS( files ) {
-        return files.filter(function ( file ) {
-            return file.match(/\.css$/);
-        });
+        return files.filter( function ( file ) {
+            return file.match( /\.css$/ );
+        } );
     }
 
     /**
@@ -627,27 +661,27 @@ module.exports = function ( grunt ) {
      * the list into variables for the template to use and then runs the
      * compilation.
      */
-    grunt.registerMultiTask('index', 'Process index.html template', function () {
-        var dirRE = new RegExp('^(' + grunt.config('build_dir') + '|' + grunt.config('compile_dir') + ')\/', 'g');
-        var jsFiles = filterForJS(this.filesSrc).map(function ( file ) {
-            return file.replace(dirRE, '');
-        });
-        var cssFiles = filterForCSS(this.filesSrc).map(function ( file ) {
-            return file.replace(dirRE, '');
-        });
+    grunt.registerMultiTask( 'index', 'Process index.html template', function () {
+        var dirRE = new RegExp( '^(' + grunt.config( 'build_dir' ) + '|' + grunt.config( 'compile_dir' ) + ')\/', 'g' );
+        var jsFiles = filterForJS( this.filesSrc ).map( function ( file ) {
+            return file.replace( dirRE, '' );
+        } );
+        var cssFiles = filterForCSS( this.filesSrc ).map( function ( file ) {
+            return file.replace( dirRE, '' );
+        } );
 
-        grunt.file.copy('src/index.html', this.data.dir + '/index.html', {
+        grunt.file.copy( 'src/index.html', this.data.dir + '/index.html', {
             process: function ( contents, path ) {
-                return grunt.template.process(contents, {
+                return grunt.template.process( contents, {
                     data: {
                         scripts: jsFiles,
                         styles: cssFiles,
-                        version: grunt.config('pkg.version') + '-' + grunt.template.today('yyyy-mm-dd-HH:MM:ss'),
-                        name: grunt.config('pkg.name')
+                        version: grunt.config( 'pkg.version' ) + '-' + grunt.template.today( 'yyyy-mm-dd-HH:MM:ss' ),
+                        name: grunt.config( 'pkg.name' )
                     }
-                });
+                } );
             }
-        });
-    });
+        } );
+    } );
 
 };

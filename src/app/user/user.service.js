@@ -1,5 +1,5 @@
 (function (angular) {
-    "use strict";
+
     angular.module('appModule.user').service('UserService', [
         "$state", "XHR", "GlobalConstants", "AuthService", "GlobalFunctionsDialog", "socket",
         function ($state, XHR, GlobalConstants, AuthService, GlobalFunctionsDialog, socket) {

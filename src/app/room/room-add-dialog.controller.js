@@ -1,5 +1,5 @@
 (function (angular) {
-    "use strict";
+
 
     angular.module("appModule.room").controller("NewRoomDialogController", [
         "$scope", "$uibModalInstance", "$translate", "GlobalConstants", "RoomConstants", "dialogParam", "RoomService", "AuthService",

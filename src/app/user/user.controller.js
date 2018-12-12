@@ -1,5 +1,4 @@
 (function (angular) {
-    "use strict";
 
     angular.module("appModule.user").controller("UserController", [
         "$scope", "$sce", "$state", "$stateParams", "XHR", "GlobalConstants", "AuthService", "UserService", "GlobalConfigCacheService",
