@@ -1,14 +1,13 @@
 <!doctype html>
-<html data-ng-app="ngApplication" data-ng-controller="ngApplicationController">
+<html lang="hu" data-ng-app="ngApplication" data-ng-controller="ngApplicationController">
 <head>
     <meta charset="utf-8">
-    <meta name="fragment" content="!" />
+    <meta name="fragment" content="!"/>
     <title data-ng-bind="pageTitle">MWO</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="description" content="MWO - [MerlinW Online]"/>
-    <meta name="keywords"
-          content="mwg, merlin, merlinw, blog, hardware, software, IT, science, game, windows, linux, ubuntu, fun, music, article, video, youtube, google, rss, wine, music, catalyst, ati, amd, nvidia"/>
+    <meta name="keywords" content="blog, hardware, software, IT, science, game, fun, music, article, video, youtube, google, rss, music"/>
     <meta name="generator" content="MWO"/>
     <meta name="copyright" content="MWO - [MerlinW Online]"/>
     <meta name="verify-v1" content="Nx5PyN1xczzh6hlvDTj15N9ESktLn2p4KoqOUunpEC8="/>
@@ -21,7 +20,7 @@
     <link rel="icon" type="image/ico" href="assets/images/favicon.ico">
     <script src="https://apis.google.com/js/client.js?onload=googleApiClientReady"></script>
 </head>
-<body ng-cloak id="{{stateName}}-body" data-status="">
+<body class="ng-cloak" id="{{stateName}}-body" data-status="">
 
 <noscript>
     <div id="noscriptmsg">
@@ -47,33 +46,48 @@
 
 <footer class="nav-up">
     <div class="footer-container text-center">
-        (c) 2017 <a href="#"><%= name %></a>. (build <%= version %>)
+        (c) 2018 <a href="#"><%= name %></a>. (build <%= version %>)
         <!--<i class="fa fa-circle"></i> Powered by <a-->
-            <!--href="https://newsapi.org/"><img-->
-            <!--src="https://newsapi.org/images/newsapi-logo.png" alt="News API"-->
-            <!--style="width:20px; margin-right: 5px"/><span>News API</span></a>-->
+        <!--href="https://newsapi.org/"><img-->
+        <!--src="https://newsapi.org/images/newsapi-logo.png" alt="News API"-->
+        <!--style="width:20px; margin-right: 5px"/><span>News API</span></a>-->
     </div>
 </footer>
 
 
 <% scripts.forEach( function ( file ) { %>
-<script type="text/javascript" src="<%= file %>"></script>
+<script src="<%= file %>"></script>
 <% }); %>
 
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-12983395-1"></script>
 <script>
-    (function (i, s, o, g, r, a, m) {
-        i['GoogleAnalyticsObject'] = r;
-        i[r] = i[r] || function () {
-                (i[r].q = i[r].q || []).push(arguments)
-            }, i[r].l = 1 * new Date();
-        a = s.createElement(o),
-            m = s.getElementsByTagName(o)[0];
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push( arguments );
+    }
+
+    gtag( 'js', new Date() );
+    gtag( 'config', 'UA-12983395-1' );
+    gtag( 'set', { 'user_id': 'USER_ID' } );
+
+</script>
+
+<script>
+    ( function ( i, s, o, g, r, a, m ) {
+        i[ 'GoogleAnalyticsObject' ] = r;
+        i[ r ] = i[ r ] || function () {
+            ( i[ r ].q = i[ r ].q || [] ).push( arguments );
+        }, i[ r ].l = 1 * new Date();
+        a = s.createElement( o ),
+            m = s.getElementsByTagName( o )[ 0 ];
         a.async = 1;
         a.src = g;
-        m.parentNode.insertBefore(a, m)
-    })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+        m.parentNode.insertBefore( a, m );
+    } )( window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga' );
 
-    ga('create', 'UA-12983395-1', 'auto');
+    ga( 'create', 'UA-12983395-1', 'auto' );
     //ga('send', 'pageview');
 </script>
 
