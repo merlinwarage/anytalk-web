@@ -106,10 +106,6 @@
             $rootScope.menuStatus = true;
             $scope.pageTitle = 'MWO';
 
-            console.log( 'test' );
-            const a = [ 1, 2, 3, 4, 5 ].includes( 1 );
-            console.log( a );
-
             GlobalFunctionsJQ.addHotkeys();
             GlobalFunctionsJQ.addTranslateBreaker();
             GlobalFunctionsJQ.footerHandler();

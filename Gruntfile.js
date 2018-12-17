@@ -219,7 +219,7 @@ module.exports = function ( grunt ) {
                 src: [
                     '<%= vendor_files.js %>',
                     'module.prefix',
-                    '<%= build_dir %>/src/**/*.js',
+                    '<%= build_dir %>/src/bundle.js',
                     'module.suffix'
                 ],
                 dest: '<%= compile_dir %>/assets/<%= pkg.name %>-<%= pkg.version %>.js'
@@ -243,31 +243,41 @@ module.exports = function ( grunt ) {
             }
         },
 
-        babel: {
-            options: {
-                sourceMap: false,
-                presets: [
-                    [ '@babel/preset-env', {
-                        modules: false,
-                        'targets': {
-                            'ie': '11'
-                        }
-                    } ]
-                ]
-            },
+        browserify: {
             dist: {
                 files: {
-                    '<%= concat.compile_js.dest %>': '<%= concat.compile_js.dest %>'
+                    // destination for transpiled js : source js
+                    '<%= build_dir %>/src/bundle.js': '<%= build_dir %>/src/**/*.js'
+                },
+                options: {
+
+                    transform: [
+                        [
+                            'babelify', {
+                            presets: [
+                                [ '@babel/preset-env', {
+                                    modules: false,
+                                    targets: { 'ie': '11' }
+                                } ]
+
+                            ],
+                            only: [ '<%= build_dir %>/src/' ]
+                        }
+                        ]
+                    ],
+                    browserifyOptions: {
+                        debug: true
+                    }
                 }
             }
         },
 
         autopolyfiller: {
             options: {
-                browsers: ['last 2 version', 'ie 8', 'ie 9']
+                browsers: [ 'last 2 version', 'ie 8', 'ie 9' ]
             },
             dist: {
-                '<%= concat.compile_js.dest %>': '<%= concat.compile_js.dest %>'
+                '<%= build_dir %>/src/bundle.js': '<%= build_dir %>/src/bundle.js'
             }
         },
 
@@ -607,7 +617,7 @@ module.exports = function ( grunt ) {
     /**
      * The default task is to build and compile.
      */
-    grunt.registerTask( 'dist', [ 'build', 'compile' ] );
+    grunt.registerTask( 'dist', [ 'clean', 'build', 'compile' ] );
 
     /**
      * The compress task.
@@ -631,7 +641,7 @@ module.exports = function ( grunt ) {
     grunt.registerTask( 'compile', [
         'less:compile',
         'copy:compile_tpls', 'copy:compile_assets',
-        'ngAnnotate', 'concat:compile_js', 'babel:dist', 'autopolyfiller:dist', 'concat:compile_css',
+        'ngAnnotate', 'browserify:dist', 'autopolyfiller:dist', 'concat:compile_js', 'concat:compile_css',
         'index:compile', 'htmlmin', 'uglify:compile'
     ] );
 

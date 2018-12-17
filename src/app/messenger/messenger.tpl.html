@@ -5,13 +5,13 @@
             <span class="inline vertical-align-middle clickable margin-right-3 animate-if pulse-twice"
                   data-ng-if="!!tokenObj"
                   data-ng-click="setFavorite()">
-                <i title="{{favorite ? 'entities.messages.label.removeFavorite' : 'entities.messages.label.addFavorite' | translate}}"
+                <i title="{{ favorite ? 'entities.messages.label.removeFavorite' : 'entities.messages.label.addFavorite' | translate}}"
                    data-ng-class="favorite ? 'fa fa-star color-orange fav-star fade-in-out' : 'fa fa-star-o fav-star fade-in-out'"
                    aria-hidden="true">
                 </i>
             </span>
-            <span class="inline vertical-align-middle font-size-20-bold margin-right-3">{{'entities.messages.label.room' | translate}}:</span>
-            <span class="inline vertical-align-middle font-size-20">{{roomData.roomSelected.title}}</span>
+            <span class="inline vertical-align-middle font-size-20-bold margin-right-3">{{ 'entities.messages.label.room' | translate }}:</span>
+            <span class="inline vertical-align-middle font-size-20">{{ roomData.roomSelected.title }}</span>
         </div>
 
         <!-- SEARCH BOX -->
@@ -24,11 +24,11 @@
                    data-ng-change="search()"
                    data-ng-model-options='{ debounce: 500 }'
                    class="form-control input-group-addon-fixheight"
-                   placeholder="{{'common.label.search' | translate}}"/>
+                   placeholder="{{ 'common.label.search' | translate }}"/>
             <i class="input-group-btn default"
                data-ng-show="viewPort.query"
                data-ng-click="viewPort.query = ''; search();">
-                <button class="btn btn-default input-group-addon-fixheight">{{'entities.messages.label.found' | translate:msgData}}
+                <button class="btn btn-default input-group-addon-fixheight">{{ 'entities.messages.label.found' | translate:msgData}}
                     <i class="fa fa-times"></i>
                 </button>
             </i>
@@ -38,14 +38,14 @@
             <div class="center">
                 <div class="col-md-3">
                     <img class="img-responsive animate-show img-position" fade-in src="#"
-                         data-ng-src="{{roomData.roomSelected.urlToImage}}"/>
+                         data-ng-src="{{ roomData.roomSelected.urlToImage }}"/>
                     <div data-ng-click="openNews(roomData.roomSelected.url)"
                          class="bg-black-alpha right padding-right-5 clickable">
-                        <span class="bold">{{'entities.news.readArticle' | translate}}</span>
+                        <span class="bold">{{ 'entities.news.readArticle' | translate }}</span>
                     </div>
                 </div>
                 <div class="col-md-9">
-                    <div class="left">{{roomData.roomSelected.description}}</div>
+                    <div class="left">{{ roomData.roomSelected.description }}</div>
                 </div>
             </div>
         </div>
@@ -64,7 +64,7 @@
                 <li data-ng-repeat="n in totalRows | limitTo: (viewPort.currentPage < 3 ? 3 : viewPort.currentPage) : (viewPort.currentPage < 2 ? 0 : viewPort.currentPage - 1)"
                     ng-class="{active: n == viewPort.currentPage}"
                     data-ng-click="setPage(n)">
-                    <a href data-ng-bind="n+1">{{n}}</a>
+                    <a href data-ng-bind="n+1">{{ n }}</a>
                 </li>
                 <li ng-class="{disabled: viewPort.currentPage == totalRows.length}">
                     <a href ng-click="setPage(viewPort.currentPage + 1)">&raquo;</a>
@@ -77,9 +77,9 @@
                             data-ng-init="viewPort.pageSelect='0'"
                             data-ng-change="setPage(viewPort.pageSelect)">
                         <option data-ng-repeat="i in totalRows"
-                                value="{{i}}"
+                                value="{{ i }}"
                                 data-ng-selected="viewPort.currentPage == i"
-                        >{{i+1}}
+                        >{{ i+1}}
                         </option>
                     </select>
                 </li>
@@ -88,8 +88,8 @@
 
         <!-- NEW MESSAGES INDICATOR -->
         <div class="animate-show-hidden" data-ng-show="newMessagesCount">
-            <div class="underline center color-red">{{newMessagesCount}} {{'entities.messages.label.newMessages' |
-                translate}}
+            <div class="underline center color-red">{{ newMessagesCount }} {{ 'entities.messages.label.newMessages' |
+                translate }}
             </div>
         </div>
 
@@ -105,7 +105,7 @@
                 <li data-ng-repeat="n in totalRows | limitTo: (viewPort.currentPage < 3 ? 3 : viewPort.currentPage) : (viewPort.currentPage < 2 ? 0 : viewPort.currentPage - 1)"
                     ng-class="{active: n == viewPort.currentPage}"
                     data-ng-click="setPage(n)">
-                    <a href data-ng-bind="n+1">{{n}}</a>
+                    <a href data-ng-bind="n+1">{{ n }}</a>
                 </li>
                 <li ng-class="{disabled: viewPort.currentPage == totalRows.length}">
                     <a href ng-click="setPage(viewPort.currentPage + 1)">&raquo;</a>
@@ -118,9 +118,9 @@
                             data-ng-init="viewPort.pageSelect='0'"
                             data-ng-change="setPage(viewPort.pageSelect)">
                         <option data-ng-repeat="i in totalRows"
-                                value="{{i}}"
+                                value="{{ i }}"
                                 data-ng-selected="viewPort.currentPage == i"
-                        >{{i+1}}
+                        >{{ i+1}}
                         </option>
                     </select>
                 </li>
@@ -133,43 +133,45 @@
     <div class="col-md-2 bottom-buffer-medium" data-ng-if="!!tokenObj" data-ng-init="userCollapsed = true">
         <div class="">
 
-            <div class="clear-both bg-blue clickable padding-5" data-ng-click="favsCollapsed = !favsCollapsed"><i
-                    class="fa fa-heart-o"></i> {{'entities.messages.label.favorites' | translate}}
-            </div>
-            <div class="panel panel-default panel-body box-shadow-left message-list"
-                 data-uib-collapse="favsCollapsed">
-                <div class="row padding-5 message-list-item clickable"
-                     data-ng-repeat="room in favoriteRoomList | omit: isFavorite | orderBy: 'title'"
-                     data-ui-sref="main.messenger({title: room.titleNorm, msg: ''})"
-                     ng-class="roomData.roomSelected._id === room._id ? 'message-list-item-selected' : ''">
-                        <span class="message-list-title" title="{{room.title}}">
-                            {{room.title}}
+            <div data-ng-if="favoriteRoomList.length">
+                <div class="clear-both bg-blue clickable padding-5" data-ng-click="favsCollapsed = !favsCollapsed"><i
+                        class="fa fa-heart-o"></i> {{ 'entities.messages.label.favorites' | translate }}
+                </div>
+                <div class="panel panel-default panel-body box-shadow-left message-list"
+                     data-uib-collapse="favsCollapsed">
+                    <div class="row padding-5 message-list-item clickable"
+                         data-ng-repeat="room in favoriteRoomList | omit: isFavorite | orderBy: 'title'"
+                         data-ui-sref="main.messenger({title: room.titleNorm, msg: ''})"
+                         ng-class="roomData.roomSelected._id === room._id ? 'message-list-item-selected' : ''">
+                        <span class="message-list-title" title="{{ room.title }}">
+                            {{ room.title }}
                         </span>
+                    </div>
                 </div>
             </div>
 
             <div class="clear-both bg-blue clickable padding-5" data-ng-click="userCollapsed = !userCollapsed"><i
-                    class="fa fa-user-o"></i> {{'entities.messages.label.onlineUsers' | translate}}
+                    class="fa fa-user-o"></i> {{ 'entities.messages.label.onlineUsers' | translate }}
             </div>
             <div class="panel panel-default panel-body box-shadow-left message-list"
                  data-uib-collapse="userCollapsed">
                 <div class="row padding-5 message-list-item clickable" data-ng-repeat="user in users">
-                    <span><i class="fa fa-dot-circle-o"></i> {{user.userName}}</span>
+                    <span><i class="fa fa-dot-circle-o"></i> {{ user.userName }}</span>
                 </div>
             </div>
 
             <div data-ng-if="roomData.roomSelected.private">
                 <div class="clear-both bg-blue clickable padding-5" data-ng-click="userCollapsed = !userCollapsed"><i
-                        class="fa fa-users"></i> {{'entities.messages.label.members' | translate}}
+                        class="fa fa-users"></i> {{ 'entities.messages.label.members' | translate }}
                 </div>
                 <div class="panel panel-default panel-body box-shadow-left message-list"
                      data-uib-collapse="userCollapsed">
                     <div class="row padding-5 message-list-item clickable">
-                        <span><i class="fa fa-star-o"></i> {{roomData.roomSelected.user.name}}</span>
+                        <span><i class="fa fa-star-o"></i> {{ roomData.roomSelected.user.name }}</span>
                     </div>
                     <div class="row padding-5 message-list-item clickable"
                          data-ng-repeat="user in roomData.roomSelected.members">
-                        <span><i class="fa fa-dot-circle-o"></i> {{user.name}}</span>
+                        <span><i class="fa fa-dot-circle-o"></i> {{ user.name }}</span>
                     </div>
                 </div>
             </div>
