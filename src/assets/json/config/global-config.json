@@ -1,8 +1,8 @@
 {
     "SERVER_URL": "http://localhost:3000/",
-    "SERVER_IMAGES_URL": "http://localhost:3000/assets/images/",
+    "SERVER_IMAGES_URL": "https://merlinw.org/assets/images/",
     "GOOGLE": {
-        "apiKey": ""
+        "apiKey": "AIzaSyAUS2b6YC2KB8V__pdAB92okfz-b9nbc4Y"
     },
     "settings": {
         "DEFAULTS": {
@@ -76,13 +76,13 @@
             },
             {
                 "name": "language.english",
-                "code": "en_US",
-                "value": 1
+                "code": "hu_HU",
+                "value": 0
             },
             {
                 "name": "language.german",
-                "code": "de_DE",
-                "value": 2
+                "code": "hu_HU",
+                "value": 0
             }
         ],
         "DATEFORMAT": [

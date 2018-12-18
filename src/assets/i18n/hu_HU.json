@@ -1,173 +1,175 @@
 {
-    "common": {
-        "error": {
-            "duplicatedItem": "Már létezik ilyen elem!"
-        },
-        "label": {
-            "columnSettings": "Columns",
-            "search": "Keresés",
-            "delete": "Törlés",
-            "undelete": "Újra aktiválás",
-            "edit": "Szerkesztés",
-            "noData": "Nincs adat",
-            "back": "Vissza"
-        },
-        "button": {
-            "add": "Hozzáadás",
-            "ok": "Ok",
-            "cancel": "Mégsem",
-            "clear": "Új űrlap",
-            "close": "Bezár",
-            "scrollToTop": "Görgetés az oldal tetejére"
-        }
+  "common": {
+    "error": {
+      "duplicatedMail": "Ez az email cím már foglalt!",
+      "duplicatedName": "Ez a felhasználónév már foglalt!",
+      "duplicatedItem": "Már létezik ilyen elem!"
     },
-    "navigation": {
-        "label": {
-            "toggle": "Menü",
-            "newTopic": "Új téma",
-            "home": "Főoldal",
-            "general": "Általános",
-            "tech": "Tech / IT",
-            "sport": "Sport",
-            "music": "Zene",
-            "entertainment": "Szórakozás",
-            "gaming": "Játék",
-            "business": "Gazdaság",
-            "science": "Tudomány",
-            "social": "Közösség"
-        }
+    "label": {
+      "columnSettings": "Columns",
+      "search": "Keresés",
+      "delete": "Törlés",
+      "undelete": "Újra aktiválás",
+      "edit": "Szerkesztés",
+      "noData": "Nincs adat",
+      "back": "Vissza"
     },
-    "message": {
-        "common": {
-            "confirm_delete": "Biztos törlöd?",
-            "confirm_undelete": "Biztos újra aktiválod?",
-            "confirm_edit": "Biztos szerkeszted?"
-        }
-    },
-    "entities": {
-        "rooms": {
-            "room": "Téma",
-            "category": "Kategória",
-            "name": "Név",
-            "label": {
-                "add": "Új téma",
-                "edit": "Téma szerkesztése",
-                "name": "A téma neve",
-                "type": "A téma típusa",
-                "category": "A téma kategóriája",
-                "featured": "Kiemelt témák",
-                "private": "Privát témák",
-                "favorites": "Kedvencek",
-                "hot": "Aktív témák",
-                "latest": "Új témák",
-                "created": "létrehozva",
-                "comments": "kommentek",
-                "lastComment": "legutóbbi",
-                "startDiscuss": "Kezdd el a beszélgetést!",
-                "discuss": "Szólj hozzá!",
-                "firstMessage": "Első hozzászólás (minimum 30 karakter). A linkeket (web, videó, kép) csak másold be!",
-                "found": "Találatok",
-                "notFound": "Nincs találat...",
-                "newRoomCreated": "Új téma jött létre: "
-            },
-            "button": {
-                "add": "Új téma",
-                "featured": "Kiemelt",
-                "private": "Privát",
-                "closed": "Lezárt"
-            },
-            "types": {
-                "article": "Cikk",
-                "forum": "Fórum téma",
-                "link": "Direkt link",
-                "qna": "Kérdések és válaszok"
-            },
-            "categories": {
-                "business": "Gazdaság",
-                "gaming": "Játék",
-                "entertainment": "Szórakozás",
-                "general": "Általános",
-                "music": "Zene",
-                "sport": "Sport",
-                "technology": "Tech/IT",
-                "science": "Tudomány",
-                "social": "Közösség, kapcsolatok"
-            },
-            "error": {
-                "missingData": "Minden mező kitöltése kötelező!"
-            }
-        },
-        "news": {
-            "readArticle": "Olvasd el a cikket"
-        },
-        "messages": {
-            "replyTo": "Válasz neki: @{{name}}",
-            "errorMsg": "Hiba",
-            "textAreaPlaceholder": "Használhatod a CTRL+Enter kombinációt az üzenet elküldéséhez, linkeket (videók, képek) csak másold be!",
-            "label": {
-                "off": "Témán kívüli tartalom",
-                "spoiler": "Érzékeny tartalom",
-                "emoji": "Emociók",
-                "bold": "Vastag (CTRL+b)",
-                "italic": "Dőlt (CTRL+i)",
-                "addFavorite": "Hozzáadás a kedvencekhez",
-                "removeFavorite": "Eltávolítás a kedvencekből",
-                "newMessages": "ÚJ ÜZENET",
-                "room": "TÉMA",
-                "repliedTo": "Előzmény ({{name}} üzenete)",
-                "onlineUsers": "Online felhasználók",
-                "favorites": "Kedvencek",
-                "members": "Tagok",
-                "found": "{{total}} Találat"
-            },
-            "button": {
-                "add": "Üzenet küldése",
-                "bold": "B",
-                "italic": "I",
-                "spoiler": "Spoiler",
-                "emoji": "Emociók",
-                "off": "Off",
-                "code": "Code",
-                "useful": "hasznos",
-                "report": "jelentés",
-                "delete": "törlés",
-                "reply": "válasz"
-            }
-        },
-        "user": {
-            "messages": {
-                "invalidUsernameOrPassword": "Hibás e-mail cím és/vagy jelszó!",
-                "missingData": "Hiányzó adatok!"
-            },
-            "button": {
-                "login": "Bejelentkezés",
-                "register": "Regisztráció",
-                "loginOrRegister": "Bejelentkezés/Regisztráció",
-                "logout": "Kijelentkezés",
-                "settings": "Beállítások",
-                "language": "Nyelv",
-                "english": "Angol",
-                "hungarian": "Magyar"
-            },
-            "label": {
-                "userName": "Megjelenítendő név",
-                "userList": "Felhasználó lista",
-                "login": "Bejelentkezés",
-                "remember": "Bejelentkezve maradok",
-                "loginOrRegister": "Bejelentkezés/Regisztráció",
-                "password": "Jelszó (minimum 8 karakter)",
-                "password-v": "Jelszó újra",
-                "email": "E-mail",
-                "register": "Regisztráció",
-                "addOrEdit": "Felhasználó hozzáadása / szerkesztése",
-                "permissions": "Jogosultság",
-                "permissionList": {
-                    "user": "Felhasználó",
-                    "admin": "Adminisztrátor"
-                }
-            },
-            "tooltip": {
-            }
-        }
+    "button": {
+      "add": "Hozzáadás",
+      "ok": "Ok",
+      "cancel": "Mégsem",
+      "clear": "Új űrlap",
+      "close": "Bezár",
+      "scrollToTop": "Görgetés az oldal tetejére"
     }
+  },
+  "navigation": {
+    "label": {
+      "toggle": "Menü",
+      "newTopic": "Új téma",
+      "home": "Főoldal",
+      "general": "Általános",
+      "tech": "Tech / IT",
+      "sport": "Sport",
+      "music": "Zene",
+      "entertainment": "Szórakozás",
+      "gaming": "Játék",
+      "business": "Gazdaság",
+      "science": "Tudomány",
+      "social": "Közösség"
+    }
+  },
+  "message": {
+    "common": {
+      "confirm_delete": "Biztos törlöd?",
+      "confirm_undelete": "Biztos újra aktiválod?",
+      "confirm_edit": "Biztos szerkeszted?"
+    }
+  },
+  "entities": {
+    "rooms": {
+      "room": "Téma",
+      "category": "Kategória",
+      "name": "Név",
+      "label": {
+        "add": "Új téma",
+        "edit": "Téma szerkesztése",
+        "name": "A téma neve",
+        "type": "A téma típusa",
+        "category": "A téma kategóriája",
+        "featured": "Kiemelt témák",
+        "private": "Privát témák",
+        "favorites": "Kedvencek",
+        "hot": "Aktív témák",
+        "latest": "Új témák",
+        "created": "létrehozva",
+        "comments": "kommentek",
+        "lastComment": "legutóbbi",
+        "startDiscuss": "Kezdd el a beszélgetést!",
+        "discuss": "Szólj hozzá!",
+        "firstMessage": "Első hozzászólás (minimum 30 karakter). A linkeket (web, videó, kép) csak másold be!",
+        "found": "Találatok",
+        "notFound": "Nincs találat...",
+        "newRoomCreated": "Új téma jött létre: "
+      },
+      "button": {
+        "add": "Új téma",
+        "featured": "Kiemelt",
+        "private": "Privát",
+        "closed": "Lezárt"
+      },
+      "types": {
+        "article": "Cikk",
+        "forum": "Fórum téma",
+        "link": "Direkt link",
+        "qna": "Kérdések és válaszok"
+      },
+      "categories": {
+        "business": "Gazdaság",
+        "gaming": "Játék",
+        "entertainment": "Szórakozás",
+        "general": "Általános",
+        "music": "Zene",
+        "sport": "Sport",
+        "technology": "Tech/IT",
+        "science": "Tudomány",
+        "social": "Közösség, kapcsolatok"
+      },
+      "error": {
+        "missingData": "Minden mező kitöltése kötelező!"
+      }
+    },
+    "news": {
+      "readArticle": "Olvasd el a cikket"
+    },
+    "messages": {
+      "replyTo": "Válasz neki: @{{name}}",
+      "errorMsg": "Hiba",
+      "textAreaPlaceholder": "Használhatod a CTRL+Enter kombinációt az üzenet elküldéséhez, linkeket (videók, képek) csak másold be!",
+      "label": {
+        "off": "Témán kívüli tartalom",
+        "spoiler": "Érzékeny tartalom",
+        "emoji": "Emociók",
+        "bold": "Vastag (CTRL+b)",
+        "italic": "Dőlt (CTRL+i)",
+        "addFavorite": "Hozzáadás a kedvencekhez",
+        "removeFavorite": "Eltávolítás a kedvencekből",
+        "newMessages": "ÚJ ÜZENET",
+        "room": "TÉMA",
+        "repliedTo": "Előzmény ({{name}} üzenete)",
+        "onlineUsers": "Online felhasználók",
+        "favorites": "Kedvencek",
+        "members": "Tagok",
+        "found": "{{total}} Találat"
+      },
+      "button": {
+        "add": "Üzenet küldése",
+        "bold": "B",
+        "italic": "I",
+        "spoiler": "Spoiler",
+        "emoji": "Emociók",
+        "off": "Off",
+        "code": "Code",
+        "useful": "hasznos",
+        "report": "jelentés",
+        "delete": "törlés",
+        "reply": "válasz"
+      }
+    },
+    "user": {
+      "messages": {
+        "invalidUsernameOrPassword": "Hibás e-mail cím és/vagy jelszó!",
+        "missingData": "Hiányzó adatok!"
+      },
+      "button": {
+        "login": "Bejelentkezés",
+        "register": "Regisztráció",
+        "loginOrRegister": "Bejelentkezés/Regisztráció",
+        "logout": "Kijelentkezés",
+        "settings": "Beállítások",
+        "language": "Nyelv",
+        "english": "Angol",
+        "hungarian": "Magyar"
+      },
+      "label": {
+        "userName": "Megjelenítendő név",
+        "userList": "Felhasználó lista",
+        "login": "Bejelentkezés",
+        "remember": "Bejelentkezve maradok",
+        "loginOrRegister": "Bejelentkezés/Regisztráció",
+        "password": "Jelszó (minimum 8 karakter)",
+        "password-v": "Jelszó újra",
+        "email": "E-mail",
+        "register": "Regisztráció",
+        "addOrEdit": "Felhasználó hozzáadása / szerkesztése",
+        "permissions": "Jogosultság",
+        "permissionList": {
+          "user": "Felhasználó",
+          "admin": "Adminisztrátor"
+        }
+      },
+      "tooltip": {
+      }
+    }
+  }
 }

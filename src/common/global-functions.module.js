@@ -1,23 +1,23 @@
-angular.module('GlobalFunctionsModule', []);
+angular.module( 'GlobalFunctionsModule', [] );
 
 //**
 // DATE FUNCTIONS
 //
 
-angular.module('GlobalFunctionsModule').service('GlobalFunctionsDate', [function () {
+angular.module( 'GlobalFunctionsModule' ).service( 'GlobalFunctionsDate', [ function () {
 
-    this.toISOString = function (date) {
-        var now = new Date(date),
-            pad = function (num) {
-                var norm = Math.abs(Math.floor(num));
-                return (norm < 10 ? '0' : '') + norm;
+    this.toISOString = date => {
+        const now = new Date( date ),
+            pad = num => {
+                const norm = Math.abs( Math.floor( num ) );
+                return ( norm < 10 ? '0' : '' ) + norm;
             };
         return now.getFullYear() +
-            '-' + pad(now.getMonth() + 1) +
-            '-' + pad(now.getDate()) +
-            'T' + pad(now.getHours()) +
-            ':' + pad(now.getMinutes()) +
-            ':' + pad(now.getSeconds()) +
+            '-' + pad( now.getMonth() + 1 ) +
+            '-' + pad( now.getDate() ) +
+            'T' + pad( now.getHours() ) +
+            ':' + pad( now.getMinutes() ) +
+            ':' + pad( now.getSeconds() ) +
             '.' + now.getMilliseconds() +
             'Z';
     };
@@ -28,18 +28,18 @@ angular.module('GlobalFunctionsModule').service('GlobalFunctionsDate', [function
      * @param simple
      * @returns {*}
      */
-    this.getDate = function (addDays, simple) {
+    this.getDate = ( addDays, simple ) => {
         addDays = addDays ? addDays : 0;
-        simple = simple ? true : false;
+        simple = !!simple;
 
-        var date = new Date();
-        date.setDate(date.getDate() + addDays);
+        const date = new Date();
+        date.setDate( date.getDate() + addDays );
 
-        if (simple) {
-            var dd = ("0" + date.getDate()).slice(-2);
-            var mm = ("0" + (date.getMonth() + 1)).slice(-2);
-            var yyyy = date.getFullYear();
-            return (yyyy + '-' + mm + '-' + dd);
+        if ( simple ) {
+            const dd = ( '0' + date.getDate() ).slice( -2 );
+            const mm = ( '0' + ( date.getMonth() + 1 ) ).slice( -2 );
+            const yyyy = date.getFullYear();
+            return ( yyyy + '-' + mm + '-' + dd );
         } else {
             return date;
         }
@@ -51,15 +51,15 @@ angular.module('GlobalFunctionsModule').service('GlobalFunctionsDate', [function
      * @param end
      * @returns {number}
      */
-    this.getDiffInHours = function (begin, end, noRound) {
-        var DIVIDED_BY_MILISECS = 1000;
-        var DIVIDED_BY_SECONDS = 60;
-        var DIVIDED_BY_MINUTES = 60;
-        var diff = Math.abs((end.getTime() - begin.getTime()) / (DIVIDED_BY_MILISECS * DIVIDED_BY_SECONDS * DIVIDED_BY_MINUTES));
-        if (noRound) {
+    this.getDiffInHours = ( begin, end, noRound ) => {
+        const DIVIDED_BY_MILISECS = 1000;
+        const DIVIDED_BY_SECONDS = 60;
+        const DIVIDED_BY_MINUTES = 60;
+        const diff = Math.abs( ( end.getTime() - begin.getTime() ) / ( DIVIDED_BY_MILISECS * DIVIDED_BY_SECONDS * DIVIDED_BY_MINUTES ) );
+        if ( noRound ) {
             return diff;
         }
-        return Math.round(diff);
+        return Math.round( diff );
     };
 
     /**
@@ -69,17 +69,16 @@ angular.module('GlobalFunctionsModule').service('GlobalFunctionsDate', [function
      * @param limit
      * @returns {boolean}
      */
-    this.rangeOverLimit = function (begin, end, limit) {
-        return this.getDiffInHours(begin, end) >= limit;
-    };
+    this.rangeOverLimit = ( begin, end, limit ) => this.getDiffInHours( begin, end ) >= limit;
+
 
     /**
      *
      * @returns {Date}
      */
-    this.getTime = function () {
-        var result = new Date();
-        result = String(result.getHours()) + '-' + String(result.getMinutes());
+    this.getTime = () => {
+        let result = new Date();
+        result = String( result.getHours() ) + '-' + String( result.getMinutes() );
         return result;
     };
 
@@ -87,34 +86,40 @@ angular.module('GlobalFunctionsModule').service('GlobalFunctionsDate', [function
      *
      * @returns {number}
      */
-    this.getEPOCHTime = function () {
-        var date = new Date();
-        return date.getTime();
-    };
+    this.getEPOCHTime = () => new Date().getTime();
 
     /**
      *
      * @returns {string}
      */
-    this.getISODate = function () {
-        var date = new Date();
-        date.setHours(0);
-        date.setMinutes(0);
-        date.setSeconds(0);
-        date.setMilliseconds(0);
+    this.getISODate = () => {
+        const date = new Date();
+        date.setHours( 0 );
+        date.setMinutes( 0 );
+        date.setSeconds( 0 );
+        date.setMilliseconds( 0 );
         return date.toISOString();
     };
 
-}]);
+} ] );
 
 //**
 // OBJECT FUNCTIONS
 //
-angular.module('GlobalFunctionsModule').service('GlobalFunctionsObject', [
+angular.module( 'GlobalFunctionsModule' ).service( 'GlobalFunctionsObject', [
     '$filter', 'GlobalConfigCacheService',
-    function ($filter, GlobalConfigCacheService) {
+    function ( $filter, GlobalConfigCacheService ) {
 
-        var vm = this;
+        const vm = this;
+
+        this.executeIfFunction = f =>
+            typeof f === 'function' ? f() : f;
+
+        this.switchcase = cases => defaultCase => key =>
+            cases.hasOwnProperty( key ) ? cases[ key ] : defaultCase;
+
+        this.switchcaseF = cases => defaultCase => key =>
+            vm.executeIfFunction( vm.switchcase( cases )( defaultCase )( key ) );
 
         /**
          *
@@ -124,9 +129,7 @@ angular.module('GlobalFunctionsModule').service('GlobalFunctionsObject', [
          * @param reverse
          * @returns {*}
          */
-        this.sortObject = function (obj, orderByField, subPropery, reverse) {
-            return $filter('orderObjectBy')(obj, orderByField, subPropery, reverse);
-        };
+        this.sortObject = ( obj, orderByField, subPropery, reverse ) => $filter( 'orderObjectBy' )( obj, orderByField, subPropery, reverse );
 
         /**
          *
@@ -134,21 +137,26 @@ angular.module('GlobalFunctionsModule').service('GlobalFunctionsObject', [
          * @param value
          * @returns {string}
          */
-        this.getKeyByValue = function (object, value) {
-            for (var prop in object) {
-                if (object.hasOwnProperty(prop) && object[prop] === value) {
+        this.getKeyByValue = ( object, value ) => {
+            for ( let prop in object ) {
+                if ( object.hasOwnProperty( prop ) && object[ prop ] === value ) {
                     return prop;
                 }
             }
         };
 
-        this.objectHasData = function (obj) {
-            if (!obj) {
+        /**
+         *
+         * @param obj
+         * @returns {boolean}
+         */
+        this.objectHasData = obj => {
+            if ( !obj ) {
                 return false;
             }
-            var result = false;
-            for (var key in obj) {
-                if (obj[key] || obj[key] === 0) {
+            let result = false;
+            for ( let key in obj ) {
+                if ( obj[ key ] || obj[ key ] === 0 ) {
                     result = true;
                 }
             }
@@ -161,23 +169,23 @@ angular.module('GlobalFunctionsModule').service('GlobalFunctionsObject', [
          * @param property
          * @returns {boolean}
          */
-        this.searchProperty = function (object, property) {
-            var found = false;
+        this.searchProperty = ( object, property ) => {
+            let found = false;
 
-            function eachRecursive(object, property) {
-                for (var key in object) {
-                    if (key !== property) {
-                        if (typeof object[key] == "object" && object[key] !== null && !found) {
-                            eachRecursive(object[key], property);
+            eachRecursive = ( object, property ) => {
+                for ( let key in object ) {
+                    if ( key !== property ) {
+                        if ( typeof object[ key ] == 'object' && object[ key ] !== null && !found ) {
+                            eachRecursive( object[ key ], property );
                         }
                     } else {
-                        found = object[key];
+                        found = object[ key ];
                         break;
                     }
                 }
-            }
+            };
 
-            eachRecursive(object, property);
+            eachRecursive( object, property );
             return found;
         };
 
@@ -189,17 +197,17 @@ angular.module('GlobalFunctionsModule').service('GlobalFunctionsObject', [
          * @param minCount
          * @returns {boolean}
          */
-        this.isDuplicatedByValue = function (obj, prop, value, minCount) {
-            var count = 0;
-            var expCount = minCount ? minCount : 0;
-            if (value) {
-                angular.forEach(obj, function (item) {
-                    if (item.hasOwnProperty(prop)) {
-                        if (item[prop] == value) {
+        this.isDuplicatedByValue = ( obj, prop, value, minCount ) => {
+            const expCount = minCount ? minCount : 0;
+            let count = 0;
+            if ( value ) {
+                angular.forEach( obj, item => {
+                    if ( item.hasOwnProperty( prop ) ) {
+                        if ( item[ prop ] == value ) {
                             count++;
                         }
                     }
-                });
+                } );
             }
 
             return count > expCount;
@@ -213,24 +221,23 @@ angular.module('GlobalFunctionsModule').service('GlobalFunctionsObject', [
          * @param newContent str
          * @returns {*}
          */
-        this.clearObject = function (obj, excludeProperties, noDelete, newContent) {
-            var cleanObj = angular.copy(obj);
-            angular.forEach(obj, function (value, key) {
-                if (noDelete) {
-                    cleanObj[key] = angular.copy(newContent);
+        this.clearObject = ( obj, excludeProperties, noDelete, newContent ) => {
+            const cleanObj = angular.copy( obj );
+            angular.forEach( obj, ( value, key ) => {
+                if ( noDelete ) {
+                    cleanObj[ key ] = angular.copy( newContent );
                 } else {
-                    for (var property in obj[key]) {
-                        if (obj[key].hasOwnProperty(property)) {
-                            if (excludeProperties && excludeProperties[property]) {
-                                cleanObj[key][property] = excludeProperties[property];
-                            }
-                            else {
-                                delete cleanObj[key][property];
+                    for ( let property in obj[ key ] ) {
+                        if ( obj[ key ].hasOwnProperty( property ) ) {
+                            if ( excludeProperties && excludeProperties[ property ] ) {
+                                cleanObj[ key ][ property ] = excludeProperties[ property ];
+                            } else {
+                                delete cleanObj[ key ][ property ];
                             }
                         }
                     }
                 }
-            });
+            } );
             return cleanObj;
         };
 
@@ -241,13 +248,13 @@ angular.module('GlobalFunctionsModule').service('GlobalFunctionsObject', [
          * @param val
          * @returns {*}
          */
-        this.deleteObjectByProperty = function (obj, prop, val) {
-            var resultObject = obj;
-            angular.forEach(obj, function (item, key) {
-                if (item.hasOwnProperty(prop) && item[prop] === val) {
-                    resultObject.splice(key, 1);
+        this.deleteObjectByProperty = ( obj, prop, val ) => {
+            const resultObject = obj;
+            angular.forEach( obj, ( item, key ) => {
+                if ( item.hasOwnProperty( prop ) && item[ prop ] === val ) {
+                    resultObject.splice( key, 1 );
                 }
-            });
+            } );
 
             return resultObject;
         };
@@ -257,23 +264,23 @@ angular.module('GlobalFunctionsModule').service('GlobalFunctionsObject', [
          * @param listCode
          * @returns {{}}
          */
-        this.getValueIdHashMapOfList = function (listCode) {
-            var i, currentItem, list, result = {};
-            var listDirectories = GlobalConfigCacheService.getConfigObject("globalLists");
-            for (i = 0; i < listDirectories.length; i++) {
-                currentItem = listDirectories[i];
-                if (currentItem.listCode === listCode) {
+        this.getValueIdHashMapOfList = listCode => {
+            const listDirectories = GlobalConfigCacheService.getConfigObject( 'globalLists' );
+            let i, currentItem, list, result = {};
+            for ( i = 0; i < listDirectories.length; i++ ) {
+                currentItem = listDirectories[ i ];
+                if ( currentItem.listCode === listCode ) {
                     list = currentItem.listStores;
                     i = listDirectories.length;
                 }
             }
-            if (!list) {
-                throw new Error('[getValueIdHashMapOfList] no such listCode found ' + listCode);
+            if ( !list ) {
+                throw new Error( '[getValueIdHashMapOfList] no such listCode found ' + listCode );
             }
 
-            for (i = 0; i < list.length; i++) {
-                currentItem = list[i];
-                result[currentItem.value] = currentItem.id;
+            for ( i = 0; i < list.length; i++ ) {
+                currentItem = list[ i ];
+                result[ currentItem.value ] = currentItem.id;
             }
             return result;
         };
@@ -283,23 +290,23 @@ angular.module('GlobalFunctionsModule').service('GlobalFunctionsObject', [
          * @param listCode
          * @returns {{}}
          */
-        this.getValuePropertyHashMapOfList = function (listCode) {
-            var i, currentItem, list, result = {};
-            var listDirectories = GlobalConfigCacheService.getConfigObject("globalLists");
-            for (i = 0; i < listDirectories.length; i++) {
-                currentItem = listDirectories[i];
-                if (currentItem.listCode === listCode) {
+        this.getValuePropertyHashMapOfList = listCode => {
+            const listDirectories = GlobalConfigCacheService.getConfigObject( 'globalLists' );
+            let i, currentItem, list, result = {};
+            for ( i = 0; i < listDirectories.length; i++ ) {
+                currentItem = listDirectories[ i ];
+                if ( currentItem.listCode === listCode ) {
                     list = currentItem.listStores;
                     i = listDirectories.length;
                 }
             }
-            if (!list) {
-                throw new Error('[getValueIdHashMapOfList] no such listCode found ' + listCode);
+            if ( !list ) {
+                throw new Error( '[getValueIdHashMapOfList] no such listCode found ' + listCode );
             }
 
-            for (i = 0; i < list.length; i++) {
-                currentItem = list[i];
-                result[currentItem.id] = currentItem.value;
+            for ( i = 0; i < list.length; i++ ) {
+                currentItem = list[ i ];
+                result[ currentItem.id ] = currentItem.value;
             }
             return result;
         };
@@ -312,10 +319,10 @@ angular.module('GlobalFunctionsModule').service('GlobalFunctionsObject', [
          * @param request
          * @returns {*}
          */
-        this.getObjectElementByValue = function (object, value, find, request) {
-            for (var i = 0; i < object.length; i++) {
-                if (object[i][find] === value) {
-                    return object[i][request];
+        this.getObjectElementByValue = ( object, value, find, request ) => {
+            for ( let i = 0; i < object.length; i++ ) {
+                if ( object[ i ][ find ] === value ) {
+                    return object[ i ][ request ];
                 }
             }
         };
@@ -326,14 +333,14 @@ angular.module('GlobalFunctionsModule').service('GlobalFunctionsObject', [
          * @param stringPath
          * @returns {*}
          */
-        this.getObjectValueByPath = function (object, stringPath) {
-            stringPath = stringPath.replace(/\[(\w+)\]/g, '.$1'); // convert indexes to properties
-            stringPath = stringPath.replace(/^\./, '');           // strip a leading dot
-            var a = stringPath.split('.');
-            for (var i = 0, n = a.length; i < n; ++i) {
-                var k = a[i];
-                if (object[k] !== undefined) {
-                    object = object[k];
+        this.getObjectValueByPath = ( object, stringPath ) => {
+            stringPath = stringPath.replace( /\[(\w+)\]/g, '.$1' ); // convert indexes to properties
+            stringPath = stringPath.replace( /^\./, '' );           // strip a leading dot
+            const a = stringPath.split( '.' );
+            for ( let i = 0, n = a.length; i < n; ++i ) {
+                let k = a[ i ];
+                if ( object[ k ] !== undefined ) {
+                    object = object[ k ];
                 } else {
                     return;
                 }
@@ -347,18 +354,18 @@ angular.module('GlobalFunctionsModule').service('GlobalFunctionsObject', [
          * @param value
          * @param path
          */
-        this.setObjectValueByPath = function (obj, value, path) {
-            path = path.replace(/\[(\w+)\]/g, '.$1');
-            path = path.replace(/^\./, '');
-            path = path.split('.');
-            var currentNode = obj;
-            for (var i = 0; i < path.length - 1; i++) {
-                if (!currentNode[path[i]]) {
-                    currentNode[path[i]] = {};
+        this.setObjectValueByPath = ( obj, value, path ) => {
+            path = path.replace( /\[(\w+)\]/g, '.$1' );
+            path = path.replace( /^\./, '' );
+            path = path.split( '.' );
+            let currentNode = obj;
+            for ( let i = 0; i < path.length - 1; i++ ) {
+                if ( !currentNode[ path[ i ] ] ) {
+                    currentNode[ path[ i ] ] = {};
                 }
-                currentNode = currentNode[path[i]];
+                currentNode = currentNode[ path[ i ] ];
             }
-            currentNode[path[path.length - 1]] = value;
+            currentNode[ path[ path.length - 1 ] ] = value;
         };
 
         /**
@@ -368,21 +375,21 @@ angular.module('GlobalFunctionsModule').service('GlobalFunctionsObject', [
          * @param newValue
          * @returns {*}
          */
-        this.changeObjectProperyValue = function (object, oldValue, newValue) {
-            var replace = function (obj, oldValue, newValue) {
-                angular.forEach(obj, function (prop, key) {
-                    if (angular.isObject(prop) && key[0] != '$') {
-                        obj[key] = replace(prop, oldValue, newValue);
+        this.changeObjectProperyValue = ( object, oldValue, newValue ) => {
+            const replace = ( obj, oldValue, newValue ) => {
+                angular.forEach( obj, ( prop, key ) => {
+                    if ( angular.isObject( prop ) && key[ 0 ] != '$' ) {
+                        obj[ key ] = replace( prop, oldValue, newValue );
                     } else {
-                        if (prop === oldValue) {
-                            obj[key] = newValue;
+                        if ( prop === oldValue ) {
+                            obj[ key ] = newValue;
                         }
                     }
-                });
+                } );
                 return obj;
             };
 
-            return replace(object, oldValue, newValue);
+            return replace( object, oldValue, newValue );
         };
 
         /**
@@ -392,17 +399,17 @@ angular.module('GlobalFunctionsModule').service('GlobalFunctionsObject', [
          * @param id
          * @returns {*}
          */
-        this.filterObject = function (obj, array, id) {
-            var object = angular.copy(obj);
-            angular.forEach(obj, function (item, key) {
-                for (var prop in item) {
-                    if (array.indexOf(prop) === -1) {
-                        if (prop !== id) {
-                            delete object[key][prop];
+        this.filterObject = ( obj, array, id ) => {
+            const object = angular.copy( obj );
+            angular.forEach( obj, ( item, key ) => {
+                for ( let prop in item ) {
+                    if ( array.indexOf( prop ) === -1 ) {
+                        if ( prop !== id ) {
+                            delete object[ key ][ prop ];
                         }
                     }
                 }
-            });
+            } );
             return object;
         };
 
@@ -413,10 +420,10 @@ angular.module('GlobalFunctionsModule').service('GlobalFunctionsObject', [
          * @param value
          * @returns {*}
          */
-        this.getSubObjectByProperty = function (obj, prop, value) {
-            for (var item in obj) {
-                if (obj.hasOwnProperty(item) && typeof obj[item] === 'object' && obj[item].hasOwnProperty(prop) && obj[item][prop] === value) {
-                    return obj[item];
+        this.getSubObjectByProperty = ( obj, prop, value ) => {
+            for ( let item in obj ) {
+                if ( obj.hasOwnProperty( item ) && typeof obj[ item ] === 'object' && obj[ item ].hasOwnProperty( prop ) && obj[ item ][ prop ] === value ) {
+                    return obj[ item ];
                 }
             }
         };
@@ -428,13 +435,13 @@ angular.module('GlobalFunctionsModule').service('GlobalFunctionsObject', [
          * @param minValue
          * @returns {*}
          */
-        this.getMaxPropertyValueInObject = function (obj, prop, minValue) {
-            var maxValue = minValue;
-            angular.forEach(obj, function (item) {
-                if (item.hasOwnProperty(prop) && item[prop] >= maxValue) {
-                    maxValue = item[prop];
+        this.getMaxPropertyValueInObject = ( obj, prop, minValue ) => {
+            let maxValue = minValue;
+            angular.forEach( obj, item => {
+                if ( item.hasOwnProperty( prop ) && item[ prop ] >= maxValue ) {
+                    maxValue = item[ prop ];
                 }
-            });
+            } );
 
             return maxValue;
         };
@@ -443,156 +450,184 @@ angular.module('GlobalFunctionsModule').service('GlobalFunctionsObject', [
          *
          * @returns {{VALUE_CREATED: string, VALUE_UPDATED: string, VALUE_DELETED: string, VALUE_UNCHANGED: string, map: GlobalFunctionsObject.map, compareValues: GlobalFunctionsObject.compareValues, isFunction: GlobalFunctionsObject.isFunction, isArray: GlobalFunctionsObject.isArray, isObject: GlobalFunctionsObject.isObject, isValue: GlobalFunctionsObject.isValue}}
          */
-        this.deepDiffMapper = function () {
+        this.deepDiffMapper = () => {
             return {
                 VALUE_CREATED: 'created',
                 VALUE_UPDATED: 'updated',
                 VALUE_DELETED: 'deleted',
                 VALUE_UNCHANGED: 'unchanged',
-                map: function (obj1, obj2) {
-                    if (this.isFunction(obj1) || this.isFunction(obj2)) {
+                map: ( obj1, obj2 ) => {
+                    if ( this.isFunction( obj1 ) || this.isFunction( obj2 ) ) {
                         throw 'Invalid argument. Function given, object expected.';
                     }
-                    if (this.isValue(obj1) || this.isValue(obj2)) {
-                        return {type: this.compareValues(obj1, obj2), data: obj1 || obj2};
+                    if ( this.isValue( obj1 ) || this.isValue( obj2 ) ) {
+                        return { type: this.compareValues( obj1, obj2 ), data: obj1 || obj2 };
                     }
 
-                    var diff = {};
-                    for (var key in obj1) {
-                        if (this.isFunction(obj1[key])) {
-                            continue;
-                        }
+                    let diff = {};
+                    for ( let key in obj1 ) {
+                        if ( obj1.hasOwnProperty( key ) ) {
+                            if ( this.isFunction( obj1[ key ] ) ) {
+                                continue;
+                            }
 
-                        var value2 = undefined;
-                        if ('undefined' != typeof(obj2[key])) {
-                            value2 = obj2[key];
-                        }
+                            let value2 = undefined;
+                            if ( 'undefined' != typeof ( obj2[ key ] ) ) {
+                                value2 = obj2[ key ];
+                            }
 
-                        diff[key] = this.map(obj1[key], value2);
+                            diff[ key ] = this.map( obj1[ key ], value2 );
+                        }
                     }
 
-                    for (var key2 in obj2) {
-                        if (this.isFunction(obj2[key2]) || ('undefined' != typeof(diff[key2]))) {
-                            continue;
-                        }
+                    for ( let key2 in obj2 ) {
+                        if ( obj2.hasOwnProperty( key2 ) ) {
+                            if ( this.isFunction( obj2[ key2 ] ) || ( 'undefined' != typeof ( diff[ key2 ] ) ) ) {
+                                continue;
+                            }
 
-                        diff[key2] = this.map(undefined, obj2[key2]);
+                            diff[ key2 ] = this.map( undefined, obj2[ key2 ] );
+                        }
                     }
 
                     return diff;
 
                 },
-                compareValues: function (value1, value2) {
-                    if (value1 === value2) {
+                compareValues: ( value1, value2 ) => {
+                    if ( value1 === value2 ) {
                         return this.VALUE_UNCHANGED;
                     }
-                    if ('undefined' == typeof(value1)) {
+                    if ( 'undefined' == typeof ( value1 ) ) {
                         return this.VALUE_CREATED;
                     }
-                    if ('undefined' == typeof(value2)) {
+                    if ( 'undefined' == typeof ( value2 ) ) {
                         return this.VALUE_DELETED;
                     }
 
                     return this.VALUE_UPDATED;
                 },
-                isFunction: function (obj) {
-                    return {}.toString.apply(obj) === '[object Function]';
+                isFunction: obj => {
+                    return {}.toString.apply( obj ) === '[object Function]';
                 },
-                isArray: function (obj) {
-                    return {}.toString.apply(obj) === '[object Array]';
+                isArray: obj => {
+                    return {}.toString.apply( obj ) === '[object Array]';
                 },
-                isObject: function (obj) {
-                    return {}.toString.apply(obj) === '[object Object]';
+                isObject: obj => {
+                    return {}.toString.apply( obj ) === '[object Object]';
                 },
-                isValue: function (obj) {
-                    return !this.isObject(obj) && !this.isArray(obj);
-                }
+                isValue: obj => !this.isObject( obj ) && !this.isArray( obj )
             };
         };
 
-        this.guarantyPromise = function (promise) {
-            if (promise) {
-                var tmp = promise;
-                promise = false;
+        /**
+         *
+         * @param promise
+         * @returns {*}
+         */
+        this.guarantyPromise = promise => {
+            if ( promise ) {
+                const tmp = promise;
                 return tmp;
             } else {
-                var deferred = $q.defer();
+                const deferred = $q.defer();
                 deferred.resolve();
                 return deferred.promise;
             }
         };
 
-        this.removeElementFromArrayByValue = function (array) {
-            var arrayValue,
+        /**
+         *
+         * @param array
+         * @returns {*}
+         */
+        this.removeElementFromArrayByValue = array => {
+            let arrayValue,
                 args = arguments,
                 length = args.length,
                 index;
-            while (length > 1 && array.length) {
-                arrayValue = args[--length];
-                while ((index = array.indexOf(arrayValue)) !== -1) {
-                    array.splice(index, 1);
+            while ( length > 1 && array.length ) {
+                arrayValue = args[ --length ];
+                while ( ( index = array.indexOf( arrayValue ) ) !== -1 ) {
+                    array.splice( index, 1 );
                 }
             }
             return array;
         };
 
-        this.getObjectDifference = function (refObj, newObj, refProp) {
-            for (var nKey in newObj) {
-                var found = false;
-                for (var rKey in refObj) {
-                    if (refObj[rKey].hasOwnProperty(refProp) && newObj[nKey].hasOwnProperty(refProp)) {
-                        if (refObj[rKey][refProp] === newObj[nKey][refProp]) {
+        /**
+         *
+         * @param refObj
+         * @param newObj
+         * @param refProp
+         * @returns {*}
+         */
+        this.getObjectDifference = ( refObj, newObj, refProp ) => {
+            for ( let nKey in newObj ) {
+                let found = false;
+                for ( let rKey in refObj ) {
+                    if ( refObj[ rKey ].hasOwnProperty( refProp ) && newObj[ nKey ].hasOwnProperty( refProp ) ) {
+                        if ( refObj[ rKey ][ refProp ] === newObj[ nKey ][ refProp ] ) {
                             found = true;
                         }
                     }
                 }
 
-                if (!found) {
-                    refObj.unshift(newObj[nKey]);
+                if ( !found ) {
+                    refObj.unshift( newObj[ nKey ] );
                 }
             }
             return refObj;
         };
 
-        this.makeArrayFromNumber = function (number) {
+        /**
+         *
+         * @param number
+         * @returns {Array}
+         */
+        this.makeArrayFromNumber = number => {
             var numArr = [];
-            for (var i = 0; i < number; i++) {
-                numArr.push(i);
+            for ( let i = 0; i < number; i++ ) {
+                numArr.push( i );
             }
             return numArr;
         };
 
-        //makes array from mixed string-array object.
-        this.normalizeArray = function (data, delim) {
-            var splitted = [];
-            angular.forEach(data, function (val, key) {
-                val = val.replace(/\r?\n|\r/g, '');
-                if (angular.isString(val)) {
-                    splitted = val.split(delim);
-                    if (splitted.length > 0) {
-                        data.splice(key, 1);
-                        angular.forEach(splitted, function (val) {
-                            if (val) {
-                                if (val.indexOf(delim) === -1) {
+        /**
+         * makes array from mixed string-array object.
+         * @param data
+         * @param delim
+         * @returns {*}
+         */
+        this.normalizeArray = ( data, delim ) => {
+            let splitted = [];
+            angular.forEach( data, ( val, key ) => {
+                val = val.replace( /\r?\n|\r/g, '' );
+                if ( angular.isString( val ) ) {
+                    splitted = val.split( delim );
+                    if ( splitted.length > 0 ) {
+                        data.splice( key, 1 );
+                        angular.forEach( splitted, val => {
+                            if ( val ) {
+                                if ( val.indexOf( delim ) === -1 ) {
                                     val = delim + val;
                                 }
-                                data.push(val);
+                                data.push( val );
                             }
-                        });
+                        } );
                     }
                 }
-            });
+            } );
             return data;
         };
 
     }
-]);
+] );
 
 
 //**
 // STRING FUNCTIONS
 //
-angular.module('GlobalFunctionsModule').factory('GlobalFunctionsString', ['GlobalConstants', function (GlobalConstants) {
+angular.module( 'GlobalFunctionsModule' ).factory( 'GlobalFunctionsString', [ 'GlobalConstants', function ( GlobalConstants ) {
     return {
         /**
          *
@@ -600,12 +635,12 @@ angular.module('GlobalFunctionsModule').factory('GlobalFunctionsString', ['Globa
          * @param referenceName
          * @param values
          */
-        addDotSyntaxNode: function (referenceObj, referenceName, values) {
-            if (!referenceObj[referenceName]) {
-                referenceObj[referenceName] = values.shift();
+        addDotSyntaxNode: ( referenceObj, referenceName, values ) => {
+            if ( !referenceObj[ referenceName ] ) {
+                referenceObj[ referenceName ] = values.shift();
             }
-            for (var i = 0; i < values.length; i++) {
-                referenceObj[referenceName] += '.' + values[i];
+            for ( let i = 0; i < values.length; i++ ) {
+                referenceObj[ referenceName ] += '.' + values[ i ];
             }
         },
 
@@ -614,13 +649,13 @@ angular.module('GlobalFunctionsModule').factory('GlobalFunctionsString', ['Globa
          * @param text
          * @returns {*}
          */
-        htmlToPlaintext: function (text) {
-            var plainText = text;
-            var regex = [/<br[^>]*>/gi, /<p[^>]*>/gi, /<li[^>]*>/gi, /<ul[^>]*>/gi, /<ol[^>]*>/gi, /<div[^>]*>/gi];
-            regex.forEach(function (value) {
-                plainText = plainText.replace(value, "\n");
-            });
-            return plainText.replace(/<[^>]+>/gm, '');
+        htmlToPlaintext: text => {
+            const regex = [ /<br[^>]*>/gi, /<p[^>]*>/gi, /<li[^>]*>/gi, /<ul[^>]*>/gi, /<ol[^>]*>/gi, /<div[^>]*>/gi ];
+            let plainText = text;
+            regex.forEach( value => {
+                plainText = plainText.replace( value, '\n' );
+            } );
+            return plainText.replace( /<[^>]+>/gm, '' );
         },
 
         /**
@@ -630,14 +665,17 @@ angular.module('GlobalFunctionsModule').factory('GlobalFunctionsString', ['Globa
          * @param character
          * @returns {string}
          */
-        replaceAt: function (str, index, character) {
-            return str.substr(0, index) + character + str.substr(index + character.length);
-        },
+        replaceAt: ( str, index, character ) => str.substr( 0, index ) + character + str.substr( index + character.length ),
 
-        html5Entities: function (value) {
-            return value.replace(/[\u00A0-\u9999<>\&\'\"]/gim, function (i) {
-                return '&#' + i.charCodeAt(0) + ';';
-            });
+        /**
+         *
+         * @param value
+         * @returns {*}
+         */
+        html5Entities: value => {
+            return value.replace( /[\u00A0-\u9999<>\&\'\"]/gim, match => {
+                return '&#' + match.charCodeAt( 0 ) + ';';
+            } );
         },
 
         /**
@@ -645,57 +683,71 @@ angular.module('GlobalFunctionsModule').factory('GlobalFunctionsString', ['Globa
          * @param str
          * @returns {{camelLower: string, camelUpper: string, underUpper: string, underLower: string, dashUpper: string, dashLower: string}}
          */
-        constantFormat: function (str) {
-            var under, camel, dash;
-            if (str.indexOf('_') !== -1) {
+        constantFormat: str => {
+            let under, camel, dash;
+            if ( str.indexOf( '_' ) !== -1 ) {
                 str = str.toLowerCase();
                 under = str;
-                camel = str.replace(/(\_[a-z])/g, function ($1) {
-                    return $1.toUpperCase().replace('_', '');
-                });
+                camel = str.replace( /(\_[a-z])/g, function ( $1 ) {
+                    return $1.toUpperCase().replace( '_', '' );
+                } );
             } else {
-                under = str.replace(/\W+/g, '-').replace(/([a-z\d])([A-Z])/g, '$1_$2');
+                under = str.replace( /\W+/g, '-' ).replace( /([a-z\d])([A-Z])/g, '$1_$2' );
                 camel = str;
             }
-            dash = under.replace('_', '-');
+            dash = under.replace( '_', '-' );
             return {
-                "camelLower": camel.substr(0, 1).toLowerCase() + camel.substr(1),
-                "camelUpper": camel.substr(0, 1).toUpperCase() + camel.substr(1),
-                "underUpper": under.toUpperCase(),
-                "underLower": under.toLowerCase(),
-                "dashUpper": dash.toUpperCase(),
-                "dashLower": dash.toLowerCase()
+                'camelLower': camel.substr( 0, 1 ).toLowerCase() + camel.substr( 1 ),
+                'camelUpper': camel.substr( 0, 1 ).toUpperCase() + camel.substr( 1 ),
+                'underUpper': under.toUpperCase(),
+                'underLower': under.toLowerCase(),
+                'dashUpper': dash.toUpperCase(),
+                'dashLower': dash.toLowerCase()
             };
         },
 
-        stringToRGB: function (str) {
-            function hashCode(str) {
-                var hash = 0;
-                for (var i = 0; i < str.length; i++) {
-                    hash = str.charCodeAt(i) + ((hash << 5) - hash);
+        /**
+         *
+         * @param str
+         * @returns {*}
+         */
+        stringToRGB: str => {
+            const hashCode = str => {
+                let hash = 0;
+                for ( let i = 0; i < str.length; i++ ) {
+                    hash = str.charCodeAt( i ) + ( ( hash << 5 ) - hash );
                 }
                 return hash;
-            }
+            };
 
-            function intToRGB(i) {
-                var c = (i & 0x00FFFFFF)
-                    .toString(16)
+            const intToRGB = i => {
+                const c = ( i & 0x00FFFFFF )
+                    .toString( 16 )
                     .toUpperCase();
 
-                return "00000".substring(0, 6 - c.length) + c;
-            }
+                return '00000'.substring( 0, 6 - c.length ) + c;
+            };
 
-            return intToRGB(hashCode(str));
+            return intToRGB( hashCode( str ) );
         },
 
-        getFileName: function (url) {
-            var filename = url.match(/([^\/]+)(?=\.\w+$)/);
-            filename = filename ? filename[0] : filename; // if it has extension or not
-            return filename;
+        /**
+         *
+         * @param url
+         * @returns {*}
+         */
+        getFileName: url => {
+            let filename = url.match( /([^\/]+)(?=\.\w+$)/ );
+            return filename ? filename[ 0 ] : filename; // if it has extension or not
         },
 
-        removeDiacritics: function (str) {
-            var diacriticsMap = {
+        /**
+         *
+         * @param str
+         * @returns {string}
+         */
+        removeDiacritics: str => {
+            const diacriticsMap = {
                 A: /[\u0041\u24B6\uFF21\u00C0\u00C1\u00C2\u1EA6\u1EA4\u1EAA\u1EA8\u00C3\u0100\u0102\u1EB0\u1EAE\u1EB4\u1EB2\u0226\u01E0\u00C4\u01DE\u1EA2\u00C5\u01FA\u01CD\u0200\u0202\u1EA0\u1EAC\u1EB6\u1E00\u0104\u023A\u2C6F]/g,
                 AA: /[\uA732]/g,
                 AE: /[\u00C6\u01FC\u01E2]/g,
@@ -783,29 +835,36 @@ angular.module('GlobalFunctionsModule').factory('GlobalFunctionsString', ['Globa
                 z: /[\u007A\u24E9\uFF5A\u017A\u1E91\u017C\u017E\u1E93\u1E95\u01B6\u0225\u0240\u2C6C\uA763]/g,
                 '': /,|\.|!|<|>|\?|\*|@|#|\$|%|\^|&|\(|\)|\+|-|_|;|:|\\|\/|\||"|'/g
             };
-            for (var x in diacriticsMap) {
-                str = str.replace(diacriticsMap[x], x);
+            for ( let x in diacriticsMap ) {
+                str = str.replace( diacriticsMap[ x ], x );
             }
             // console.log(str.split(' ').join('-').toLowerCase());
-            return str.split(' ').join('-').toLowerCase();
+            return str.split( ' ' ).join( '-' ).toLowerCase();
         },
 
-        errorParse: function (errorMsg) {
-            if (errorMsg.indexOf('E11000') !== GlobalConstants.common.NEGATIVE_ONE_INDEX) {
-                return GlobalConstants.errorMessage.E11000;
+        errorParse: errorMsg => {
+            if ( errorMsg.indexOf( 'E11000' ) !== -1 ) {
+                if ( errorMsg.indexOf( 'mail_1' ) !== -1 ) {
+                    return GlobalConstants.errorMessage.E11000_MAIL;
+                }
+                if ( errorMsg.indexOf( 'name_1' ) !== -1 ) {
+                    return GlobalConstants.errorMessage.E11000_NAME;
+                } else {
+                    return GlobalConstants.errorMessage.E11000;
+                }
             }
         }
 
     };
-}]);
+} ] );
 
 //**
 // TIMER FUNCTIONS
 //
-angular.module('GlobalFunctionsModule').service('GlobalFunctionsTimer', [
+angular.module( 'GlobalFunctionsModule' ).service( 'GlobalFunctionsTimer', [
     '$interval',
-    function ($interval) {
-        var timers = {};
+    function ( $interval ) {
+        let timers = {};
 
         /**
          *
@@ -814,34 +873,34 @@ angular.module('GlobalFunctionsModule').service('GlobalFunctionsTimer', [
          * @param delay
          * @param repeatCount
          */
-        this.addTimer = function (name, callbackFn, delay, repeatCount) {
-            if (timers[name]) {
-                $interval.cancel(timers[name]);
+        this.addTimer = ( name, callbackFn, delay, repeatCount ) => {
+            if ( timers[ name ] ) {
+                $interval.cancel( timers[ name ] );
             }
-            if (repeatCount === undefined) {
+            if ( repeatCount === undefined ) {
                 repeatCount = 1;
             }
-            timers[name] = $interval(callbackFn, delay, repeatCount);
+            timers[ name ] = $interval( callbackFn, delay, repeatCount );
         };
 
         /**
          *
          * @param name
          */
-        this.cancelTimer = function (name) {
-            var timer = timers[name];
-            if (timer) {
-                $interval.cancel(timers[name]);
-                delete timers[name];
+        this.cancelTimer = name => {
+            const timer = timers[ name ];
+            if ( timer ) {
+                $interval.cancel( timers[ name ] );
+                delete timers[ name ];
             }
         };
 
         /**
          *
          */
-        this.cancelAll = function () {
-            for (var timer in timers) {
-                this.cancelTimer(timer);
+        this.cancelAll = () => {
+            for ( let timer in timers ) {
+                this.cancelTimer( timer );
             }
         };
 
@@ -850,37 +909,32 @@ angular.module('GlobalFunctionsModule').service('GlobalFunctionsTimer', [
          * @param name
          * @returns {boolean}
          */
-        this.checkTimerExists = function (name) {
-            return timers[name] ? true : false;
-        };
+        this.checkTimerExists = name => !!timers[ name ];
     }
-]);
+] );
 
 //**
 // DIALOG FUNCTIONS
 //
-angular.module('GlobalFunctionsModule').service('GlobalFunctionsDialog', [
+angular.module( 'GlobalFunctionsModule' ).service( 'GlobalFunctionsDialog', [
     '$uibModal',
-    function ($uibModal) {
-        var confirmDialog = function (params, size, args) {
+    function ( $uibModal ) {
+        const confirmDialog = ( params, size, args ) => {
             params = !params ? {} : params;
-            var controller = !params.hasOwnProperty('controller') ? 'ModalInstanceCtrl' : params.controller;
-            var template = !params.hasOwnProperty('template') ? 'assets/messagedialog/templates/default.tpl.html' : params.template;
-            var modalInstance = $uibModal.open({
-                backdrop: !params.hasOwnProperty('backdrop') ? 'static' : params.backdrop,
-                animation: true,
-                templateUrl: template,
-                controller: controller,
-                size: size,
-                resolve: {
-                    'dialogParam': function () {
-                        return params;
-                    },
-                    'args': function () {
-                        return args;
+            const controller = !params.hasOwnProperty( 'controller' ) ? 'ModalInstanceCtrl' : params.controller;
+            const template = !params.hasOwnProperty( 'template' ) ? 'assets/messagedialog/templates/default.tpl.html' : params.template;
+            const modalInstance = $uibModal.open(
+                {
+                    backdrop: !params.hasOwnProperty( 'backdrop' ) ? 'static' : params.backdrop,
+                    animation: true,
+                    templateUrl: template,
+                    controller: controller,
+                    size: size,
+                    resolve: {
+                        'dialogParam': () => params,
+                        'args': () => args
                     }
-                }
-            });
+                } );
             return modalInstance.result;
         };
 
@@ -890,9 +944,7 @@ angular.module('GlobalFunctionsModule').service('GlobalFunctionsDialog', [
          * @param size
          * @param args
          */
-        this.showConfirmDialog = function (param, size, args) {
-            return confirmDialog(param, size, args);
-        };
+        this.showConfirmDialog = ( param, size, args ) => confirmDialog( param, size, args );
 
         /**
          *
@@ -903,23 +955,19 @@ angular.module('GlobalFunctionsModule').service('GlobalFunctionsDialog', [
          * @param args
          * @returns {*}
          */
-        var modalDialog = function (template, params, size, ctrl, args) {
-            var modalInstance = $uibModal.open({
-                backdrop: !params.hasOwnProperty('backdrop') ? 'static' : params.backdrop,
+        const modalDialog = ( template, params, size, ctrl, args ) => {
+            const modalInstance = $uibModal.open( {
+                backdrop: !params.hasOwnProperty( 'backdrop' ) ? 'static' : params.backdrop,
                 animation: true,
                 templateUrl: template,
                 controller: ctrl,
-                size: angular.isNumber(size) ? size : false,
-                windowClass: !params.windowClass && !angular.isNumber(size) ? 'modal-dialog-fullscreen' : params.windowClass,
+                size: angular.isNumber( size ) ? size : false,
+                windowClass: !params.windowClass && !angular.isNumber( size ) ? 'modal-dialog-fullscreen' : params.windowClass,
                 resolve: {
-                    'dialogParam': function () {
-                        return params;
-                    },
-                    'args': function () {
-                        return args;
-                    }
+                    'dialogParam': () => params,
+                    'args': () => args
                 }
-            });
+            } );
             return modalInstance.result;
         };
 
@@ -932,251 +980,231 @@ angular.module('GlobalFunctionsModule').service('GlobalFunctionsDialog', [
          * @param args
          * @returns {*}
          */
-        this.showModalDialog = function (template, params, size, ctrl, args) {
-            if (!ctrl) {
-                ctrl = "ModalInstanceCtrl";
+        this.showModalDialog = ( template, params, size, ctrl, args ) => {
+            if ( !ctrl ) {
+                ctrl = 'ModalInstanceCtrl';
             }
-            return modalDialog(template, params, size, ctrl, args);
+            return modalDialog( template, params, size, ctrl, args );
         };
 
-        this.showImageModal = function (imageUrl, imageDescription, imageHeaderText) {
-            $uibModal.open({
-                windowClass: "modal-dialog-image",
-                templateUrl: "assets/messagedialog/templates/image.tpl.html",
+        this.showImageModal = ( imageUrl, imageDescription, imageHeaderText ) => {
+            $uibModal.open( {
+                windowClass: 'modal-dialog-image',
+                templateUrl: 'assets/messagedialog/templates/image.tpl.html',
                 resolve: {
-                    imageSrc: function () {
-                        return imageUrl;
-                    },
-                    imageDescription: function () {
-                        return imageDescription;
-                    },
-                    imageHeaderText: function () {
-                        return imageHeaderText;
-                    }
+                    imageSrc: () => imageUrl,
+                    imageDescription: () => imageDescription,
+                    imageHeaderText: () => imageHeaderText
                 },
                 controller: [
-                    "$scope", "imageSrc", "imageDescription",
-                    function ($scope, imageSrc, imageDescription, imageHeaderText) {
+                    '$scope', 'imageSrc', 'imageDescription', 'imageHeaderText',
+                    function ( $scope, imageSrc, imageDescription, imageHeaderText ) {
                         $scope.imageHeaderText = imageHeaderText;
                         $scope.imageSrc = imageSrc;
                         $scope.imageDescription = imageDescription;
                     }
                 ]
-            });
+            } );
         };
 
-    }]);
+    } ] );
 
-angular.module('GlobalFunctionsModule').factory('GlobalFunctionsTemplateLoader', [
+angular.module( 'GlobalFunctionsModule' ).factory( 'GlobalFunctionsTemplateLoader', [
     '$q', '$http', '$templateCache', 'GlobalConstants', 'XHR',
-    function ($q, $http, $templateCache, GlobalConstants, XHR) {
+    function ( $q, $http, $templateCache, GlobalConstants, XHR ) {
         return {
             /**
              *
              * @returns {*}
              */
-            loadDefaultTemplates: function () {
-                var promises = [];
+            loadDefaultTemplates: () => {
+                let promises = [];
                 //GRID templates
-                if (!$templateCache.get('selectorMode')) {
-                    promises.push({
+                if ( !$templateCache.get( 'selectorMode' ) ) {
+                    promises.push( {
                         name: 'selectorMode',
-                        data: XHR.httpGET('assets/ui-grid/templates/ui-grid-selector.advanced.tpl.html', GlobalConstants.entity_type)
-                    });
+                        data: XHR.httpGET( 'assets/ui-grid/templates/ui-grid-selector.advanced.tpl.html', GlobalConstants.entity_type )
+                    } );
                 }
 
-                if (!$templateCache.get('generalMode')) {
-                    promises.push({
+                if ( !$templateCache.get( 'generalMode' ) ) {
+                    promises.push( {
                         name: 'generalMode',
-                        data: XHR.httpGET('assets/ui-grid/templates/ui-grid-general.advanced.tpl.html', GlobalConstants.entity_type)
-                    });
+                        data: XHR.httpGET( 'assets/ui-grid/templates/ui-grid-general.advanced.tpl.html', GlobalConstants.entity_type )
+                    } );
                 }
 
-                return ($q.all(promises).then(function (dataCollection) {
-                    angular.forEach(dataCollection, function (value) {
-                        value.data.then(function (template) {
-                            $templateCache.put(value['name'], template);
-                        });
-                    });
-                }));
+                return ( $q.all( promises ).then( dataCollection => {
+                    angular.forEach( dataCollection, value => {
+                        value.data.then( template => {
+                            $templateCache.put( value[ 'name' ], template );
+                        } );
+                    } );
+                } ) );
             }
         };
-    }]);
+    } ] );
 
-angular.module('GlobalFunctionsModule').factory('GlobalFunctionsJQ', [
+angular.module( 'GlobalFunctionsModule' ).factory( 'GlobalFunctionsJQ', [
     '$document', 'GlobalConstants', '$timeout', 'AuthService', '$translate',
-    function ($document, GlobalConstants, $timeout, AuthService, $translate) {
+    function ( $document, GlobalConstants, $timeout, AuthService, $translate ) {
         return {
             /**
              *
              * @param id
              */
-            focusFirstInputInMyPanel: function (id) {
-                var inputs = $("div[class*='ui-select-container'][id*='" + id + "'] , .panel-body :input[id*='" + id + "']");
-                if (inputs.length) {
-                    inputs.first().attr("tabindex", 0).focus();
+            focusFirstInputInMyPanel: id => {
+                let inputs = $( 'div[class*=\'ui-select-container\'][id*=\'' + id + '\'] , .panel-body :input[id*=\'' + id + '\']' );
+                if ( inputs.length ) {
+                    inputs.first().attr( 'tabindex', 0 ).focus();
                 }
             },
 
             /**
              *
              */
-            addTranslateBreaker: function () {
-                var T_KEY = 84;
-                var NON_EXISTENT_LANGUAGE = 'NON_NON';
-                var broken = false;
-                $(window).bind('keydown', function (event) {
-                    if (event.keyCode === T_KEY && event.ctrlKey && event.altKey) {
-                        if (!broken) {
-                            $translate.use(NON_EXISTENT_LANGUAGE);
-                            $timeout(function () {
+            addTranslateBreaker: () => {
+                const T_KEY = 84;
+                const NON_EXISTENT_LANGUAGE = 'NON_NON';
+                let broken = false;
+                $( window ).bind( 'keydown', event => {
+                    if ( event.keyCode === T_KEY && event.ctrlKey && event.altKey ) {
+                        if ( !broken ) {
+                            $translate.use( NON_EXISTENT_LANGUAGE );
+                            $timeout( () => {
                                 $translate.refresh();
-                            }, 500);
+                            }, 500 );
                             broken = true;
                         } else {
-                            var language = AuthService.get(GlobalConstants.settings.LANGUAGE).settingValue1;
-                            $translate.use(language);
-                            $timeout(function () {
+                            const language = AuthService.get( GlobalConstants.settings.LANGUAGE ).settingValue1;
+                            $translate.use( language );
+                            $timeout( () => {
                                 $translate.refresh();
-                            }, 500);
+                            }, 500 );
                             broken = false;
                         }
                     }
-                });
+                } );
             },
 
             /**
              *
              * @param scope
              */
-            setScrollToFirstInputError: function (scope) {
-                scope.$on(GlobalConstants.event.broadcast.UPDATE_FORM_ERRORS, function () {
-                    $timeout(function () {
-                        var label = $('.error-label:visible').first();
-                        if (label.length) {
-                            $document.duScrollTopAnimated(label.offset().top - 80);
+            setScrollToFirstInputError: scope => {
+                scope.$on( GlobalConstants.event.broadcast.UPDATE_FORM_ERRORS, () => {
+                    $timeout( () => {
+                        const label = $( '.error-label:visible' ).first();
+                        if ( label.length ) {
+                            $document.duScrollTopAnimated( label.offset().top - 80 );
                         }
-                    });
-                });
-                $document.duScrollTopAnimated(0);
+                    } );
+                } );
+                $document.duScrollTopAnimated( 0 );
             },
 
             /**
              *
              */
-            addHotkeys: function () {
-                $(window).bind('keydown', function (event) {
-                    var commandName = '';
-                    var fnToRun;
-                    var keycodes = {
+            addHotkeys: () => {
+                $( window ).bind( 'keydown', event => {
+                    let commandName = '';
+                    const keycodes = {
                         '13': 'ENTER',
                         '27': 'ESC',
                         '65': 'A'
                     };
+                    let fnToRun;
 
-                    function clickFirst(buttonIds) {
+                    const clickFirst = buttonIds => {
                         var collection, currentId, firstElement;
-                        for (var i = 0; i < buttonIds.length; i++) {
-                            currentId = buttonIds[i];
-                            collection = $('#' + currentId + ':visible');
-                            if (collection.length) {
+                        for ( var i = 0; i < buttonIds.length; i++ ) {
+                            currentId = buttonIds[ i ];
+                            collection = $( '#' + currentId + ':visible' );
+                            if ( collection.length ) {
                                 i = buttonIds.length;
                                 firstElement = collection.first();
                                 firstElement.click();
                             }
                         }
-                    }
-
-
-                    var callbacks = {
-                        'CTRL+ENTER': function () {
-                            var buttonIds = ['saveToggleBtn', 'submit'];
-                            clickFirst(buttonIds);
-                        },
-                        'ESC': function () {
-                            var buttonIds = ['closeToggleBtn', 'cancel'];
-                            clickFirst(buttonIds);
-                        },
-                        'CTRL+SHIFT+A': function () {
-                            var buttonIds = ['selectorAddItemBtn', 'admin-list-add-button', 'btn_add'];
-                            clickFirst(buttonIds);
-                        },
-                        'CTRL+SHIFT+ENTER': function () {
-                            var buttonIds = ['submitAndNext'];
-                            clickFirst(buttonIds);
-                        }
                     };
 
-                    if (event.ctrlKey || event.metaKey) {
+
+                    const callbacks = {
+                        'CTRL+ENTER': () => clickFirst( [ 'saveToggleBtn', 'submit' ] ),
+                        'ESC': () => clickFirst( [ 'closeToggleBtn', 'cancel' ] ),
+                        'CTRL+SHIFT+A': () => clickFirst( [ 'selectorAddItemBtn', 'admin-list-add-button', 'btn_add' ] ),
+                        'CTRL+SHIFT+ENTER': () => clickFirst( [ 'submitAndNext' ] )
+                    };
+
+                    if ( event.ctrlKey || event.metaKey ) {
                         commandName += 'CTRL+';
                     }
 
-                    if (event.shiftKey) {
+                    if ( event.shiftKey ) {
                         commandName += 'SHIFT+';
                     }
 
-                    commandName += keycodes[event.keyCode];
-                    fnToRun = callbacks[commandName];
-                    if (!fnToRun) {
+                    commandName += keycodes[ event.keyCode ];
+                    fnToRun = callbacks[ commandName ];
+                    if ( !fnToRun ) {
                         return;
                     }
                     fnToRun();
 
-                });
+                } );
             },
 
             /**
              *
              */
-            footerHandler: function () {
-                var didScroll;
-                var lastScrollTop = 0;
-                var delta = 5;
+            footerHandler: () => {
+                const delta = 5;
+                let didScroll;
+                let lastScrollTop = 0;
 
-                $(window).scroll(function () {
+                $( window ).scroll( () => {
                     didScroll = true;
-                });
+                } );
 
-                setInterval(function () {
-                    if (didScroll) {
+                setInterval( () => {
+                    if ( didScroll ) {
                         hasScrolled();
                         didScroll = false;
                     }
-                }, 250);
+                }, 250 );
 
-                function hasScrolled() {
-                    var st = $(this).scrollTop();
+                hasScrolled = () => {
+                    const st = $( this ).scrollTop();
 
-                    if (Math.abs(lastScrollTop - st) <= delta) {
+                    if ( Math.abs( lastScrollTop - st ) <= delta ) {
                         return;
                     }
 
-                    if (st + $(window).height() >= $(document).height()) {
-                        $('footer').removeClass('nav-down').addClass('nav-up');
+                    if ( st + $( window ).height() >= $( document ).height() ) {
+                        $( 'footer' ).removeClass( 'nav-down' ).addClass( 'nav-up' );
                     } else {
-                        if ($(window).height() < $(document).height()) {
-                            $('footer').removeClass('nav-up').addClass('nav-down');
+                        if ( $( window ).height() < $( document ).height() ) {
+                            $( 'footer' ).removeClass( 'nav-up' ).addClass( 'nav-down' );
                         }
                     }
 
                     lastScrollTop = st;
-                }
+                };
             },
 
             /**
              *
              * @param element
              */
-            autoFocus: function (element) {
-                $timeout(function () {
-                    $(element).click();
-                });
+            autoFocus: element => {
+                $timeout( () => $( element ).click() );
 
             }
         };
-    }]);
+    } ] );
 
-angular.module('GlobalFunctionsModule').factory('GlobalFunctionsGrid', [function () {
+angular.module( 'GlobalFunctionsModule' ).factory( 'GlobalFunctionsGrid', [ function () {
     return {
 
         /**
@@ -1190,44 +1218,44 @@ angular.module('GlobalFunctionsModule').factory('GlobalFunctionsGrid', [function
          * @param extraValue
          * @returns {boolean}
          */
-        checkDuplicates: function (scope, collectionData, newData, customProperty, customKey, extraKey, extraValue) {
-            var duplicated = false;
-            var key = customKey ? customKey : 'id';
+        checkDuplicates: ( scope, collectionData, newData, customProperty, customKey, extraKey, extraValue ) => {
+            const key = customKey ? customKey : 'id';
+            let duplicated = false;
 
             //superior first line manager hackfeature
-            if (customProperty) {
-                if (extraKey && newData.hasOwnProperty(extraKey) && scope.advancedGridName === "superiors_grid_advanced") {
-                    angular.forEach(collectionData, function (collectionItem) {
-                        if (newData[extraKey].value === extraValue && collectionItem[extraKey].value === extraValue ||
-                            collectionItem[customProperty][key] === newData[customProperty][key]
+            if ( customProperty ) {
+                if ( extraKey && newData.hasOwnProperty( extraKey ) && scope.advancedGridName === 'superiors_grid_advanced' ) {
+                    angular.forEach( collectionData, collectionItem => {
+                        if ( newData[ extraKey ].value === extraValue && collectionItem[ extraKey ].value === extraValue ||
+                            collectionItem[ customProperty ][ key ] === newData[ customProperty ][ key ]
                         ) {
                             duplicated = true;
                         }
-                    });
+                    } );
                 } else {
-                    angular.forEach(collectionData, function (collectionItem) {
-                        if (collectionItem[customProperty][key] === newData[customProperty][key]) {
+                    angular.forEach( collectionData, collectionItem => {
+                        if ( collectionItem[ customProperty ][ key ] === newData[ customProperty ][ key ] ) {
                             duplicated = true;
                         }
-                    });
+                    } );
                 }
             } else {
-                if (extraKey && newData[customProperty].hasOwnProperty(extraKey)) {
-                    angular.forEach(collectionData, function (collectionItem) {
-                        if (collectionItem[key] === newData[key] &&
-                            collectionItem[extraKey] === newData[extraKey]) {
+                if ( extraKey && newData[ customProperty ].hasOwnProperty( extraKey ) ) {
+                    angular.forEach( collectionData, collectionItem => {
+                        if ( collectionItem[ key ] === newData[ key ] &&
+                            collectionItem[ extraKey ] === newData[ extraKey ] ) {
                             duplicated = true;
                         }
-                    });
+                    } );
                 } else {
-                    angular.forEach(collectionData, function (collectionItem) {
-                        if (collectionItem[key] === newData[key]) {
+                    angular.forEach( collectionData, collectionItem => {
+                        if ( collectionItem[ key ] === newData[ key ] ) {
                             duplicated = true;
                         }
-                    });
+                    } );
                 }
             }
             return duplicated;
         }
     };
-}]);
+} ] );

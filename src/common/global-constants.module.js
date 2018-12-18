@@ -72,6 +72,8 @@ angular.module("GlobalConstantsModule", []).constant("GlobalConstants", {
         },
 
         "errorMessage": {
+            "E11000_MAIL": "common.error.duplicatedMail",
+            "E11000_NAME": "common.error.duplicatedName",
             "E11000": "common.error.duplicatedItem"
         },
 
