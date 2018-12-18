@@ -272,23 +272,6 @@
                     return str.replace( /\[\/?code\]/g, '' );
                 };
 
-                const resetPage = data => {
-
-                    $scope.errorMsg = GlobalConstants.common.EMPTY_STRING;
-
-                    if ( !$scope.errorMsg ) {
-                        $scope.formData.message = GlobalConstants.common.EMPTY_STRING;
-                        // $scope.$emit('clear');
-                        // $scope.formData = {message: ''};
-                        $scope.replyModel.cancelReply( true );
-                        $scope.editModel.cancelEdit( true );
-                        $document.duScrollTopAnimated( 0 );
-                        $scope.setPage( 0 );
-                    }
-
-                    return $scope.errorMsg = !( data.error ? data.error : GlobalConstants.common.EMPTY_STRING );
-                };
-
                 $scope.addMessage = () => {
                     if ( !!$scope.formData.message.match( /(<([^>]+)>)/ig ) && !$scope.formData.message.match( /\[\/?code\]/g ) ) {
                         $scope.errorMsg = 'Invalid content!';
@@ -301,14 +284,31 @@
                         if ( $scope.editModel.messageId ) {
                             MessengerService.editMessage( globalConfig, $scope.room, tokenObj.loginDetails.userId, $scope.formData, $scope.replyModel.replyToMessageId, $scope.replyModel.replyToUser, $scope.editModel.messageId )
                                 .then( result => {
-                                    resetPage( result.error );
+                                    $scope.errorMsg = GlobalConstants.common.EMPTY_STRING;
+
+                                    if ( result.error ) {
+                                        $scope.errorMsg = result.error;
+                                    }
+
+                                    if ( !$scope.errorMsg ) {
+                                        $scope.formData.message = GlobalConstants.common.EMPTY_STRING;
+                                        $scope.replyModel.cancelReply( true );
+                                        $scope.editModel.cancelEdit( true );
+                                        $document.duScrollTopAnimated( 0 );
+                                        $scope.setPage( 0 );
+                                    }
+
                                 } );
 
                         } else {
                             MessengerService.addMessage( globalConfig, $scope.room, tokenObj.loginDetails.userId, $scope.formData, $scope.replyModel.replyToMessageId, $scope.replyModel.replyToUser )
                                 .then(
                                     result => {
-                                        if ( resetPage() ) {
+                                        $scope.errorMsg = GlobalConstants.common.EMPTY_STRING;
+
+                                        if ( result.error ) {
+                                            $scope.errorMsg = result.error;
+                                        } else {
                                             socket.emit( 'send:message', {
                                                 _id: result.data._id,
                                                 room: $scope.room,
@@ -321,6 +321,13 @@
                                                 },
                                                 createdAt: result.data.createdAt
                                             } );
+                                        }
+
+                                        if ( !$scope.errorMsg ) {
+                                            $scope.formData.message = GlobalConstants.common.EMPTY_STRING;
+                                            $scope.replyModel.cancelReply( true );
+                                            $document.duScrollTopAnimated( 0 );
+                                            $scope.setPage( 0 );
                                         }
                                     }
                                 );
