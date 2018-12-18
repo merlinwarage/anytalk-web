@@ -124,6 +124,7 @@
       },
       "button": {
         "add": "Üzenet küldése",
+        "edit": "Üzenet szerkesztése",
         "bold": "B",
         "italic": "I",
         "spoiler": "Spoiler",

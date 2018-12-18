@@ -52,7 +52,7 @@
 
         <!--MESSAGE BOX -->
 
-        <div class="bottom-buffer-45" data-ng-if="!!tokenObj" data-ng-show="!replyModel.replyToMessageId" data-ng-include="getMessagePostTpl()"></div>
+        <div class="bottom-buffer-45" data-ng-if="!!tokenObj" data-ng-show="!replyModel.replyToMessageId && !editModel.messageId" data-ng-include="getMessagePostTpl()"></div>
         <div class="clear-both"></div>
 
         <!--PAGINATION-->
@@ -79,7 +79,7 @@
                         <option data-ng-repeat="i in totalRows"
                                 value="{{ i }}"
                                 data-ng-selected="viewPort.currentPage == i"
-                        >{{ i+1}}
+                        >{{ i + 1 }}
                         </option>
                     </select>
                 </li>
@@ -120,7 +120,7 @@
                         <option data-ng-repeat="i in totalRows"
                                 value="{{ i }}"
                                 data-ng-selected="viewPort.currentPage == i"
-                        >{{ i+1}}
+                        >{{ i + 1 }}
                         </option>
                     </select>
                 </li>

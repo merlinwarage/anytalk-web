@@ -376,7 +376,7 @@ angular.module( 'GlobalFunctionsModule' ).service( 'GlobalFunctionsObject', [
          * @returns {*}
          */
         this.changeObjectProperyValue = ( object, oldValue, newValue ) => {
-            const replace = ( obj, oldValue, newValue ) => {
+            function replace( obj, oldValue, newValue ) {
                 angular.forEach( obj, ( prop, key ) => {
                     if ( angular.isObject( prop ) && key[ 0 ] != '$' ) {
                         obj[ key ] = replace( prop, oldValue, newValue );
@@ -387,7 +387,7 @@ angular.module( 'GlobalFunctionsModule' ).service( 'GlobalFunctionsObject', [
                     }
                 } );
                 return obj;
-            };
+            }
 
             return replace( object, oldValue, newValue );
         };
@@ -471,7 +471,7 @@ angular.module( 'GlobalFunctionsModule' ).service( 'GlobalFunctionsObject', [
                                 continue;
                             }
 
-                            let value2 = undefined;
+                            let value2;
                             if ( 'undefined' != typeof ( obj2[ key ] ) ) {
                                 value2 = obj2[ key ];
                             }
@@ -585,7 +585,7 @@ angular.module( 'GlobalFunctionsModule' ).service( 'GlobalFunctionsObject', [
          * @returns {Array}
          */
         this.makeArrayFromNumber = number => {
-            var numArr = [];
+            let numArr = [];
             for ( let i = 0; i < number; i++ ) {
                 numArr.push( i );
             }
@@ -712,21 +712,21 @@ angular.module( 'GlobalFunctionsModule' ).factory( 'GlobalFunctionsString', [ 'G
          * @returns {*}
          */
         stringToRGB: str => {
-            const hashCode = str => {
+            function hashCode( str ) {
                 let hash = 0;
                 for ( let i = 0; i < str.length; i++ ) {
                     hash = str.charCodeAt( i ) + ( ( hash << 5 ) - hash );
                 }
                 return hash;
-            };
+            }
 
-            const intToRGB = i => {
+            function intToRGB( i ) {
                 const c = ( i & 0x00FFFFFF )
                     .toString( 16 )
                     .toUpperCase();
 
                 return '00000'.substring( 0, 6 - c.length ) + c;
-            };
+            }
 
             return intToRGB( hashCode( str ) );
         },
@@ -919,7 +919,7 @@ angular.module( 'GlobalFunctionsModule' ).service( 'GlobalFunctionsTimer', [
 angular.module( 'GlobalFunctionsModule' ).service( 'GlobalFunctionsDialog', [
     '$uibModal',
     function ( $uibModal ) {
-        const confirmDialog = ( params, size, args ) => {
+        function confirmDialog( params, size, args ) {
             params = !params ? {} : params;
             const controller = !params.hasOwnProperty( 'controller' ) ? 'ModalInstanceCtrl' : params.controller;
             const template = !params.hasOwnProperty( 'template' ) ? 'assets/messagedialog/templates/default.tpl.html' : params.template;
@@ -936,7 +936,7 @@ angular.module( 'GlobalFunctionsModule' ).service( 'GlobalFunctionsDialog', [
                     }
                 } );
             return modalInstance.result;
-        };
+        }
 
         /**
          *
@@ -955,7 +955,7 @@ angular.module( 'GlobalFunctionsModule' ).service( 'GlobalFunctionsDialog', [
          * @param args
          * @returns {*}
          */
-        const modalDialog = ( template, params, size, ctrl, args ) => {
+        function modalDialog( template, params, size, ctrl, args ) {
             const modalInstance = $uibModal.open( {
                 backdrop: !params.hasOwnProperty( 'backdrop' ) ? 'static' : params.backdrop,
                 animation: true,
@@ -969,7 +969,7 @@ angular.module( 'GlobalFunctionsModule' ).service( 'GlobalFunctionsDialog', [
                 }
             } );
             return modalInstance.result;
-        };
+        }
 
         /**
          *
@@ -1116,9 +1116,9 @@ angular.module( 'GlobalFunctionsModule' ).factory( 'GlobalFunctionsJQ', [
                     };
                     let fnToRun;
 
-                    const clickFirst = buttonIds => {
-                        var collection, currentId, firstElement;
-                        for ( var i = 0; i < buttonIds.length; i++ ) {
+                    function clickFirst( buttonIds ) {
+                        let collection, currentId, firstElement;
+                        for ( let i = 0; i < buttonIds.length; i++ ) {
                             currentId = buttonIds[ i ];
                             collection = $( '#' + currentId + ':visible' );
                             if ( collection.length ) {
@@ -1127,7 +1127,7 @@ angular.module( 'GlobalFunctionsModule' ).factory( 'GlobalFunctionsJQ', [
                                 firstElement.click();
                             }
                         }
-                    };
+                    }
 
 
                     const callbacks = {
@@ -1167,20 +1167,11 @@ angular.module( 'GlobalFunctionsModule' ).factory( 'GlobalFunctionsJQ', [
                     didScroll = true;
                 } );
 
-                setInterval( () => {
-                    if ( didScroll ) {
-                        hasScrolled();
-                        didScroll = false;
-                    }
-                }, 250 );
-
-                hasScrolled = () => {
+                function hasScrolled() {
                     const st = $( this ).scrollTop();
-
                     if ( Math.abs( lastScrollTop - st ) <= delta ) {
                         return;
                     }
-
                     if ( st + $( window ).height() >= $( document ).height() ) {
                         $( 'footer' ).removeClass( 'nav-down' ).addClass( 'nav-up' );
                     } else {
@@ -1188,9 +1179,16 @@ angular.module( 'GlobalFunctionsModule' ).factory( 'GlobalFunctionsJQ', [
                             $( 'footer' ).removeClass( 'nav-up' ).addClass( 'nav-down' );
                         }
                     }
-
                     lastScrollTop = st;
-                };
+                }
+
+                setInterval( () => {
+                    if ( didScroll ) {
+                        hasScrolled();
+                        didScroll = false;
+                    }
+                }, 250 );
+
             },
 
             /**

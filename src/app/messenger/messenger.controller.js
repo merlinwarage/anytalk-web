@@ -32,7 +32,31 @@
                 $scope.errorMsg = GlobalConstants.common.EMPTY_STRING;
                 $scope.formData = { message: '' };
                 $scope.msgData = {};
-                $scope.roomData = {};
+                $scope.roomData = {
+                    data: {},
+                    roomSelected: {
+                        category: undefined,
+                        closed: undefined,
+                        createdAt: undefined,
+                        featured: undefined,
+                        language: undefined,
+                        lastMessage: undefined,
+                        members: [],
+                        messageCount: undefined,
+                        private: undefined,
+                        title: undefined,
+                        titleNorm: undefined,
+                        type: undefined,
+                        updatedAt: undefined,
+                        updatedBy: { _id: undefined, name: undefined },
+                        user: { _id: undefined, name: undefined }
+                    }
+                };
+                $scope.userActivities = {
+                    down: [],
+                    favorites: [],
+                    up: []
+                };
                 $scope.tableData = [];
                 $scope.newMessagesCount = GlobalConstants.common.ZERO;
                 $scope.replyData = GlobalConstants.common.EMPTY_STRING;
@@ -58,6 +82,14 @@
                     }
                 };
 
+                $scope.editModel.cancelEdit = cancel => {
+                    $scope.editModel.messageId = GlobalConstants.common.EMPTY_STRING;
+                    $scope.formData.message = GlobalConstants.common.EMPTY_STRING;
+                    if ( cancel ) {
+                        $scope.goTo = GlobalConstants.common.EMPTY_STRING;
+                    }
+                };
+
                 const initRoom = ( config, roomTitle ) => {
                     RoomService.getRoomByTitle( config, roomTitle ).then( response => {
                         if ( response.data ) {
@@ -74,7 +106,7 @@
                     } );
 
                     if ( $stateParams.msg === 'invite' ) {
-                        RoomService.getRoomByTitle( globalConfig, $stateParams.title ).then(  roomData => {
+                        RoomService.getRoomByTitle( globalConfig, $stateParams.title ).then( roomData => {
                             if ( roomData.data.user !== tokenObj.loginDetails.userId ) {
                                 RoomService.addMember( globalConfig, roomData.data._id, tokenObj.loginDetails.userId ).then( () => {
                                     $state.transitionTo( $state.current, {
@@ -103,7 +135,7 @@
                 };
                 getFavoriteRoomList();
 
-                socket.on( 'user:update',  data => {
+                socket.on( 'user:update', data => {
                     $scope.users = data[ $scope.room ];
                 } );
 
@@ -200,7 +232,7 @@
                 $scope.getMessageTpl = () => {
                     return 'src/app/messenger/messenger-message.tpl.html';
                 };
-                $scope.getReplyTpl =  () => {
+                $scope.getReplyTpl = () => {
                     return 'src/app/messenger/messenger-reply.tpl.html';
                 };
 
@@ -232,7 +264,7 @@
                     }
                 };
 
-                $scope.isItCode = str  => {
+                $scope.isItCode = str => {
                     return !!str.match( /\[\/?code\]/g );
                 };
 
@@ -240,7 +272,24 @@
                     return str.replace( /\[\/?code\]/g, '' );
                 };
 
-                $scope.addMessage =  () => {
+                const resetPage = data => {
+
+                    $scope.errorMsg = GlobalConstants.common.EMPTY_STRING;
+
+                    if ( !$scope.errorMsg ) {
+                        $scope.formData.message = GlobalConstants.common.EMPTY_STRING;
+                        // $scope.$emit('clear');
+                        // $scope.formData = {message: ''};
+                        $scope.replyModel.cancelReply( true );
+                        $scope.editModel.cancelEdit( true );
+                        $document.duScrollTopAnimated( 0 );
+                        $scope.setPage( 0 );
+                    }
+
+                    return $scope.errorMsg = !( data.error ? data.error : GlobalConstants.common.EMPTY_STRING );
+                };
+
+                $scope.addMessage = () => {
                     if ( !!$scope.formData.message.match( /(<([^>]+)>)/ig ) && !$scope.formData.message.match( /\[\/?code\]/g ) ) {
                         $scope.errorMsg = 'Invalid content!';
                         return false;
@@ -249,40 +298,33 @@
                     if ( $scope.formData.message && $scope.formData.message.length > 1 ) {
                         message = $scope.formData.message;
 
-                        MessengerService.addMessage( globalConfig, $scope.room, tokenObj.loginDetails.userId, $scope.formData, $scope.replyModel.replyToMessageId, $scope.replyModel.replyToUser )
-                            .then(
-                                result => {
-                                    $scope.errorMsg = GlobalConstants.common.EMPTY_STRING;
+                        if ( $scope.editModel.messageId ) {
+                            MessengerService.editMessage( globalConfig, $scope.room, tokenObj.loginDetails.userId, $scope.formData, $scope.replyModel.replyToMessageId, $scope.replyModel.replyToUser, $scope.editModel.messageId )
+                                .then( result => {
+                                    resetPage( result.error );
+                                } );
 
-                                    if ( result.error ) {
-                                        $scope.errorMsg = result.error;
-                                    } else {
-
-                                        socket.emit( 'send:message', {
-                                            _id: result.data._id,
-                                            room: $scope.room,
-                                            userId: tokenObj.loginDetails.userId,
-                                            userName: tokenObj.loginDetails.userName,
-                                            message: message,
-                                            replyTo: {
-                                                _id: $scope.replyModel.replyToMessageId,
-                                                name: $scope.replyModel.replyToUser
-                                            },
-                                            createdAt: result.data.createdAt
-                                        } );
+                        } else {
+                            MessengerService.addMessage( globalConfig, $scope.room, tokenObj.loginDetails.userId, $scope.formData, $scope.replyModel.replyToMessageId, $scope.replyModel.replyToUser )
+                                .then(
+                                    result => {
+                                        if ( resetPage() ) {
+                                            socket.emit( 'send:message', {
+                                                _id: result.data._id,
+                                                room: $scope.room,
+                                                userId: tokenObj.loginDetails.userId,
+                                                userName: tokenObj.loginDetails.userName,
+                                                message: message,
+                                                replyTo: {
+                                                    _id: $scope.replyModel.replyToMessageId,
+                                                    name: $scope.replyModel.replyToUser
+                                                },
+                                                createdAt: result.data.createdAt
+                                            } );
+                                        }
                                     }
-
-                                    if ( !$scope.errorMsg ) {
-                                        $scope.formData.message = GlobalConstants.common.EMPTY_STRING;
-                                        // $scope.$emit('clear');
-                                        // $scope.formData = {message: ''};
-                                        $scope.replyModel.cancelReply( true );
-                                        $document.duScrollTopAnimated( 0 );
-                                        $scope.setPage( 0 );
-                                    }
-                                }
-                            );
-
+                                );
+                        }
                     } else {
                         $scope.errorMsg = 'Message is too short!';
                     }
@@ -319,7 +361,7 @@
                     }
                 };
 
-                $scope.itIsMe =  id => {
+                $scope.itIsMe = id => {
                     return tokenObj && id === tokenObj.loginDetails.userId;
                 };
 
@@ -345,14 +387,18 @@
                     } );
                 };
 
-                $scope.editMessage = ( userMessage, index, clear ) => {
+                $scope.editMessage = ( messageId, index, clear ) => {
                     $scope.goTo = index;
 
                     if ( clear ) {
                         $scope.editModel.cancelEdit( false );
                     }
 
-                    $scope.editModel.data = userMessage;
+                    MessengerService.getMessagesById( globalConfig, $scope.room, messageId ).then( item => {
+                        $scope.editModel.messageId = item.data._id;
+                        $scope.formData.message = item.data.message;
+                        $scope.replyModel.cancelReply( true );
+                    } );
 
                     $timeout( () => {
                         $scope.$emit( 'focus' );
@@ -364,11 +410,11 @@
                     formElementFocus( 'message-area' );
                 };
 
-                $scope.search =  () => {
+                $scope.search = () => {
                     getPageData( globalConfig, 0, $scope.room );
                 };
 
-                $scope.setPage =   index => {
+                $scope.setPage = index => {
                     if ( index >= 0 && index <= Math.floor( $scope.msgData.total / $scope.viewPort.itemsPerPage ) ) {
                         getPageData( globalConfig, index, $scope.room ).then( () => {
                             $scope.viewPort.currentPage = index;
@@ -395,11 +441,11 @@
                     $scope.favorite = !$scope.favorite;
                 };
 
-                $scope.openNews =  url => {
+                $scope.openNews = url => {
                     $window.open( url, '_blank' );
                 };
 
-                $scope.isFavorite =  room => {
+                $scope.isFavorite = room => {
                     if ( $scope.userActivities && $scope.userActivities.favorites ) {
                         return $scope.userActivities.favorites.indexOf( room._id ) === -1;
                     } else {
@@ -407,7 +453,7 @@
                     }
                 };
 
-                $scope.msgCount =  msg => {
+                $scope.msgCount = msg => {
                     return ( $scope.msgData.total - ( msg + ( $scope.viewPort.currentPage * $scope.viewPort.itemsPerPage ) ) ).toString();
                 };
 
@@ -415,7 +461,7 @@
                     $document.duScrollTopAnimated( 0 );
                 };
 
-                $scope.$watch( 'roomData.roomSelected',  value => {
+                $scope.$watch( 'roomData.roomSelected', value => {
                     if ( value ) {
                         $scope.room = $scope.roomData.roomSelected._id;
                         getPageData( globalConfig, 0, $scope.room );
@@ -429,7 +475,7 @@
                                 lastActivity: new Date().toISOString()
                             } );
 
-                            UserService.getUserActivities( globalConfig, tokenObj.loginDetails.userId ).then(  user => {
+                            UserService.getUserActivities( globalConfig, tokenObj.loginDetails.userId ).then( user => {
                                 $scope.userActivities = user.activities;
                                 $scope.favorite = ( $scope.userActivities && $scope.userActivities.favorites && $scope.userActivities.favorites.indexOf( $scope.room ) !== -1 );
                             } );
