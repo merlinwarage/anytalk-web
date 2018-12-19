@@ -161,6 +161,7 @@
         "password": "Jelszó (minimum 8 karakter)",
         "password-v": "Jelszó újra",
         "email": "E-mail",
+        "settings": "Beállítások",
         "register": "Regisztráció",
         "addOrEdit": "Felhasználó hozzáadása / szerkesztése",
         "permissions": "Jogosultság",

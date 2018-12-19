@@ -1,34 +1,66 @@
-<div id="user">
+<div id="user" data-ng-if="!itHasPerm()">
     <div class="row userContainer" data-ng-if="tokenObj.token">
         <div class="form-group panel panel-default">
-            <div class="panel-heading">{{'entities.user.label.addOrEdit' | translate}}</div>
+            <div class="panel-heading">{{ 'entities.user.label.settings' | translate }}</div>
+            <div class="panel-body">
+                <div class="col-md-4 button-margin-top-10">
+                    <input class="form-control" type="password" value=""
+                           placeholder="{{ 'entities.user.label.password' | translate }}"
+                           data-ng-model="formData.password"/></div>
+                <div class="row"></div>
+                <div class="col-md-4 button-margin-top-10">
+                    <input class="form-control" type="password" value=""
+                           placeholder="{{ 'entities.user.label.password-v' | translate }}"
+                           data-ng-model="formValidation.password"/></div>
+                <div class="row"></div>
+                <div class="col-md-12 button-margin-top-10">
+                    <button class="btn btn-primary btn-fixed-width"
+                            data-ng-disabled="!userChangePassswordValidate()"
+                            data-ng-click="addUser()">{{ 'common.button.ok' | translate }}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="user" data-ng-if="itHasPerm()">
+    <div class="row userContainer" data-ng-if="tokenObj.token">
+        <div class="form-group panel panel-default">
+            <div class="panel-heading">{{ 'entities.user.label.addOrEdit' | translate }}</div>
             <div class="panel-body">
                 <div class="col-md-4 button-margin-top-10">
                     <input class="form-control" type="text" value=""
-                           placeholder="{{'entities.user.label.userName' | translate}}"
+                           placeholder="{{ 'entities.user.label.userName' | translate }}"
                            data-ng-model="formData.name"/></div>
                 <div class="row"></div>
                 <div class="col-md-4 button-margin-top-10">
                     <input class="form-control" type="text" value=""
-                           placeholder="{{'entities.user.label.email' | translate}}"
+                           placeholder="{{ 'entities.user.label.email' | translate }}"
                            data-ng-model="formData.mail"/></div>
                 <div class="row"></div>
                 <div class="col-md-4 button-margin-top-10">
                     <input class="form-control" type="password" value=""
-                           placeholder="{{'entities.user.label.password' | translate}}"
+                           placeholder="{{ 'entities.user.label.password' | translate }}"
                            data-ng-model="formData.password"/></div>
+                <div class="row"></div>
+                <div class="col-md-4 button-margin-top-10">
+                    <input class="form-control" type="password" value=""
+                           placeholder="{{ 'entities.user.label.password-v' | translate }}"
+                           data-ng-model="formValidation.password"/></div>
                 <div class="row"></div>
                 <div class="col-md-4 button-margin-top-10" data-ng-if="itHasPerm()">
                     <select class="form-control"
-                            placeholder="{{'user.label.permission' | translate}}"
+                            placeholder="{{ 'user.label.permission' | translate }}"
                             data-ng-model="formData.permission">
-                        <option value="" selected disabled>{{'entities.user.label.permissions' | translate}}
+                        <option value="" selected disabled>{{ 'entities.user.label.permissions' | translate }}
                         </option>
                         <option value="1" data-ng-selected="formData.permission === 1">
-                            {{'entities.user.label.permissionList.user' | translate}}
+                            {{ 'entities.user.label.permissionList.user' | translate }}
                         </option>
                         <option value="10" data-ng-selected="formData.permission === 10">
-                            {{'entities.user.label.permissionList.admin' | translate}}
+                            {{ 'entities.user.label.permissionList.admin' | translate }}
                         </option>
                     </select>
                 </div>
@@ -36,16 +68,16 @@
                 <div class="col-md-12 button-margin-top-10">
                     <button class="btn btn-primary btn-fixed-width"
                             data-ng-disabled="!userRegistrationValidate()"
-                            data-ng-click="addUser()">{{'common.button.add' | translate}}
+                            data-ng-click="addUser()">{{ 'common.button.add' | translate }}
                     </button>
                     <button class="btn btn-primary btn-fixed-width" data-ng-click="clearData(formData)">
-                        {{'common.button.clear' | translate}}
+                        {{ 'common.button.clear' | translate }}
                     </button>
                 </div>
             </div>
 
-            <div data-ng-if="itHasPerm()" class="form-group panel panel-default">
-                <div class="panel-heading">{{'entities.user.label.userList' | translate}}</div>
+            <div class="form-group panel panel-default">
+                <div class="panel-heading">{{ 'entities.user.label.userList' | translate }}</div>
                 <div class="panel-body">
                     <table-utils
                             data-ng-if="tableConfig.data.length"

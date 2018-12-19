@@ -1,12 +1,13 @@
-(function (angular) {
+( function ( angular ) {
 
 
-    angular.module("appModule.room").controller("NewRoomDialogController", [
-        "$scope", "$uibModalInstance", "$translate", "GlobalConstants", "RoomConstants", "dialogParam", "RoomService", "AuthService",
-        "GlobalFunctionsString", "webNotification",
-        function ($scope, $uibModalInstance, $translate, GlobalConstants, RoomConstants, dialogParam, RoomService, AuthService,
-                  GlobalFunctionsString, webNotification) {
+    angular.module( 'appModule.room' ).controller( 'NewRoomDialogController', [
+        '$scope', '$uibModalInstance', '$translate', 'GlobalConstants', 'RoomConstants', 'dialogParam', 'RoomService', 'AuthService',
+        'GlobalFunctionsString', 'webNotification',
+        function ( $scope, $uibModalInstance, $translate, GlobalConstants, RoomConstants, dialogParam, RoomService, AuthService,
+                   GlobalFunctionsString, webNotification ) {
 
+            const tokenObj = AuthService.get( GlobalConstants.system.AUTH_TOKEN_KEY );
             $scope.formData = {};
             $scope.homeState = GlobalConstants.states.room.CATEGORY.general;
 
@@ -14,19 +15,19 @@
              * If we have args.id we will modify an existing room, so we query the room
              * If we have args.data we prepare a room for an article
              */
-            if (dialogParam.args.config) {
-                $scope.formData = {category: dialogParam.args.category};
-                if (dialogParam) {
-                    if (dialogParam.args.id) {
-                        RoomService.getRoom(dialogParam.args.config, dialogParam.args.id).then(function onSuccess(response) {
+            if ( dialogParam.args.config ) {
+                $scope.formData = { category: dialogParam.args.category };
+                if ( dialogParam ) {
+                    if ( dialogParam.args.id ) {
+                        RoomService.getRoom( dialogParam.args.config, dialogParam.args.id ).then( response => {
                             $scope.formData = response.data;
-                        });
-                    } else if (dialogParam.args.data) {
+                        } );
+                    } else if ( dialogParam.args.data ) {
                         $scope.formData = {
                             title: dialogParam.args.data.title,
                             description: dialogParam.args.data.description,
-                            language: AuthService.get(GlobalConstants.settings.LANGUAGE),
-                            category: GlobalConstants.states.room.CATEGORY[dialogParam.args.category],
+                            language: AuthService.get( GlobalConstants.settings.LANGUAGE ),
+                            category: GlobalConstants.states.room.CATEGORY[ dialogParam.args.category ],
                             type: GlobalConstants.states.room.TYPE.article,
                             url: dialogParam.args.data.url,
                             urlToImage: dialogParam.args.data.urlToImage,
@@ -36,7 +37,6 @@
                             featured: false
                         };
                     }
-                    var tokenObj = AuthService.get(GlobalConstants.system.AUTH_TOKEN_KEY);
                     $scope.dialogParam = dialogParam;
                     $scope.dialogParam.permission = tokenObj.loginDetails.userPermission;
                 }
@@ -60,33 +60,33 @@
              */
             $scope.confirmOK = function () {
                 if (
-                    (!dialogParam.args.id && $scope.formData.title && $scope.formData.title.length > 2 && $scope.formData.message && $scope.formData.message.length > 30) ||
-                    (dialogParam.args.id && $scope.formData.title && $scope.formData.title.length > 2)
+                    ( !dialogParam.args.id && $scope.formData.title && $scope.formData.title.length > 2 && $scope.formData.message && $scope.formData.message.length > 30 ) ||
+                    ( dialogParam.args.id && $scope.formData.title && $scope.formData.title.length > 2 )
                 ) {
 
                     $scope.formData.user = !$scope.formData.user ? tokenObj.loginDetails.userId : $scope.formData.user._id;
-                    $scope.formData.titleNorm = $scope.formData.title ? GlobalFunctionsString.removeDiacritics($scope.formData.title) : false;
+                    $scope.formData.titleNorm = $scope.formData.title ? GlobalFunctionsString.removeDiacritics( $scope.formData.title ) : false;
 
-                    if ($scope.formData.private) {
-                        var dc = new Date().getMinutes();
+                    if ( $scope.formData.private ) {
+                        const dc = new Date().getMinutes();
                         $scope.formData.titleNorm = 'P' + dc + '-' + $scope.formData.titleNorm;
                     }
 
-                    if ($scope.formData.titleNorm) {
-                        RoomService.addRoom(dialogParam.args.config, $scope.formData).then(function onSuccess(result) {
+                    if ( $scope.formData.titleNorm ) {
+                        RoomService.addRoom( dialogParam.args.config, $scope.formData ).then( result => {
 
-                            if (result.errorMessage) {
-                                $scope.errorMsg = GlobalFunctionsString.errorParse(result.errorMessage);
+                            if ( result.errorMessage ) {
+                                $scope.errorMsg = GlobalFunctionsString.errorParse( result.errorMessage );
                                 return false;
                             }
 
-                            $scope.formData.language = AuthService.get(GlobalConstants.settings.LANGUAGE);
+                            $scope.formData.language = AuthService.get( GlobalConstants.settings.LANGUAGE );
                             $scope.formData._id = result._id;
 
                             //Notification
-                            if (!result.private) {
-                                webNotification.showNotification($translate.instant('entities.rooms.label.add'), {
-                                        body: $translate.instant('entities.rooms.label.newRoomCreated') + result.title,
+                            if ( !result.private ) {
+                                webNotification.showNotification( $translate.instant( 'entities.rooms.label.add' ), {
+                                        body: $translate.instant( 'entities.rooms.label.newRoomCreated' ) + result.title,
                                         icon: 'assets/images/favicon.ico',
                                         // onClick: function onNotificationClicked() {
                                         //     console.log('Notification clicked.');
@@ -107,18 +107,18 @@
                                 );
                             }
 
-                            $uibModalInstance.close($scope.formData);
-                        });
+                            $uibModalInstance.close( $scope.formData );
+                        } );
                     }
                 } else {
                     $scope.errorMsg = RoomConstants.messages.missingData;
-                    return false;
+                    return null;
                 }
             };
 
             $scope.confirmCancel = function () {
-                $uibModalInstance.dismiss("cancel");
+                $uibModalInstance.dismiss( 'cancel' );
             };
-        }]);
+        } ] );
 
-})(window.angular);
+} )( window.angular );

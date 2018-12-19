@@ -162,6 +162,7 @@
         "password": "Password (8 characters minimum)",
         "password-v": "Password again",
         "email": "E-mail",
+        "settings": "Settings",
         "register": "Register",
         "addOrEdit": "Add/Edit User",
         "permissions": "Permissions",
