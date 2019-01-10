@@ -26,6 +26,8 @@
             };
             let count = 0;
 
+            $scope.news = { articles: [] };
+            $scope.newsCount = RoomConstants.settings.newsCount;
             $scope.errorMsg = GlobalConstants.common.EMPTY_STRING;
             $scope.formData = {};
             $scope.tableData = [];
@@ -62,7 +64,7 @@
             $scope.getNews = ( category, language ) => {
                 const skipImages = false;
                 if ( category || GlobalConstants.states.room.CATEGORY.general ) {
-                    RoomService.getNews( globalConfig, language, category, RoomConstants.settings.newsCount, skipImages ).then( response => {
+                    RoomService.getNews( globalConfig, language, category, $scope.newsCount, skipImages ).then( response => {
                         $scope.news = response;
                         $scope.slickConfigLoaded = true;
                         $scope.slickConfig = RoomConstants.slickConfig;

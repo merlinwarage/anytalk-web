@@ -1,7 +1,7 @@
 angular.module('appModule.room').constant('RoomConstants', {
 
     settings: {
-        newsCount: 9
+        newsCount: 50
     },
 
     viewPort: {
