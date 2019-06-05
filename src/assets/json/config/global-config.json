@@ -1,5 +1,5 @@
 {
-    "SERVER_URL": "https://merlinw.org/",
+    "SERVER_URL": "http://localhost:3000/",
     "SERVER_IMAGES_URL": "https://merlinw.org/assets/images/",
     "GOOGLE": {
         "apiKey": ""
