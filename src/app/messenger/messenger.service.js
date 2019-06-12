@@ -1,8 +1,7 @@
 ( function ( angular ) {
 
-
     angular.module( 'appModule.messenger' ).factory( 'socket', function ( $rootScope ) {
-        var socket = io.connect();
+        var socket = io.connect( 'wss://merlinw.org', { transports: [ 'websocket' ] } );
         return {
             on: function ( eventName, callback ) {
                 socket.on( eventName, function () {
